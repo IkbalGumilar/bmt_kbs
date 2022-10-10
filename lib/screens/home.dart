@@ -128,8 +128,10 @@ class HomePage extends StatelessWidget {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        Icon(Icons.keyboard_arrow_right,
-                                            size: 16),
+                                        Icon(
+                                          Icons.keyboard_arrow_right,
+                                          size: 16,
+                                        ),
                                       ],
                                     )
                                   ],
@@ -165,6 +167,10 @@ class HomePage extends StatelessWidget {
                                     color: Colors.green,
                                     borderRadius: BorderRadius.circular(6),
                                   ),
+                                  child: Image.asset(
+                                    'assets/icons/card_icons/first.png',
+                                    scale: 2.0,
+                                  ),
                                 ),
                                 Container(
                                   width: 45,
@@ -172,6 +178,10 @@ class HomePage extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: Colors.yellow[600],
                                     borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Image.asset(
+                                    'assets/icons/card_icons/second.png',
+                                    scale: 2.0,
                                   ),
                                 ),
                                 Container(
@@ -181,6 +191,10 @@ class HomePage extends StatelessWidget {
                                     color: Colors.red,
                                     borderRadius: BorderRadius.circular(6),
                                   ),
+                                  child: Image.asset(
+                                    'assets/icons/card_icons/third.png',
+                                    scale: 2.0,
+                                  ),
                                 ),
                                 Container(
                                   width: 45,
@@ -188,6 +202,10 @@ class HomePage extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Image.asset(
+                                    'assets/icons/card_icons/fourth.png',
+                                    scale: 2.0,
                                   ),
                                 ),
                               ],
@@ -215,33 +233,7 @@ class HomePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Column(
-                          children: [
-                            Container(
-                              width: 64,
-                              height: 64,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Image.asset(
-                                'assets/icons/menu_icons/pulsa.png',
-                                scale: 1.8,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              width: 80,
-                              child: Text(
-                                "Pulsa dan Paket Data",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        MenuItem(),
                         Column(
                           children: [
                             Container(
@@ -453,9 +445,105 @@ class HomePage extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
+          GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: 3,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1, mainAxisSpacing: 16, mainAxisExtent: 200),
+            itemBuilder: (context, index) => Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.blue, borderRadius: BorderRadius.circular(10)),
+            ),
+          ),
         ],
       ),
       backgroundColor: Colors.white,
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.black,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        items: [
+          BottomNavigationBarItem(
+            icon: IconButton(
+              onPressed: () {},
+              icon: Image.asset(
+                'assets/icons/bottom_navigation_icons/home_nav.png',
+                scale: 2,
+              ),
+            ),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: IconButton(
+              onPressed: () {},
+              icon: Image.asset(
+                'assets/icons/bottom_navigation_icons/riwayat_nav.png',
+                scale: 2,
+              ),
+            ),
+            label: "Riwayat",
+          ),
+          BottomNavigationBarItem(
+            icon: IconButton(
+              onPressed: () {},
+              icon: Image.asset(
+                'assets/icons/bottom_navigation_icons/notifikasi_nav.png',
+                scale: 2,
+              ),
+            ),
+            label: "Notifikasi",
+          ),
+          BottomNavigationBarItem(
+            icon: IconButton(
+              onPressed: () {},
+              icon: Image.asset(
+                'assets/icons/bottom_navigation_icons/profile_nav.png',
+                scale: 2,
+              ),
+            ),
+            label: "Profile",
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MenuItem extends StatelessWidget {
+  const MenuItem({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 64,
+          height: 64,
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(1000),
+          ),
+          child: Image.asset(
+            'assets/icons/menu_icons/pulsa.png',
+            scale: 1.8,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Container(
+          width: 80,
+          child: Text(
+            "Pulsa dan Paket Data",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 12,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
