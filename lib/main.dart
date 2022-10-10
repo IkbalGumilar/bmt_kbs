@@ -1,3 +1,4 @@
+import 'package:bmt_kbs/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -17,8 +18,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomePage(),
+    return MaterialApp(
+      theme: ThemeData(fontFamily: "Inter"),
+      debugShowCheckedModeBanner: false,
+      home: const HomePage(),
     );
   }
 
@@ -32,19 +35,5 @@ class _MyAppState extends State<MyApp> {
   void initialize() async {
     await Future.delayed(Duration(seconds: 5));
     FlutterNativeSplash.remove();
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("BMT KBS"), centerTitle: true),
-      body: Center(
-        child: Text("adadadad"),
-      ),
-    );
   }
 }
