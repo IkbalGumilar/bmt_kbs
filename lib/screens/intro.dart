@@ -1,5 +1,6 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/models/slider_model.dart';
+import 'package:bmt_kbs/screens/auth/login.dart';
 import 'package:bmt_kbs/screens/home.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           Expanded(
@@ -63,18 +65,21 @@ class _HomeScreenState extends State<HomeScreen> {
             width: double.infinity,
             child: ElevatedButton(
               child: Text(
-                currentIndex == slides.length - 1 ? "Continue" : "Next",
+                currentIndex == slides.length - 1 ? "Lanjutkan" : "Selanjutnya",
               ),
               onPressed: () {
                 if (currentIndex == slides.length - 1) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
                   );
+                } else {
+                  _controller.hasClients
+                      ? _controller.nextPage(
+                          duration: Duration(milliseconds: 100),
+                          curve: Curves.ease)
+                      : print("Gagal pindah page");
                 }
-                _controller.nextPage(
-                    duration: const Duration(milliseconds: 100),
-                    curve: Curves.bounceIn);
               },
               style: ElevatedButton.styleFrom(
                 textStyle: const TextStyle(
@@ -88,7 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      backgroundColor: Colors.white,
     );
   }
 
@@ -117,47 +121,45 @@ class Slider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            width: 300,
-            height: 300,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(image),
+    return Column(
+      children: [
+        Container(
+          width: 300,
+          height: 300,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(image),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Text(
+                textAlign: TextAlign.center,
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
               ),
-            ),
+              const SizedBox(
+                height: 16,
+              ),
+              Text(
+                textAlign: TextAlign.center,
+                description,
+                style: const TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Text(
-                  textAlign: TextAlign.center,
-                  description,
-                  style: const TextStyle(
-                    color: Colors.black87,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
