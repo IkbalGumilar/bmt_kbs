@@ -1,4 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/home.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -20,8 +21,8 @@ class LoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
-                    children: [
-                      const Text(
+                    children: const [
+                      Text(
                         "Login",
                         style: TextStyle(
                           color: Colors.black,
@@ -29,7 +30,7 @@ class LoginPage extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 40,
                       ),
                     ],
@@ -38,26 +39,26 @@ class LoginPage extends StatelessWidget {
                     label: "Nama Pengguna",
                     inputIcon: Icons.account_circle_rounded,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   LoginInputWidget(
                     label: "Password",
                     inputIcon: Icons.lock,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   RichText(
                     text: TextSpan(
                       children: [
-                        TextSpan(
+                        const TextSpan(
                           text: "Lupa Password?",
                           style: TextStyle(color: Colors.black),
                         ),
                         TextSpan(
                           text: " Klik Disini",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.green,
                             fontWeight: FontWeight.w500,
                           ),
@@ -81,22 +82,28 @@ class LoginPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             ElevatedButton(
-                              onPressed: () {},
-                              child: Text(
+                              onPressed: () {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => const HomePage(),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorPallete.primaryColor,
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                              ),
+                              child: const Text(
                                 "Submit",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorPallete.primaryColor,
-                                padding: EdgeInsets.symmetric(vertical: 20),
-                              ),
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                       ],
@@ -114,17 +121,17 @@ class LoginPage extends StatelessWidget {
                                 (states) => ColorPallete.primaryColor),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Flexible(
                           child: RichText(
-                            text: TextSpan(
+                            text: const TextSpan(
                               children: [
                                 TextSpan(
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 12,
+                                    fontSize: 13,
                                   ),
                                   text:
                                       "Dengan menekan tombol selanjutnya saya setuju dengan ",
@@ -133,7 +140,7 @@ class LoginPage extends StatelessWidget {
                                   text: "ketentuan penggunaan ",
                                   style: TextStyle(
                                     color: Colors.blue,
-                                    fontSize: 12,
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -141,14 +148,14 @@ class LoginPage extends StatelessWidget {
                                   text: "dan ",
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 12,
+                                    fontSize: 13,
                                   ),
                                 ),
                                 TextSpan(
                                   text: "kebijakan privasi ",
                                   style: TextStyle(
                                     color: Colors.blue,
-                                    fontSize: 12,
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -186,22 +193,22 @@ class LoginInputWidget extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         TextField(
           autocorrect: false,
           decoration: InputDecoration(
             filled: true,
-            fillColor: Color.fromARGB(10, 44, 80, 203),
+            fillColor: const Color.fromARGB(10, 44, 80, 203),
             hintText: "Masukkan Nama Pengguna",
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               color: Colors.grey,
               fontSize: 14,
               fontWeight: FontWeight.w400,
@@ -217,5 +224,3 @@ class LoginInputWidget extends StatelessWidget {
     );
   }
 }
-
-//Icons.account_circle_rounded
