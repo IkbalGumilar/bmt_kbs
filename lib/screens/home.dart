@@ -233,85 +233,21 @@ class HomePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        MenuItem(),
-                        Column(
-                          children: [
-                            Container(
-                              width: 64,
-                              height: 64,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Image.asset(
-                                  'assets/icons/menu_icons/pln.png',
-                                  scale: 1.8),
-                            ),
-                            SizedBox(height: 10),
-                            Container(
-                              width: 80,
-                              child: Text(
-                                "Tagihan Listrik PLN",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
+                        MenuItem(
+                          iconPath: "pulsa.png",
+                          title: "Pulsa dan Paket Data",
                         ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 64,
-                              height: 64,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Image.asset(
-                                'assets/icons/menu_icons/vouchergame.png',
-                                scale: 1.8,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Container(
-                              width: 80,
-                              child: Text(
-                                "Voucher Permainan",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
+                        MenuItem(
+                          iconPath: "pln.png",
+                          title: "Tagihan Listrik PLN",
                         ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 64,
-                              height: 64,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Image.asset(
-                                  'assets/icons/menu_icons/bpjs.png',
-                                  scale: 1.8),
-                            ),
-                            SizedBox(height: 10),
-                            Container(
-                              width: 80,
-                              child: Text(
-                                "BPJS Kesehatan",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
+                        MenuItem(
+                          iconPath: "vouchergame.png",
+                          title: "Voucher Permainan",
+                        ),
+                        MenuItem(
+                          iconPath: "bpjs.png",
+                          title: "BPJS Kesehatan",
                         ),
                       ],
                     ),
@@ -321,111 +257,21 @@ class HomePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Column(
-                          children: [
-                            Container(
-                              width: 64,
-                              height: 64,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Image.asset(
-                                'assets/icons/menu_icons/pdam.png',
-                                scale: 1.8,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              width: 80,
-                              child: Text(
-                                "PDAM",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
+                        MenuItem(
+                          iconPath: "pdam.png",
+                          title: "PDAM",
                         ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 64,
-                              height: 64,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Image.asset(
-                                  'assets/icons/menu_icons/internet.png',
-                                  scale: 1.8),
-                            ),
-                            SizedBox(height: 10),
-                            Container(
-                              width: 80,
-                              child: Text(
-                                "Internet dan TV Kabel",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
+                        MenuItem(
+                          iconPath: "internet.png",
+                          title: "Internet dan TV Kabel",
                         ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 64,
-                              height: 64,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Image.asset(
-                                'assets/icons/menu_icons/telkom.png',
-                                scale: 1.8,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Container(
-                              width: 80,
-                              child: Text(
-                                "Tagihan Telkom",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
+                        MenuItem(
+                          iconPath: "telkom.png",
+                          title: "Tagihan Telkom",
                         ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 64,
-                              height: 64,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Image.asset(
-                                  'assets/icons/menu_icons/lainnya.png',
-                                  scale: 1.8),
-                            ),
-                            SizedBox(height: 10),
-                            Container(
-                              width: 80,
-                              child: Text(
-                                "Lain-lain",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
+                        MenuItem(
+                          iconPath: "lainnya.png",
+                          title: "Lain-lain",
                         ),
                       ],
                     ),
@@ -464,44 +310,35 @@ class HomePage extends StatelessWidget {
         selectedItemColor: Colors.black,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
-        items: [
+        items: const [
           BottomNavigationBarItem(
-            icon: IconButton(
-              onPressed: () {},
-              icon: Image.asset(
-                'assets/icons/bottom_navigation_icons/home_nav.png',
-                scale: 2,
-              ),
+            icon: ImageIcon(
+              AssetImage('assets/icons/bottom_navigation_icons/home_nav.png'),
+              color: Colors.black,
             ),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: IconButton(
-              onPressed: () {},
-              icon: Image.asset(
-                'assets/icons/bottom_navigation_icons/riwayat_nav.png',
-                scale: 2,
-              ),
+            icon: ImageIcon(
+              AssetImage(
+                  'assets/icons/bottom_navigation_icons/riwayat_nav.png'),
+              color: Colors.black,
             ),
             label: "Riwayat",
           ),
           BottomNavigationBarItem(
-            icon: IconButton(
-              onPressed: () {},
-              icon: Image.asset(
-                'assets/icons/bottom_navigation_icons/notifikasi_nav.png',
-                scale: 2,
-              ),
+            icon: ImageIcon(
+              AssetImage(
+                  'assets/icons/bottom_navigation_icons/notifikasi_nav.png'),
+              color: Colors.black,
             ),
             label: "Notifikasi",
           ),
           BottomNavigationBarItem(
-            icon: IconButton(
-              onPressed: () {},
-              icon: Image.asset(
-                'assets/icons/bottom_navigation_icons/profile_nav.png',
-                scale: 2,
-              ),
+            icon: ImageIcon(
+              AssetImage(
+                  'assets/icons/bottom_navigation_icons/profile_nav.png'),
+              color: Colors.black,
             ),
             label: "Profile",
           ),
@@ -512,9 +349,14 @@ class HomePage extends StatelessWidget {
 }
 
 class MenuItem extends StatelessWidget {
-  const MenuItem({
+  MenuItem({
+    required this.title,
+    required this.iconPath,
     Key? key,
   }) : super(key: key);
+
+  String title;
+  String iconPath;
 
   @override
   Widget build(BuildContext context) {
@@ -528,7 +370,7 @@ class MenuItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(1000),
           ),
           child: Image.asset(
-            'assets/icons/menu_icons/pulsa.png',
+            'assets/icons/menu_icons/$iconPath',
             scale: 1.8,
           ),
         ),
@@ -536,9 +378,9 @@ class MenuItem extends StatelessWidget {
         Container(
           width: 80,
           child: Text(
-            "Pulsa dan Paket Data",
+            "$title",
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
             ),
           ),
