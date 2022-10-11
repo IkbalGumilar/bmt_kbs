@@ -7,7 +7,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
           toolbarHeight: 60,
           backgroundColor: Colors.white,
@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         children: [
           Stack(
             alignment: Alignment.center,
@@ -152,7 +152,7 @@ class HomePage extends StatelessWidget {
                       child: Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(20),
                             width: double.infinity,
                             height: 100,
                             decoration: BoxDecoration(
@@ -225,7 +225,7 @@ class HomePage extends StatelessWidget {
             height: 15,
           ),
           Container(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             width: double.infinity,
             color: Colors.white,
             child: Column(
@@ -253,7 +253,7 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     Row(
@@ -294,7 +294,7 @@ class HomePage extends StatelessWidget {
             height: 10,
           ),
           GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: 3,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -380,7 +380,7 @@ class MenuItem extends StatelessWidget {
         Container(
           width: 80,
           child: Text(
-            "$title",
+            title,
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 12,

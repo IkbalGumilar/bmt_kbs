@@ -35,16 +35,17 @@ List<SliderModel>? getSlides() {
   SliderModel sliderModel = SliderModel();
 
   // item 1
-  sliderModel.setImageAssetPath("assets/img/bmt_kbs.png");
-  sliderModel.setTitle("Welcome to BMT KBS");
+  sliderModel.setImageAssetPath("assets/img/introduction/image1.png");
+  sliderModel
+      .setTitle("Aplikasi finansial dan dompet digital terbaik hari ini");
   sliderModel.setDescription(
-      "BMT KBS is a mobile application that provides information about the BMT KBS");
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vitae in vitae nisl ipsum aliquet donec. Augue vestibulum sapien faucibus sed arcu purus.");
   slides.add(sliderModel);
 
   sliderModel = SliderModel();
 
   // item 2
-  sliderModel.setImageAssetPath("assets/img/bmt_kbs.png");
+  sliderModel.setImageAssetPath("assets/img/introduction/image1.png");
   sliderModel.setTitle("BMT KBS");
   sliderModel.setDescription(
       "BMT KBS is a mobile application that provides information about the BMT KBS");
@@ -53,7 +54,7 @@ List<SliderModel>? getSlides() {
   sliderModel = SliderModel();
 
   // item 3
-  sliderModel.setImageAssetPath("assets/img/bmt_kbs.png");
+  sliderModel.setImageAssetPath("assets/img/introduction/image1.png");
   sliderModel.setTitle("BMT KBS");
   sliderModel.setDescription(
       "BMT KBS is a mobile application that provides information about the BMT KBS");
