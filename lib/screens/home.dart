@@ -21,8 +21,9 @@ class HomePage extends StatelessWidget {
                   color: Colors.amber,
                   borderRadius: BorderRadius.circular(1000),
                   image: const DecorationImage(
-                      image: NetworkImage('https://picsum.photos/200/300'),
-                      fit: BoxFit.cover),
+                    image: NetworkImage('https://picsum.photos/200/300'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
@@ -36,9 +37,10 @@ class HomePage extends StatelessWidget {
                   Text(
                     "Ahmad Zacky",
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),

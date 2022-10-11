@@ -1,4 +1,4 @@
-import 'package:bmt_kbs/screens/home.dart';
+import 'package:bmt_kbs/screens/intro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData(fontFamily: "Inter"),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: HomeScreen(),
     );
   }
 
