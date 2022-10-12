@@ -1,3 +1,4 @@
+import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -94,16 +95,19 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
             child: ClipRRect(
               child: GestureDetector(
                 onTap: () {
-                  print("SSS");
+                  print("Bottom sheet is opened!");
 
                   showModalBottomSheet(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0),
+                      ),
                     ),
                     context: context,
                     builder: (context) {
                       return Container(
-                        height: 300,
+                        height: 220,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 20, horizontal: 30),
@@ -122,18 +126,53 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
-                              Column(
-                                children: [
-                                  Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colors.blue,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20.0),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: ColorPallete.lightBlueColor,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: ListTile(
+                                        leading: Icon(Icons.photo),
+                                        title: Text(
+                                          'Ambil dari galeri',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.grey[600],
+                                              fontSize: 14),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: ColorPallete.lightBlueColor,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: ListTile(
+                                        leading: const Icon(Icons.camera_alt),
+                                        title: Text(
+                                          'Ambil Gambar',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.grey[600],
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
