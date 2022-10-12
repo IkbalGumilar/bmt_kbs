@@ -1,3 +1,4 @@
+import 'package:bmt_kbs/screens/features/isi_saldo.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -169,9 +170,22 @@ class HomePage extends StatelessWidget {
                                     color: Colors.green,
                                     borderRadius: BorderRadius.circular(6),
                                   ),
-                                  child: Image.asset(
-                                    'assets/icons/card_icons/first.png',
-                                    scale: 2.0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // ignore: avoid_print
+                                      print("TOP UP Screen");
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const IsiSaldoScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: Image.asset(
+                                      'assets/icons/card_icons/first.png',
+                                      scale: 2.0,
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -377,7 +391,7 @@ class MenuItem extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Container(
+        SizedBox(
           width: 80,
           child: Text(
             title,

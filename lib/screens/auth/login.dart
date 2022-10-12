@@ -64,6 +64,7 @@ class LoginPage extends StatelessWidget {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
+                              // ignore: avoid_print
                               print("Lupa Password");
                             },
                         ),
@@ -91,7 +92,8 @@ class LoginPage extends StatelessWidget {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: ColorPallete.primaryColor,
-                                padding: EdgeInsets.symmetric(vertical: 20),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
                               ),
                               child: const Text(
                                 "Submit",

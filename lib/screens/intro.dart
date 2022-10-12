@@ -1,15 +1,14 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/models/slider_model.dart';
 import 'package:bmt_kbs/screens/auth/login.dart';
-import 'package:bmt_kbs/screens/home.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
+class IntroductionScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _IntroductionScreenState createState() => _IntroductionScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _IntroductionScreenState extends State<IntroductionScreen> {
   List<SliderModel> slides = List<SliderModel>.empty(growable: true);
   int currentIndex = 0;
   late PageController _controller;

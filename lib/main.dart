@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData(fontFamily: "Inter"),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: IntroductionScreen(),
     );
   }
 
@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void initialize() async {
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 3));
     FlutterNativeSplash.remove();
   }
 }
