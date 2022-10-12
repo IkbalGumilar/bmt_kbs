@@ -1,4 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/features/isi_saldo/konfirmasi.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 
@@ -321,7 +322,10 @@ class IsiSaldoScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 20.0),
                       child: Column(
                         children: [
-                          FullWidthButton(text: "Selanjutnya"),
+                          FullWidthButton(
+                            text: "Selanjutnya",
+                            navigateTo: KonfirmasiIsiSaldoScreen(),
+                          ),
                         ],
                       ),
                     ),

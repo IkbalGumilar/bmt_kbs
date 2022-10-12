@@ -1,4 +1,6 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/features/isi_saldo/status_transaksi.dart';
+import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -17,35 +19,10 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
-          toolbarHeight: 60,
-          title: const Text(
-            "Konfirmasi",
-            style: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-          ),
-          centerTitle: false,
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          actions: [
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                elevation: 0.0,
-              ),
-              child: const Text(
-                "Batalkan",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
+        preferredSize: Size.fromHeight(60),
+        child: CustomAppBar(
+          title: "Konfirmasi",
+          isHaveActions: true,
         ),
       ),
       body: ListView(
@@ -98,7 +75,7 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                   print("Bottom sheet is opened!");
 
                   showModalBottomSheet(
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10.0),
                         topRight: Radius.circular(10.0),
@@ -226,6 +203,7 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
           ),
           FullWidthButton(
             text: "Cek Status Transaksi",
+            navigateTo: StatusTransaksiScreen(),
           ),
         ],
       ),
@@ -233,6 +211,7 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
   }
 }
 
+// ignore: must_be_immutable
 class InputKonfirmasiIsiSaldo extends StatelessWidget {
   InputKonfirmasiIsiSaldo({
     Key? key,

@@ -2,13 +2,16 @@ import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/isi_saldo/konfirmasi.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class FullWidthButton extends StatelessWidget {
   FullWidthButton({
     Key? key,
     required this.text,
+    required this.navigateTo,
   }) : super(key: key);
 
   String text;
+  Widget navigateTo;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class FullWidthButton extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => KonfirmasiIsiSaldoScreen(),
+              builder: (context) => navigateTo,
             ),
           );
         },
