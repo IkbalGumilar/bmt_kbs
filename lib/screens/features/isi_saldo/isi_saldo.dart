@@ -1,4 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 
 class IsiSaldoScreen extends StatelessWidget {
@@ -320,24 +321,7 @@ class IsiSaldoScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 20.0),
                       child: Column(
                         children: [
-                          SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorPallete.primaryColor,
-                              ),
-                              child: const Text(
-                                "Selanjutnya",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
+                          FullWidthButton(text: "Selanjutnya"),
                         ],
                       ),
                     ),

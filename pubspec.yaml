@@ -31,6 +31,7 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.2
   dots_indicator: ^2.1.0
+  dotted_border: ^2.0.0+2
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.2.11
@@ -62,6 +63,7 @@ flutter:
     - assets/img/
     - assets/img/introduction/
     - assets/screens/isi_saldo/
+    - assets/icons/screens/isi_saldo/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see
