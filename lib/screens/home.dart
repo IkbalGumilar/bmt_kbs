@@ -1,4 +1,5 @@
 import 'package:bmt_kbs/screens/features/isi_saldo/isi_saldo.dart';
+import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -195,9 +196,21 @@ class HomePage extends StatelessWidget {
                                     color: Colors.yellow[600],
                                     borderRadius: BorderRadius.circular(6),
                                   ),
-                                  child: Image.asset(
-                                    'assets/icons/card_icons/second.png',
-                                    scale: 2.0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      print("TRANSFER Screen");
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              TransferScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: Image.asset(
+                                      'assets/icons/card_icons/second.png',
+                                      scale: 2.0,
+                                    ),
                                   ),
                                 ),
                                 Container(

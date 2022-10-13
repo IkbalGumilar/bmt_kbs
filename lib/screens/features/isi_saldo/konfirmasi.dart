@@ -1,6 +1,7 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/isi_saldo/status_transaksi.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
+import 'package:bmt_kbs/widgets/custom_input_widget.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -31,31 +32,31 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
           vertical: 20,
         ),
         children: [
-          InputKonfirmasiIsiSaldo(
+          CustomInputWidget(
             label: "ID Transaksi",
             inputValue: "1234567891011121314",
             isBanking: false,
           ),
-          InputKonfirmasiIsiSaldo(
+          CustomInputWidget(
             label: "Jumlah top-up",
             inputValue: "Rp. 50.000",
             isBanking: false,
           ),
-          InputKonfirmasiIsiSaldo(
+          CustomInputWidget(
             label: "Jumlah yang harus dibayar",
             inputValue: "Rp. 50.123",
             isBold: true,
             isImportant: true,
             isBanking: false,
           ),
-          InputKonfirmasiIsiSaldo(
+          CustomInputWidget(
             label: "Dikirim ke",
             inputValue: "0982 9878 6154 6218",
             isBold: true,
             isImportant: true,
             isBanking: true,
           ),
-          InputKonfirmasiIsiSaldo(
+          CustomInputWidget(
             label: "Batas waktu transfer",
             inputValue: "23:59:40",
             isBold: true,
@@ -126,6 +127,11 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                                               color: Colors.grey[600],
                                               fontSize: 14),
                                         ),
+                                        trailing: Radio(
+                                          value: "0",
+                                          onChanged: (value) => print(value),
+                                          groupValue: {"key": "0"},
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(
@@ -142,9 +148,15 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                                         title: Text(
                                           'Ambil Gambar',
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.grey[600],
-                                              fontSize: 14),
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.grey[600],
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        trailing: Radio(
+                                          value: "0",
+                                          onChanged: (value) => print(value),
+                                          groupValue: {"key": "0"},
                                         ),
                                       ),
                                     ),
@@ -207,71 +219,6 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
           ),
         ],
       ),
-    );
-  }
-}
-
-// ignore: must_be_immutable
-class InputKonfirmasiIsiSaldo extends StatelessWidget {
-  InputKonfirmasiIsiSaldo({
-    Key? key,
-    required this.label,
-    required this.inputValue,
-    this.isBold,
-    this.isImportant,
-    required this.isBanking,
-    this.isColored,
-  }) : super(key: key);
-
-  String label;
-  String inputValue;
-  bool? isBold;
-  bool? isImportant;
-  bool isBanking;
-  bool? isColored = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.grey[600],
-          ),
-        ),
-        if (isBanking == true)
-          const SizedBox(
-            height: 5,
-          ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (isBanking == true)
-              Text(
-                isBanking == true ? "Bank Mandiri A/n Jhon Doe" : "",
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-            TextField(
-              autocorrect: false,
-              controller: TextEditingController(text: inputValue),
-              decoration: InputDecoration(),
-              style: TextStyle(
-                fontWeight:
-                    isBold == true ? FontWeight.bold : FontWeight.normal,
-                fontSize: isImportant == true ? 20 : 14,
-                color: isColored == true ? Colors.orange[900] : Colors.black,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 15,
-        ),
-      ],
     );
   }
 }
