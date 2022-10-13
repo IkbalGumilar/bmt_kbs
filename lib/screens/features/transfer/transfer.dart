@@ -340,13 +340,20 @@ class InputFieldTransfer extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: ListTile(
-                          leading: Icon(Icons.photo),
+                          leading: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text("Saldo"),
+                            ],
+                          ),
                           title: Text(
-                            'Ambil dari galeri',
+                            'Rp. 500.000',
                             style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.grey[600],
-                                fontSize: 14),
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
                           ),
                           trailing: Radio(
                             value: "0",
@@ -355,7 +362,7 @@ class InputFieldTransfer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 20,
                       ),
                       Container(
@@ -365,12 +372,18 @@ class InputFieldTransfer extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: ListTile(
-                          leading: const Icon(Icons.camera_alt),
-                          title: Text(
-                            'Ambil Gambar',
+                          leading: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text("Poin"),
+                            ],
+                          ),
+                          title: const Text(
+                            'Rp. 500.000',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              color: Colors.grey[600],
+                              color: Colors.black,
                               fontSize: 14,
                             ),
                           ),

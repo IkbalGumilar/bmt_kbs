@@ -1,4 +1,5 @@
 import 'package:bmt_kbs/screens/features/isi_saldo/isi_saldo.dart';
+import 'package:bmt_kbs/screens/features/penarikan_dana/penarikan_dana.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:flutter/material.dart';
 
@@ -220,9 +221,20 @@ class HomePage extends StatelessWidget {
                                     color: Colors.red,
                                     borderRadius: BorderRadius.circular(6),
                                   ),
-                                  child: Image.asset(
-                                    'assets/icons/card_icons/third.png',
-                                    scale: 2.0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              PenarikanDanaScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: Image.asset(
+                                      'assets/icons/card_icons/third.png',
+                                      scale: 2.0,
+                                    ),
                                   ),
                                 ),
                                 Container(
