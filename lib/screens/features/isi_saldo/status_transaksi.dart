@@ -11,7 +11,7 @@ class StatusTransaksiScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "Status Transaksi",
           isHaveActions: false,
@@ -44,7 +44,7 @@ class StatusTransaksiScreen extends StatelessWidget {
                   ],
                 ),
                 const Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: Text(
                     "Transaksi Berhasil!",
                     style: TextStyle(

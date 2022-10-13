@@ -38,6 +38,7 @@ class LoginPage extends StatelessWidget {
                   LoginInputWidget(
                     label: "Nama Pengguna",
                     inputIcon: Icons.account_circle_rounded,
+                    hint: "Masukkan Nama Pengguna",
                   ),
                   const SizedBox(
                     height: 20,
@@ -45,6 +46,7 @@ class LoginPage extends StatelessWidget {
                   LoginInputWidget(
                     label: "Password",
                     inputIcon: Icons.lock,
+                    hint: "Masukkan Password",
                   ),
                   const SizedBox(
                     height: 20,
@@ -180,11 +182,13 @@ class LoginPage extends StatelessWidget {
 
 class LoginInputWidget extends StatelessWidget {
   String label;
+  String hint;
   IconData inputIcon;
 
   LoginInputWidget({
     required this.label,
     required this.inputIcon,
+    required this.hint,
     Key? key,
   }) : super(key: key);
 
@@ -209,7 +213,7 @@ class LoginInputWidget extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color.fromARGB(10, 44, 80, 203),
-            hintText: "Masukkan Nama Pengguna",
+            hintText: hint,
             hintStyle: const TextStyle(
               color: Colors.grey,
               fontSize: 14,

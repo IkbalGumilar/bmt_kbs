@@ -96,9 +96,9 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                                 children: [
                                   Container(
                                     width: 50,
-                                    height: 12,
+                                    height: 10,
                                     decoration: BoxDecoration(
-                                      color: Colors.blue[100],
+                                      color: Colors.grey[300],
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
@@ -174,13 +174,13 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                   width: double.infinity,
                   height: 125,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(25, 0, 146, 199),
+                    color: const Color.fromARGB(25, 0, 146, 199),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.photo),
+                      const Icon(Icons.photo),
                       Text(
                         "Upload bukti transaksi",
                         style: TextStyle(
@@ -195,7 +195,7 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
@@ -210,12 +210,12 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           FullWidthButton(
             text: "Cek Status Transaksi",
-            navigateTo: StatusTransaksiScreen(),
+            navigateTo: const StatusTransaksiScreen(),
           ),
         ],
       ),
