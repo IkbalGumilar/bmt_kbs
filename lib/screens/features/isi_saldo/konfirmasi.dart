@@ -1,7 +1,7 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/isi_saldo/status_transaksi.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
-import 'package:bmt_kbs/widgets/custom_input_widget.dart';
+import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -32,31 +32,31 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
           vertical: 20,
         ),
         children: [
-          CustomInputWidget(
+          CustomInputWithoutOutlineBorder(
             label: "ID Transaksi",
             inputValue: "1234567891011121314",
             isBanking: false,
           ),
-          CustomInputWidget(
+          CustomInputWithoutOutlineBorder(
             label: "Jumlah top-up",
             inputValue: "Rp. 50.000",
             isBanking: false,
           ),
-          CustomInputWidget(
+          CustomInputWithoutOutlineBorder(
             label: "Jumlah yang harus dibayar",
             inputValue: "Rp. 50.123",
             isBold: true,
             isImportant: true,
             isBanking: false,
           ),
-          CustomInputWidget(
+          CustomInputWithoutOutlineBorder(
             label: "Dikirim ke",
             inputValue: "0982 9878 6154 6218",
             isBold: true,
             isImportant: true,
             isBanking: true,
           ),
-          CustomInputWidget(
+          CustomInputWithoutOutlineBorder(
             label: "Batas waktu transfer",
             inputValue: "23:59:40",
             isBold: true,

@@ -1,6 +1,6 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
-import 'package:bmt_kbs/widgets/list_customer_penarikan_dana_widget.dart';
+import 'package:bmt_kbs/widgets/list_customer_penarikan_dana.dart';
 import 'package:flutter/material.dart';
 
 class DaftarKontakScreen extends StatefulWidget {
@@ -65,7 +65,7 @@ class _DaftarKontakScreenState extends State<DaftarKontakScreen>
               padding: EdgeInsets.only(
                 bottom: 10,
               ),
-              child: ListCustomerPenarikanDanaWidget(
+              child: ListCustomerPenarikanDana(
                 name: "ANGGI RIMA SAPUTRA",
                 bank: "BCA",
                 rekening: "1234567891011141516",

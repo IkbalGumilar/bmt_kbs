@@ -1,6 +1,6 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
-import 'package:bmt_kbs/widgets/custom_input_widget.dart';
+import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:flutter/material.dart';
 
 class StatusTransaksiScreen extends StatelessWidget {
@@ -65,29 +65,29 @@ class StatusTransaksiScreen extends StatelessWidget {
           ),
           Column(
             children: [
-              CustomInputWidget(
+              CustomInputWithoutOutlineBorder(
                 label: "Jumlah top up",
                 inputValue: "Rp. 50.000",
               ),
-              CustomInputWidget(
+              CustomInputWithoutOutlineBorder(
                 label: "Jumlah yang harus dibayar",
                 inputValue: "Rp. 50.500",
               ),
-              CustomInputWidget(
+              CustomInputWithoutOutlineBorder(
                 label: "Jumlah dibayarkan",
                 inputValue: "Rp. 50.500",
               ),
-              CustomInputWidget(
+              CustomInputWithoutOutlineBorder(
                 label: "Jumlah dibayarkan",
                 inputValue: "Rp. 50.500",
               ),
-              CustomInputWidget(
+              CustomInputWithoutOutlineBorder(
                 label: "Dikirim Dari",
                 inputValue: "0982 9878 6154 6218",
                 isBanking: true,
                 bankCustomer: "Ahmad Doe",
               ),
-              CustomInputWidget(
+              CustomInputWithoutOutlineBorder(
                 label: "Dikirim ke",
                 inputValue: "0215 9878 6154 6218",
                 isBanking: true,

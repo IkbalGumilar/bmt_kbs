@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ListCustomerPenarikanDanaWidget extends StatelessWidget {
-  ListCustomerPenarikanDanaWidget(
+class ListCustomerPenarikanDana extends StatelessWidget {
+  ListCustomerPenarikanDana(
       {super.key,
       required this.name,
       required this.bank,

@@ -2,7 +2,7 @@ import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/penarikan_dana/daftar_kontak.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
-import 'package:bmt_kbs/widgets/list_customer_penarikan_dana_widget.dart';
+import 'package:bmt_kbs/widgets/list_customer_penarikan_dana.dart';
 import 'package:flutter/material.dart';
 
 class PenarikanDanaScreen extends StatelessWidget {
@@ -162,12 +162,12 @@ class PenarikanDanaScreen extends StatelessWidget {
                                         child: Wrap(
                                           runSpacing: 10,
                                           children: [
-                                            ListCustomerPenarikanDanaWidget(
+                                            ListCustomerPenarikanDana(
                                               name: "Ana Agustina P",
                                               bank: "MANDIRI",
                                               rekening: "1234567891011141516",
                                             ),
-                                            ListCustomerPenarikanDanaWidget(
+                                            ListCustomerPenarikanDana(
                                               name: "ANGGI RIMA SAPUTRA",
                                               bank: "BCA",
                                               rekening: "1234567891011141516",
@@ -183,7 +183,7 @@ class PenarikanDanaScreen extends StatelessWidget {
                                         child: Wrap(
                                           runSpacing: 12,
                                           children: [
-                                            ListCustomerPenarikanDanaWidget(
+                                            ListCustomerPenarikanDana(
                                               name: "Ana Agustina P",
                                               bank: "MANDIRI",
                                               rekening: "1234567891011141516",
