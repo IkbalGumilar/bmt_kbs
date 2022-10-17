@@ -63,9 +63,6 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             margin: const EdgeInsets.all(40),
             width: double.infinity,
             child: ElevatedButton(
-              child: Text(
-                currentIndex == slides.length - 1 ? "Lanjutkan" : "Selanjutnya",
-              ),
               onPressed: () {
                 if (currentIndex == slides.length - 1) {
                   Navigator.pushReplacement(
@@ -87,6 +84,9 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   fontWeight: FontWeight.w700,
                 ),
                 backgroundColor: ColorPallete.primaryColor,
+              ),
+              child: Text(
+                currentIndex == slides.length - 1 ? "Lanjutkan" : "Selanjutnya",
               ),
             ),
           ),

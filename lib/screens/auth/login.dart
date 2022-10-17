@@ -120,6 +120,7 @@ class LoginPage extends StatelessWidget {
                           height: 20,
                           child: Checkbox(
                             value: true,
+                            // ignore: avoid_print
                             onChanged: (value) => print(value),
                             fillColor: MaterialStateProperty.resolveWith(
                                 (states) => ColorPallete.primaryColor),

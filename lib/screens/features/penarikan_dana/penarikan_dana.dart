@@ -1,9 +1,9 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/features/penarikan_dana/daftar_kontak.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
+import 'package:bmt_kbs/widgets/list_customer_penarikan_dana_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class PenarikanDanaScreen extends StatelessWidget {
   const PenarikanDanaScreen({super.key});
@@ -195,10 +195,22 @@ class PenarikanDanaScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Text(
-                                "Lihat semua",
-                                style: TextStyle(
-                                  color: Colors.red,
+                              GestureDetector(
+                                onTap: () {
+                                  print("Lihat semua kontak");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          DaftarKontakScreen(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  "Lihat semua",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
                                 ),
                               )
                             ],
@@ -245,7 +257,7 @@ class PenarikanDanaScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                     vertical: 20.0, horizontal: 30.0),
                 child: FullWidthButton(
-                  navigateTo: PenarikanDanaScreen(),
+                  navigateTo: Text(""),
                   text: "Selanjutnya",
                 ),
               ),
@@ -253,78 +265,6 @@ class PenarikanDanaScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-// ANA AGUSTINA P
-// MANDIRI 1234567891011141516
-
-class ListCustomerPenarikanDanaWidget extends StatelessWidget {
-  ListCustomerPenarikanDanaWidget(
-      {super.key,
-      required this.name,
-      required this.bank,
-      required this.rekening});
-
-  String name;
-  String bank;
-  String rekening;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40 / 2),
-                    image: DecorationImage(
-                      image: NetworkImage("https://picsum.photos/200/300"),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name.toUpperCase(),
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                      ),
-                    ),
-                    Text(
-                      "$bank $rekening",
-                      style: TextStyle(
-                        color: Colors.grey[400],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Radio(
-              value: true,
-              groupValue: {true},
-              onChanged: (value) => print(value),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }

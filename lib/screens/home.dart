@@ -1,5 +1,6 @@
 import 'package:bmt_kbs/screens/features/isi_saldo/isi_saldo.dart';
 import 'package:bmt_kbs/screens/features/penarikan_dana/penarikan_dana.dart';
+import 'package:bmt_kbs/screens/features/pulsa/pulsa.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:flutter/material.dart';
 
@@ -244,9 +245,14 @@ class HomePage extends StatelessWidget {
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(6),
                                   ),
-                                  child: Image.asset(
-                                    'assets/icons/card_icons/fourth.png',
-                                    scale: 2.0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      print("Beralih ke Scan");
+                                    },
+                                    child: Image.asset(
+                                      'assets/icons/card_icons/fourth.png',
+                                      scale: 2.0,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -274,9 +280,20 @@ class HomePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        MenuItem(
-                          iconPath: "pulsa.png",
-                          title: "Pulsa dan Paket Data",
+                        GestureDetector(
+                          onTap: () {
+                            // ignore: avoid_print
+                            print("Beralih ke pulsa & data");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PulsaScreen(),
+                                ));
+                          },
+                          child: MenuItem(
+                            iconPath: "pulsa.png",
+                            title: "Pulsa dan Paket Data",
+                          ),
                         ),
                         MenuItem(
                           iconPath: "pln.png",
