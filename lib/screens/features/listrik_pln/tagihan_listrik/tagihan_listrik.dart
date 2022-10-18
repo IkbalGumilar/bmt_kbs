@@ -1,5 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/features/tagihan_listrik_pln/konfirmasi_tagihan_listrik.dart';
+import 'package:bmt_kbs/screens/features/listrik_pln/tagihan_listrik/konfirmasi_tagihan_listrik.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 

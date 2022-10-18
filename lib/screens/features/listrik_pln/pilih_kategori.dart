@@ -1,12 +1,10 @@
-import 'package:bmt_kbs/screens/features/tagihan_listrik_pln/tagihan_listrik.dart';
-import 'package:bmt_kbs/screens/features/tagihan_listrik_pln/token_listrik.dart';
+import 'package:bmt_kbs/screens/features/listrik_pln/tagihan_listrik/tagihan_listrik.dart';
+import 'package:bmt_kbs/screens/features/listrik_pln/token_listrik/token_listrik.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-class TagihanListrikPlnScreen extends StatelessWidget {
-  const TagihanListrikPlnScreen({super.key});
+class PilihKategoriPlnScreen extends StatelessWidget {
+  const PilihKategoriPlnScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class TagihanListrikPlnScreen extends StatelessWidget {
                 title: "Tagihan Listrik",
                 route: const TagihanListrikScreen(),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               BoxContainerWithRoute(

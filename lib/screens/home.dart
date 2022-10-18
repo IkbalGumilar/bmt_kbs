@@ -1,7 +1,7 @@
 import 'package:bmt_kbs/screens/features/isi_saldo/isi_saldo.dart';
 import 'package:bmt_kbs/screens/features/penarikan_dana/penarikan_dana.dart';
 import 'package:bmt_kbs/screens/features/pulsa/pulsa.dart';
-import 'package:bmt_kbs/screens/features/tagihan_listrik_pln/tagihan_listrik_pln.dart';
+import 'package:bmt_kbs/screens/features/listrik_pln/pilih_kategori.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:flutter/material.dart';
 
@@ -302,7 +302,7 @@ class HomePage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const TagihanListrikPlnScreen(),
+                                    const PilihKategoriPlnScreen(),
                               ),
                             );
                           },

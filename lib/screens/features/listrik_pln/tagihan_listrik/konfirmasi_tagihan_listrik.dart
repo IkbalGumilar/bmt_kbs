@@ -1,6 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/features/pulsa/status_transaksi_pulsa.dart';
-import 'package:bmt_kbs/screens/features/tagihan_listrik_pln/status_transaksi_tagihan_listrik.dart';
+import 'package:bmt_kbs/screens/features/listrik_pln/tagihan_listrik/status_transaksi_tagihan_listrik.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
