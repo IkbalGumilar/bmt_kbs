@@ -74,6 +74,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                       ? _controller.nextPage(
                           duration: Duration(milliseconds: 100),
                           curve: Curves.ease)
+                      // ignore: avoid_print
                       : print("Gagal pindah page");
                 }
               },
