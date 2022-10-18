@@ -3,8 +3,8 @@ import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:flutter/material.dart';
 
-class StatusTransaksiScreen extends StatelessWidget {
-  const StatusTransaksiScreen({super.key});
+class StatusTransaksiIsiSaldoScreen extends StatelessWidget {
+  const StatusTransaksiIsiSaldoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +30,15 @@ class StatusTransaksiScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: 80,
-                      height: 80,
+                      width: 60,
+                      height: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(80 / 2),
                         color: Colors.grey[300],
                       ),
                       child: Image.asset(
                         "assets/icons/screens/isi_saldo/success.png",
-                        scale: 1.2,
+                        scale: 1.8,
                       ),
                     ),
                   ],

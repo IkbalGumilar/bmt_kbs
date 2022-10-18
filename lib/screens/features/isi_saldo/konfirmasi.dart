@@ -1,5 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/features/isi_saldo/status_transaksi.dart';
+import 'package:bmt_kbs/screens/features/isi_saldo/status_transaksi_isi_saldo.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
@@ -7,7 +7,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 class KonfirmasiIsiSaldoScreen extends StatefulWidget {
-  KonfirmasiIsiSaldoScreen({super.key});
+  const KonfirmasiIsiSaldoScreen({super.key});
 
   @override
   State<KonfirmasiIsiSaldoScreen> createState() =>
@@ -215,7 +215,7 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
           ),
           FullWidthButton(
             text: "Cek Status Transaksi",
-            navigateTo: const StatusTransaksiScreen(),
+            navigateTo: const StatusTransaksiIsiSaldoScreen(),
           ),
         ],
       ),

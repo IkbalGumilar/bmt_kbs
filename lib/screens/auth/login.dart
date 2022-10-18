@@ -181,6 +181,7 @@ class LoginPage extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class LoginInputWidget extends StatelessWidget {
   String label;
   String hint;

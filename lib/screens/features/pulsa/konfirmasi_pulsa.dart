@@ -1,9 +1,10 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/features/pulsa/status_transaksi_pulsa.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
-class KonfirmasiPulsaDanPaket extends StatelessWidget {
-  const KonfirmasiPulsaDanPaket({super.key});
+class KonfirmasiPulsaScreen extends StatelessWidget {
+  const KonfirmasiPulsaScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +243,16 @@ class KonfirmasiPulsaDanPaket extends StatelessWidget {
                   child: SizedBox(
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print("Berpindah ke status transaksi pulsa");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const StatusTransaksiPulsaScreen(),
+                          ),
+                        );
+                      },
                       child: Text(
                         "Bayar",
                         style: const TextStyle(
