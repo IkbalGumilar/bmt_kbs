@@ -26,13 +26,13 @@ class ListCustomerPenarikanDana extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40 / 2),
-                    image: DecorationImage(
+                    image: const DecorationImage(
                       image: NetworkImage("https://picsum.photos/200/300"),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Column(
@@ -40,7 +40,7 @@ class ListCustomerPenarikanDana extends StatelessWidget {
                   children: [
                     Text(
                       name.toUpperCase(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
@@ -60,7 +60,8 @@ class ListCustomerPenarikanDana extends StatelessWidget {
             ),
             Radio(
               value: true,
-              groupValue: {true},
+              groupValue: const {"0": true},
+              // ignore: avoid_print
               onChanged: (value) => print(value),
             ),
           ],

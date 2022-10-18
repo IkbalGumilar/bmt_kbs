@@ -66,7 +66,7 @@ class PenarikanDanaScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -75,7 +75,7 @@ class PenarikanDanaScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Rekening Tujuan",
                           style: TextStyle(
                             color: Colors.black,
@@ -83,7 +83,7 @@ class PenarikanDanaScreen extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
@@ -94,7 +94,8 @@ class PenarikanDanaScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -115,12 +116,12 @@ class PenarikanDanaScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Icon(Icons.chevron_right),
+                                const Icon(Icons.chevron_right),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         DefaultTabController(
@@ -128,10 +129,10 @@ class PenarikanDanaScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               PreferredSize(
-                                preferredSize: Size.fromHeight(50.0),
+                                preferredSize: const Size.fromHeight(50.0),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Container(
+                                  child: SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width / 2,
                                     child: TabBar(
@@ -151,7 +152,7 @@ class PenarikanDanaScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 height: 150,
                                 child: TabBarView(
                                   children: [
@@ -197,16 +198,17 @@ class PenarikanDanaScreen extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  // ignore: avoid_print
                                   print("Lihat semua kontak");
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          DaftarKontakScreen(),
+                                          const DaftarKontakScreen(),
                                     ),
                                   );
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Lihat semua",
                                   style: TextStyle(
                                     color: Colors.red,
@@ -216,13 +218,13 @@ class PenarikanDanaScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               "Jumlah Penarikan",
                               style: TextStyle(
                                 color: Colors.black,
@@ -237,7 +239,7 @@ class PenarikanDanaScreen extends StatelessWidget {
                               decoration: const InputDecoration(
                                 hintText: "Masukkan Jumlah Penarikan",
                               ),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -245,7 +247,7 @@ class PenarikanDanaScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 100,
                         ),
                       ],
@@ -257,7 +259,7 @@ class PenarikanDanaScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                     vertical: 20.0, horizontal: 30.0),
                 child: FullWidthButton(
-                  navigateTo: Text(""),
+                  navigateTo: const Text(""),
                   text: "Selanjutnya",
                 ),
               ),

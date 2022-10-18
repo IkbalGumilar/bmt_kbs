@@ -6,6 +6,7 @@ class CustomAppBar extends StatelessWidget {
     if (isHaveActions == true) {
       return ElevatedButton(
         onPressed: () {
+          // ignore: avoid_print
           print("Isi saldo dibatalkan!");
         },
         style: ElevatedButton.styleFrom(

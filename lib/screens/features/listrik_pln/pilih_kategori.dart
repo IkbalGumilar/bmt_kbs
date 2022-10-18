@@ -11,7 +11,7 @@ class PilihKategoriPlnScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "PLN",
           isHaveActions: false,
@@ -59,6 +59,7 @@ class BoxContainerWithRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        // ignore: avoid_print
         print("Anda memilih bagian $title");
         Navigator.push(
           context,

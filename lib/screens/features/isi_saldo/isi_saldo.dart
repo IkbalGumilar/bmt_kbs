@@ -324,7 +324,7 @@ class IsiSaldoScreen extends StatelessWidget {
                         children: [
                           FullWidthButton(
                             text: "Selanjutnya",
-                            navigateTo: KonfirmasiIsiSaldoScreen(),
+                            navigateTo: const KonfirmasiIsiSaldoScreen(),
                           ),
                         ],
                       ),

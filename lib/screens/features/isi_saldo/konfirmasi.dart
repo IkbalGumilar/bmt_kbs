@@ -20,7 +20,7 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "Konfirmasi",
           isHaveActions: true,
@@ -66,13 +66,14 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
           ),
           DottedBorder(
             borderType: BorderType.RRect,
-            radius: Radius.circular(10),
+            radius: const Radius.circular(10),
             color: Colors.blue,
             strokeWidth: 2,
-            dashPattern: [6, 3, 6, 3],
+            dashPattern: const [6, 3, 6, 3],
             child: ClipRRect(
               child: GestureDetector(
                 onTap: () {
+                  // ignore: avoid_print
                   print("Bottom sheet is opened!");
 
                   showModalBottomSheet(
@@ -84,7 +85,7 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                     ),
                     context: context,
                     builder: (context) {
-                      return Container(
+                      return SizedBox(
                         height: 220,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -119,7 +120,7 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: ListTile(
-                                        leading: Icon(Icons.photo),
+                                        leading: const Icon(Icons.photo),
                                         title: Text(
                                           'Ambil dari galeri',
                                           style: TextStyle(
@@ -129,8 +130,9 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                                         ),
                                         trailing: Radio(
                                           value: "0",
+                                          // ignore: avoid_print
                                           onChanged: (value) => print(value),
-                                          groupValue: {"key": "0"},
+                                          groupValue: const {"key": "0"},
                                         ),
                                       ),
                                     ),
@@ -155,8 +157,9 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                                         ),
                                         trailing: Radio(
                                           value: "0",
+                                          // ignore: avoid_print
                                           onChanged: (value) => print(value),
-                                          groupValue: {"key": "0"},
+                                          groupValue: const {"key": "0"},
                                         ),
                                       ),
                                     ),

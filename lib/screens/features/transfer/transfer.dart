@@ -238,7 +238,7 @@ class InputFieldTransfer extends StatelessWidget {
                         ),
                       ),
                       const Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        padding: EdgeInsets.symmetric(vertical: 20.0),
                         child: Divider(),
                       ),
                       Row(
@@ -281,7 +281,8 @@ class InputFieldTransfer extends StatelessWidget {
                           ),
                           Radio(
                             value: true,
-                            groupValue: {true},
+                            groupValue: const {"1": true},
+                            // ignore: avoid_print
                             onChanged: (value) => print(value),
                           )
                         ],
@@ -307,7 +308,7 @@ class InputFieldTransfer extends StatelessWidget {
       ),
       context: context,
       builder: (context) {
-        return Container(
+        return SizedBox(
           height: 220,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
@@ -343,11 +344,11 @@ class InputFieldTransfer extends StatelessWidget {
                           leading: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+                            children: const [
                               Text("Saldo"),
                             ],
                           ),
-                          title: Text(
+                          title: const Text(
                             'Rp. 500.000',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -358,11 +359,11 @@ class InputFieldTransfer extends StatelessWidget {
                           trailing: Radio(
                             value: "0",
                             onChanged: (value) => print(value),
-                            groupValue: {"key": "0"},
+                            groupValue: const {"key": "0"},
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Container(
@@ -375,7 +376,7 @@ class InputFieldTransfer extends StatelessWidget {
                           leading: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+                            children: const [
                               Text("Poin"),
                             ],
                           ),
@@ -390,7 +391,7 @@ class InputFieldTransfer extends StatelessWidget {
                           trailing: Radio(
                             value: "0",
                             onChanged: (value) => print(value),
-                            groupValue: {"key": "0"},
+                            groupValue: const {"key": "0"},
                           ),
                         ),
                       ),
@@ -415,7 +416,7 @@ class InputFieldTransfer extends StatelessWidget {
       ),
       context: context,
       builder: (context) {
-        return Container(
+        return SizedBox(
           height: 220,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
@@ -448,7 +449,7 @@ class InputFieldTransfer extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: ListTile(
-                          leading: Icon(Icons.photo),
+                          leading: const Icon(Icons.photo),
                           title: Text(
                             'Ambil dari galeri',
                             style: TextStyle(
@@ -458,8 +459,9 @@ class InputFieldTransfer extends StatelessWidget {
                           ),
                           trailing: Radio(
                             value: "0",
+                            // ignore: avoid_print
                             onChanged: (value) => print(value),
-                            groupValue: {"key": "0"},
+                            groupValue: const {"key": "0"},
                           ),
                         ),
                       ),
@@ -484,8 +486,9 @@ class InputFieldTransfer extends StatelessWidget {
                           ),
                           trailing: Radio(
                             value: "0",
+                            // ignore: avoid_print
                             onChanged: (value) => print(value),
-                            groupValue: {"key": "0"},
+                            groupValue: const {"key": "0"},
                           ),
                         ),
                       ),

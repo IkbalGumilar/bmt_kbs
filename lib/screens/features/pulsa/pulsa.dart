@@ -77,6 +77,7 @@ class _PulsaScreenState extends State<PulsaScreen>
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
+            // ignore: avoid_print
             print('Pulsa ${pulsaList[index].jmlPulsa} selected');
 
             // create animation transition before showing custom bottom sheet
@@ -110,7 +111,7 @@ class _PulsaScreenState extends State<PulsaScreen>
                         children: [
                           Text(
                             pulsaList[index].jmlPulsa,
-                            style: TextStyle(fontWeight: FontWeight.w700),
+                            style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ],
                       ),
@@ -182,7 +183,7 @@ class _PulsaScreenState extends State<PulsaScreen>
                   ),
                   Text(
                     "Rp. ${paketDataList[index].paketHarga}",
-                    style: TextStyle(fontWeight: FontWeight.w500),
+                    style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -315,7 +316,7 @@ Future<dynamic> customBottomSheet(BuildContext context) {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -412,8 +413,8 @@ Future<dynamic> customBottomSheet(BuildContext context) {
                 width: double.infinity,
                 child: DottedBorder(
                   color: Colors.grey[400]!,
-                  child: SizedBox(),
-                  dashPattern: [6, 3, 6, 3],
+                  dashPattern: const [6, 3, 6, 3],
+                  child: const SizedBox(),
                 ),
               ),
               Padding(
@@ -455,7 +456,7 @@ Future<dynamic> customBottomSheet(BuildContext context) {
                             Navigator.pop(context);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFD9F0DB),
+                            backgroundColor: const Color(0xFFD9F0DB),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),

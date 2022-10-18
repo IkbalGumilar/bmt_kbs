@@ -262,7 +262,7 @@ class KonfirmasiTagihanListrikScreen extends StatelessWidget {
                               "assets/icons/screens/pulsa/poin.png",
                               scale: 1.5,
                             ),
-                            suffixIcon: Icon(Icons.chevron_right),
+                            suffixIcon: const Icon(Icons.chevron_right),
                             hintText: "Pilih Sumber Dana",
                             hintStyle: const TextStyle(
                               color: Colors.black87,
@@ -311,6 +311,7 @@ class KonfirmasiTagihanListrikScreen extends StatelessWidget {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {
+                            // ignore: avoid_print
                             print("Berpindah ke status transaksi pulsa");
                             Navigator.push(
                               context,

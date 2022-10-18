@@ -47,7 +47,7 @@ class _DaftarKontakScreenState extends State<DaftarKontakScreen>
   _smoothScrollToTop() {
     _scrollController.animateTo(
       0,
-      duration: Duration(microseconds: 300),
+      duration: const Duration(microseconds: 300),
       curve: Curves.ease,
     );
 
@@ -56,23 +56,21 @@ class _DaftarKontakScreenState extends State<DaftarKontakScreen>
     });
   }
 
-  _buildTabContext(int lineCount) => Container(
-        child: ListView.builder(
-          physics: const ClampingScrollPhysics(),
-          itemCount: lineCount,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              padding: EdgeInsets.only(
-                bottom: 10,
-              ),
-              child: ListCustomerPenarikanDana(
-                name: "ANGGI RIMA SAPUTRA",
-                bank: "BCA",
-                rekening: "1234567891011141516",
-              ),
-            );
-          },
-        ),
+  _buildTabContext(int lineCount) => ListView.builder(
+        physics: const ClampingScrollPhysics(),
+        itemCount: lineCount,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            padding: const EdgeInsets.only(
+              bottom: 10,
+            ),
+            child: ListCustomerPenarikanDana(
+              name: "ANGGI RIMA SAPUTRA",
+              bank: "BCA",
+              rekening: "1234567891011141516",
+            ),
+          );
+        },
       );
 
   @override
@@ -80,7 +78,7 @@ class _DaftarKontakScreenState extends State<DaftarKontakScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "Daftar Kontak",
           isHaveActions: false,

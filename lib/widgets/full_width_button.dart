@@ -1,5 +1,4 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/features/isi_saldo/konfirmasi.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -20,7 +19,8 @@ class FullWidthButton extends StatelessWidget {
       height: 50,
       child: ElevatedButton(
         onPressed: () {
-          print("test");
+          // ignore: avoid_print
+          print("Button ter-click");
           Navigator.push(
             context,
             MaterialPageRoute(

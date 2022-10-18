@@ -11,7 +11,7 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "Konfirmasi Pembayaran",
           isHaveActions: false,
@@ -115,7 +115,8 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 30.0, vertical: 10.0),
                 child: Column(
                   children: [
                     Container(
@@ -128,10 +129,10 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
                         ),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: const [
                               Text(
                                 "Bicara semua operator 1 hari",
                                 style: TextStyle(
@@ -140,8 +141,7 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                padding: EdgeInsets.symmetric(vertical: 10.0),
                                 child: Text(
                                   "Paket bicara semua operator 1 hari, 280 mins Onnet + 5 mins AllOpr, 1 hari",
                                   style: TextStyle(
@@ -158,19 +158,19 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
                             ]),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Sumber Dana",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         TextField(
@@ -185,18 +185,18 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
                               "assets/icons/screens/pulsa/poin.png",
                               scale: 1.5,
                             ),
-                            suffixIcon: Icon(Icons.chevron_right),
+                            suffixIcon: const Icon(Icons.chevron_right),
                             hintText: "Pilih Sumber Dana",
-                            hintStyle: TextStyle(
+                            hintStyle: const TextStyle(
                               color: Colors.black87,
                               fontSize: 14,
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
-                        Text(
+                        const Text(
                           "*Saldo anda tidak cukup untuk transaksi ini",
                           style: TextStyle(
                             color: Colors.red,
@@ -209,11 +209,11 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 30.0,
               vertical: 20.0,
             ),
@@ -222,7 +222,7 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text(
                         "Total Bayar",
                         style: TextStyle(
@@ -244,6 +244,7 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
+                        // ignore: avoid_print
                         print("Berpindah ke status transaksi pulsa");
                         Navigator.push(
                           context,
@@ -253,16 +254,16 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Text(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorPallete.primaryColor,
+                      ),
+                      child: const Text(
                         "Bayar",
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorPallete.primaryColor,
                       ),
                     ),
                   ),

@@ -201,12 +201,13 @@ class HomePage extends StatelessWidget {
                                   ),
                                   child: GestureDetector(
                                     onTap: () {
+                                      // ignore: avoid_print
                                       print("TRANSFER Screen");
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              TransferScreen(),
+                                              const TransferScreen(),
                                         ),
                                       );
                                     },
@@ -229,7 +230,7 @@ class HomePage extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              PenarikanDanaScreen(),
+                                              const PenarikanDanaScreen(),
                                         ),
                                       );
                                     },
@@ -248,6 +249,7 @@ class HomePage extends StatelessWidget {
                                   ),
                                   child: GestureDetector(
                                     onTap: () {
+                                      // ignore: avoid_print
                                       print("Beralih ke Scan");
                                     },
                                     child: Image.asset(
@@ -288,7 +290,7 @@ class HomePage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => PulsaScreen(),
+                                  builder: (context) => const PulsaScreen(),
                                 ));
                           },
                           child: MenuItem(
@@ -418,6 +420,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class MenuItem extends StatelessWidget {
   MenuItem({
     required this.title,

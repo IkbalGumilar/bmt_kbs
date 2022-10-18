@@ -64,7 +64,7 @@ class CustomInputWithoutOutlineBorder extends StatelessWidget {
             TextField(
               autocorrect: false,
               controller: TextEditingController(text: inputValue),
-              decoration: InputDecoration(),
+              decoration: const InputDecoration(),
               style: TextStyle(
                 fontWeight:
                     isBold == true ? FontWeight.bold : FontWeight.normal,

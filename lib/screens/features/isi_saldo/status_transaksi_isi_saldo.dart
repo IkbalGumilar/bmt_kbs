@@ -102,6 +102,7 @@ class StatusTransaksiIsiSaldoScreen extends StatelessWidget {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
+                  // ignore: avoid_print
                   print("Transaksi Tersimpan!");
                 },
                 style: ElevatedButton.styleFrom(
