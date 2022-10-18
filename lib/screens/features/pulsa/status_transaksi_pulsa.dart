@@ -70,12 +70,24 @@ class StatusTransaksiPulsaScreen extends StatelessWidget {
                 Column(
                   children: [
                     CustomInputWithoutOutlineBorder(
-                      label: "Jumlah top up",
-                      inputValue: "Rp. 50.000",
+                      label: "Produk",
+                      inputValue: "Bicara semua operator 1 hari",
+                      isBold: true,
                     ),
                     CustomInputWithoutOutlineBorder(
-                      label: "Jumlah yang harus dibayar",
-                      inputValue: "Rp. 50.500",
+                      label: "Sumber Dana",
+                      inputValue: "Saldo",
+                      isBold: true,
+                    ),
+                    CustomInputWithoutOutlineBorder(
+                      label: "Jumlah Bayar",
+                      inputValue: "Rp. 15.000",
+                      isBold: true,
+                    ),
+                    CustomInputWithoutOutlineBorder(
+                      label: "Biaya Administrasi",
+                      inputValue: "Rp. -0",
+                      isBold: true,
                     ),
                   ],
                 ),

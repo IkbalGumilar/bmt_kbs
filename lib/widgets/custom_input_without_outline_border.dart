@@ -1,6 +1,7 @@
 // ignore: must_be_immutable
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CustomInputWithoutOutlineBorder extends StatelessWidget {
   CustomInputWithoutOutlineBorder({
     Key? key,
@@ -56,7 +57,7 @@ class CustomInputWithoutOutlineBorder extends StatelessWidget {
             if (isBanking == true)
               Text(
                 bankCheck(),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.grey,
                 ),
               ),
@@ -73,7 +74,7 @@ class CustomInputWithoutOutlineBorder extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
       ],
