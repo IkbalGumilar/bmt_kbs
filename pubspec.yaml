@@ -67,6 +67,7 @@ flutter:
     - assets/icons/screens/transfer/
     - assets/icons/screens/penarikan_dana/
     - assets/icons/screens/pulsa/
+    - assets/icons/screens/tagihan_listrik_pln/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

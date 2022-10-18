@@ -1,6 +1,7 @@
 import 'package:bmt_kbs/screens/features/isi_saldo/isi_saldo.dart';
 import 'package:bmt_kbs/screens/features/penarikan_dana/penarikan_dana.dart';
 import 'package:bmt_kbs/screens/features/pulsa/pulsa.dart';
+import 'package:bmt_kbs/screens/features/tagihan_listrik_pln/tagihan_listrik_pln.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:flutter/material.dart';
 
@@ -295,9 +296,20 @@ class HomePage extends StatelessWidget {
                             title: "Pulsa dan Paket Data",
                           ),
                         ),
-                        MenuItem(
-                          iconPath: "pln.png",
-                          title: "Tagihan Listrik PLN",
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const TagihanListrikPlnScreen(),
+                              ),
+                            );
+                          },
+                          child: MenuItem(
+                            iconPath: "pln.png",
+                            title: "Tagihan Listrik PLN",
+                          ),
                         ),
                         MenuItem(
                           iconPath: "vouchergame.png",
