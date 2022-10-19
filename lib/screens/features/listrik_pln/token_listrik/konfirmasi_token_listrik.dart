@@ -1,4 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/features/listrik_pln/token_listrik/status_transaksi_token_listrik.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -312,6 +313,11 @@ class KonfirmasiTokenListrik extends StatelessWidget {
                         onPressed: () {
                           // ignore: avoid_print
                           print("Berpindah ke status token listrik");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const StatusTransaksiTokenListrikScreen()));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorPallete.primaryColor,

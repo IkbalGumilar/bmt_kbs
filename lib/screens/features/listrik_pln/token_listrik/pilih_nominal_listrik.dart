@@ -300,7 +300,7 @@ Future<dynamic> nominalTokenBottomSheet(BuildContext context) {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(

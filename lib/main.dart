@@ -21,13 +21,12 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData(fontFamily: "Inter"),
       debugShowCheckedModeBanner: false,
-      home: IntroductionScreen(),
+      home: const IntroductionScreen(),
     );
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initialize();
   }

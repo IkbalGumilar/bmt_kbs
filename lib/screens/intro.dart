@@ -119,7 +119,11 @@ class Slider extends StatelessWidget {
   String title;
   String description;
 
-  Slider({required this.image, required this.title, required this.description});
+  Slider(
+      {super.key,
+      required this.image,
+      required this.title,
+      required this.description});
 
   @override
   Widget build(BuildContext context) {

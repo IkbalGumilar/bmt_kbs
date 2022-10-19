@@ -358,6 +358,7 @@ class InputFieldTransfer extends StatelessWidget {
                           ),
                           trailing: Radio(
                             value: "0",
+                            // ignore: avoid_print
                             onChanged: (value) => print(value),
                             groupValue: const {"key": "0"},
                           ),
@@ -390,6 +391,7 @@ class InputFieldTransfer extends StatelessWidget {
                           ),
                           trailing: Radio(
                             value: "0",
+                            // ignore: avoid_print
                             onChanged: (value) => print(value),
                             groupValue: const {"key": "0"},
                           ),
