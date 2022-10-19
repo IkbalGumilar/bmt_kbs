@@ -1,4 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/features/listrik_pln/token_listrik/pilih_nominal_listrik.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,7 @@ class TokenListrikScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Tagihan Listrik",
+                      "Token Listrik",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
@@ -79,12 +80,18 @@ class TokenListrikScreen extends StatelessWidget {
                 onPressed: () {
                   // ignore: avoid_print
                   print("Cek Token Listrik");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PilihNominalListrikScreen(),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorPallete.primaryColor,
                 ),
                 child: const Text(
-                  "Cek Tagihan Listrik",
+                  "Lanjutkan",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,

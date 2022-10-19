@@ -24,8 +24,6 @@ class _PulsaScreenState extends State<PulsaScreen>
   late TabController _tabController;
   late ScrollController _scrollController;
   late bool fixedScroll = false;
-
-  late bool isSelected = true;
   late int selectedIndex = 1;
 
   @override
