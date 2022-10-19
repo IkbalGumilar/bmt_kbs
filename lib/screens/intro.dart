@@ -4,6 +4,8 @@ import 'package:bmt_kbs/screens/auth/login.dart';
 import 'package:flutter/material.dart';
 
 class IntroductionScreen extends StatefulWidget {
+  const IntroductionScreen({super.key});
+
   @override
   _IntroductionScreenState createState() => _IntroductionScreenState();
 }

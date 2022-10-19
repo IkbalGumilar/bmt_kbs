@@ -1,10 +1,9 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/features/pulsa/status_transaksi_pulsa.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
-class KonfirmasiPulsaScreen extends StatelessWidget {
-  const KonfirmasiPulsaScreen({super.key});
+class KonfirmasiTokenListrik extends StatelessWidget {
+  const KonfirmasiTokenListrik({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -125,101 +124,147 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30.0, vertical: 10.0),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.white,
-                            border: Border.all(
-                              color: Colors.grey[400]!,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    "Bicara semua operator 1 hari",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 10.0),
-                                    child: Text(
-                                      "Paket bicara semua operator 1 hari, 280 mins Onnet + 5 mins AllOpr, 1 hari",
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30.0, vertical: 10.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.grey[400]!,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Token Listrik 5 ribu",
                                       style: TextStyle(
-                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
                                       ),
                                     ),
+                                    Wrap(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Harga",
+                                                style: TextStyle(
+                                                  color: Colors.grey[600]!,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Rp. 5.000",
+                                                style: TextStyle(
+                                                  color: Colors.grey[600]!,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Biaya Admin",
+                                                style: TextStyle(
+                                                  color: Colors.grey[600]!,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Rp. 1.500",
+                                                style: TextStyle(
+                                                  color: Colors.grey[600]!,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Biaya Penanganan",
+                                                style: TextStyle(
+                                                  color: Colors.grey[600]!,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Rp. -0",
+                                                style: TextStyle(
+                                                  color: Colors.grey[600]!,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Sumber Dana",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  Text(
-                                    "Rp. 15.000",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextField(
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    filled: true,
+                                    fillColor: ColorPallete.lightBlueColor,
+                                    prefixIcon: Image.asset(
+                                      "assets/icons/screens/pulsa/poin.png",
+                                      scale: 1.5,
+                                    ),
+                                    suffixIcon: const Icon(Icons.chevron_right),
+                                    hintText: "Pilih Sumber Dana",
+                                    hintStyle: const TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 14,
                                     ),
                                   ),
-                                ]),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Sumber Dana",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide.none,
                                 ),
-                                filled: true,
-                                fillColor: ColorPallete.lightBlueColor,
-                                prefixIcon: Image.asset(
-                                  "assets/icons/screens/pulsa/poin.png",
-                                  scale: 1.5,
-                                ),
-                                suffixIcon: const Icon(Icons.chevron_right),
-                                hintText: "Pilih Sumber Dana",
-                                hintStyle: const TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            const Text(
-                              "*Saldo anda tidak cukup untuk transaksi ini ",
-                              style: TextStyle(
-                                color: Colors.red,
-                              ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -266,14 +311,7 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           // ignore: avoid_print
-                          print("Berpindah ke status transaksi pulsa");
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const StatusTransaksiPulsaScreen(),
-                            ),
-                          );
+                          print("Berpindah ke status token listrik");
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorPallete.primaryColor,

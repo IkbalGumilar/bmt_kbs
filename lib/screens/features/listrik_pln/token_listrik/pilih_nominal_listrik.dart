@@ -1,6 +1,6 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/models/token_listrik_model.dart';
-import 'package:bmt_kbs/screens/features/pulsa/konfirmasi_pulsa.dart';
+import 'package:bmt_kbs/screens/features/listrik_pln/token_listrik/konfirmasi_token_listrik.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -479,7 +479,7 @@ Future<dynamic> nominalTokenBottomSheet(BuildContext context) {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const KonfirmasiPulsaScreen(),
+                                    const KonfirmasiTokenListrik(),
                               ),
                             );
                           },
