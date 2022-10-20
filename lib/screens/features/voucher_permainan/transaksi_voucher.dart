@@ -1,5 +1,6 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/models/voucher_permainan_model.dart';
+import 'package:bmt_kbs/screens/features/voucher_permainan/konfirmasi_voucher_permainan.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/some_text_with_space_between_alignment.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -440,6 +441,11 @@ Future<dynamic> transaksiVoucherBottomSheet(BuildContext context) {
                         child: ElevatedButton(
                           onPressed: () {
                             print("test");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const KonfirmasiVoucherPermainanScreen()));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorPallete.primaryColor,

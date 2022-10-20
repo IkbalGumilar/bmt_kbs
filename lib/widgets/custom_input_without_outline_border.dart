@@ -63,8 +63,17 @@ class CustomInputWithoutOutlineBorder extends StatelessWidget {
               ),
             TextField(
               autocorrect: false,
+              readOnly: true,
               controller: TextEditingController(text: inputValue),
-              decoration: const InputDecoration(),
+              decoration: const InputDecoration(
+                // make focused border same as default border
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                ),
+              ),
               style: TextStyle(
                 fontWeight:
                     isBold == true ? FontWeight.bold : FontWeight.normal,
