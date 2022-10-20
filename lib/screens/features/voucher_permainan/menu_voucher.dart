@@ -122,13 +122,15 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                         currentPos = index;
                       });
 
+                      // ignore: avoid_print
                       print(currentPos);
                     },
                     height: 200,
                     autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 5),
+                    autoPlayInterval: const Duration(seconds: 5),
                     enlargeCenterPage: false,
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayAnimationDuration:
+                        const Duration(milliseconds: 800),
                     autoPlayCurve: Curves.fastOutSlowIn,
                   ),
                   itemBuilder: (context, index, realIndex) {
@@ -165,11 +167,11 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                     },
                   ).toList(),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: Wrap(
                     runSpacing: 10.0,
                     children: [
@@ -188,6 +190,7 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  // ignore: avoid_print
                                   print("Lihat semua yang paling populer");
                                 },
                                 child: const Text(
@@ -244,7 +247,7 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                                         Container(
                                           width: 150,
                                           child: Text(
-                                            "${data.title}",
+                                            data.title,
                                           ),
                                         ),
                                       ],
@@ -271,6 +274,7 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  // ignore: avoid_print
                                   print("Lihat semua yang paling populer");
                                 },
                                 child: const Text(
