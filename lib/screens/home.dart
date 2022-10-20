@@ -3,6 +3,7 @@ import 'package:bmt_kbs/screens/features/penarikan_dana/penarikan_dana.dart';
 import 'package:bmt_kbs/screens/features/pulsa/pulsa.dart';
 import 'package:bmt_kbs/screens/features/listrik_pln/pilih_kategori.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
+import 'package:bmt_kbs/screens/features/voucher_permainan/menu_voucher.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -313,9 +314,20 @@ class HomePage extends StatelessWidget {
                             title: "Tagihan Listrik PLN",
                           ),
                         ),
-                        MenuItem(
-                          iconPath: "vouchergame.png",
-                          title: "Voucher Permainan",
+                        GestureDetector(
+                          onTap: () {
+                            print("Anda beralih ke Voucher Game Screen");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MenuVoucherScreen(),
+                              ),
+                            );
+                          },
+                          child: MenuItem(
+                            iconPath: "vouchergame.png",
+                            title: "Voucher Permainan",
+                          ),
                         ),
                         MenuItem(
                           iconPath: "bpjs.png",
