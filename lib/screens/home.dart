@@ -1,4 +1,5 @@
 import 'package:bmt_kbs/screens/features/bpjs/menu_bpjs.dart';
+import 'package:bmt_kbs/screens/features/internet_dan_tv/menu_internet_dan_tv.dart';
 import 'package:bmt_kbs/screens/features/isi_saldo/isi_saldo.dart';
 import 'package:bmt_kbs/screens/features/pdam/menu_pdam.dart';
 import 'package:bmt_kbs/screens/features/penarikan_dana/penarikan_dana.dart';
@@ -369,9 +370,21 @@ class HomePage extends StatelessWidget {
                             title: "PDAM",
                           ),
                         ),
-                        MenuItem(
-                          iconPath: "internet.png",
-                          title: "Internet dan TV Kabel",
+                        GestureDetector(
+                          onTap: () {
+                            print("Beralih ke Internet & TV Kabel Screen");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const MenuInternetDanTvScreen(),
+                              ),
+                            );
+                          },
+                          child: MenuItem(
+                            iconPath: "internet.png",
+                            title: "Internet dan TV Kabel",
+                          ),
                         ),
                         MenuItem(
                           iconPath: "telkom.png",

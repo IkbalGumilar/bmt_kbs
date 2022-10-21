@@ -63,13 +63,14 @@ flutter:
     - assets/icons/bottom_navigation_icons/
     - assets/img/
     - assets/img/introduction/
-    - assets/screens/isi_saldo/
     - assets/icons/screens/isi_saldo/
     - assets/icons/screens/transfer/
     - assets/icons/screens/penarikan_dana/
     - assets/icons/screens/pulsa/
     - assets/icons/screens/tagihan_listrik_pln/
+    - assets/screens/isi_saldo/
     - assets/screens/voucher_permainan/
+    - assets/screens/internet_dan_tv/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see
