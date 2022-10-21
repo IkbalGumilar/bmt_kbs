@@ -5,6 +5,7 @@ import 'package:bmt_kbs/screens/features/pdam/menu_pdam.dart';
 import 'package:bmt_kbs/screens/features/penarikan_dana/penarikan_dana.dart';
 import 'package:bmt_kbs/screens/features/pulsa/pulsa.dart';
 import 'package:bmt_kbs/screens/features/listrik_pln/menu_pln.dart';
+import 'package:bmt_kbs/screens/features/telkom/menu_telkom.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:bmt_kbs/screens/features/voucher_permainan/menu_voucher.dart';
 import 'package:flutter/material.dart';
@@ -386,9 +387,19 @@ class HomePage extends StatelessWidget {
                             title: "Internet dan TV Kabel",
                           ),
                         ),
-                        MenuItem(
-                          iconPath: "telkom.png",
-                          title: "Tagihan Telkom",
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MenuTelkomScreen(),
+                              ),
+                            );
+                          },
+                          child: MenuItem(
+                            iconPath: "telkom.png",
+                            title: "Tagihan Telkom",
+                          ),
                         ),
                         MenuItem(
                           iconPath: "lainnya.png",
