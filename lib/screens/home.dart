@@ -1,7 +1,9 @@
+import 'package:bmt_kbs/screens/features/bpjs/menu_bpjs.dart';
 import 'package:bmt_kbs/screens/features/isi_saldo/isi_saldo.dart';
+import 'package:bmt_kbs/screens/features/pdam/menu_pdam.dart';
 import 'package:bmt_kbs/screens/features/penarikan_dana/penarikan_dana.dart';
 import 'package:bmt_kbs/screens/features/pulsa/pulsa.dart';
-import 'package:bmt_kbs/screens/features/listrik_pln/pilih_kategori.dart';
+import 'package:bmt_kbs/screens/features/listrik_pln/menu_pln.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:bmt_kbs/screens/features/voucher_permainan/menu_voucher.dart';
 import 'package:flutter/material.dart';
@@ -304,8 +306,7 @@ class HomePage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const PilihKategoriPlnScreen(),
+                                builder: (context) => const MenuPlnScreen(),
                               ),
                             );
                           },
@@ -316,11 +317,12 @@ class HomePage extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
+                            // ignore: avoid_print
                             print("Anda beralih ke Voucher Game Screen");
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MenuVoucherScreen(),
+                                builder: (context) => const MenuVoucherScreen(),
                               ),
                             );
                           },
@@ -329,9 +331,20 @@ class HomePage extends StatelessWidget {
                             title: "Voucher Permainan",
                           ),
                         ),
-                        MenuItem(
-                          iconPath: "bpjs.png",
-                          title: "BPJS Kesehatan",
+                        GestureDetector(
+                          onTap: () {
+                            print("Anda beralih ke BPJS Screen");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MenuBpjsScreen(),
+                              ),
+                            );
+                          },
+                          child: MenuItem(
+                            iconPath: "bpjs.png",
+                            title: "BPJS Kesehatan",
+                          ),
                         ),
                       ],
                     ),
@@ -341,9 +354,20 @@ class HomePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        MenuItem(
-                          iconPath: "pdam.png",
-                          title: "PDAM",
+                        GestureDetector(
+                          onTap: () {
+                            print("Beralih ke PDAM Screen");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MenuPdamScreen(),
+                              ),
+                            );
+                          },
+                          child: MenuItem(
+                            iconPath: "pdam.png",
+                            title: "PDAM",
+                          ),
                         ),
                         MenuItem(
                           iconPath: "internet.png",

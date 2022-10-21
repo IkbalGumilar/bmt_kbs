@@ -3,8 +3,8 @@ import 'package:bmt_kbs/screens/features/listrik_pln/token_listrik/token_listrik
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
-class PilihKategoriPlnScreen extends StatelessWidget {
-  const PilihKategoriPlnScreen({super.key});
+class MenuPlnScreen extends StatelessWidget {
+  const MenuPlnScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
