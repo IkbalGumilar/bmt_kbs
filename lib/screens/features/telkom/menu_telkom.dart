@@ -11,7 +11,7 @@ class MenuTelkomScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "Telkom",
           isHaveActions: false,
@@ -57,7 +57,7 @@ class MenuTelkomScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 40,
-                decoration: BoxDecoration(color: Colors.transparent),
+                decoration: const BoxDecoration(color: Colors.transparent),
                 child: GestureDetector(
                   onTap: () {
                     // ignore: avoid_print
@@ -65,14 +65,14 @@ class MenuTelkomScreen extends StatelessWidget {
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Text(
                         "Tipe Telkom",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      const Icon(
+                      Icon(
                         Icons.chevron_right,
                         color: Colors.grey,
                       ),
@@ -88,6 +88,7 @@ class MenuTelkomScreen extends StatelessWidget {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
+                    // ignore: avoid_print
                     print("Beralih ke detail pembayaran telkom");
 
                     Navigator.push(

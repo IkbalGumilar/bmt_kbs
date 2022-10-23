@@ -1,6 +1,7 @@
 // ignore: must_be_immutable
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class BoxContainerWithRoute extends StatelessWidget {
   BoxContainerWithRoute({
     required this.title,

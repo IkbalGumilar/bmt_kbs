@@ -1,10 +1,14 @@
+import 'package:bmt_kbs/controllers/login_controller.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/home.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  final loginCtrl = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -115,17 +119,23 @@ class LoginPage extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Checkbox(
-                            value: true,
-                            // ignore: avoid_print
-                            onChanged: (value) => print(value),
-                            fillColor: MaterialStateProperty.resolveWith(
-                                (states) => ColorPallete.primaryColor),
-                          ),
-                        ),
+                        Obx(() {
+                          return SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: Checkbox(
+                              value: loginCtrl.isChecked.value,
+                              // ignore: avoid_print
+                              onChanged: (value) {
+                                // ignore: avoid_print
+                                print(value);
+                                loginCtrl.switching();
+                              },
+                              fillColor: MaterialStateProperty.resolveWith(
+                                  (states) => ColorPallete.primaryColor),
+                            ),
+                          );
+                        }),
                         const SizedBox(
                           width: 10,
                         ),

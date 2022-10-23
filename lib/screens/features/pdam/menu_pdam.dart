@@ -11,7 +11,7 @@ class MenuPdamScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "PDAM",
           isHaveActions: false,
@@ -84,6 +84,7 @@ class MenuPdamScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
+                  // ignore: avoid_print
                   print("Beralih ke Detail Tagihan Screen");
                   Navigator.push(
                     context,

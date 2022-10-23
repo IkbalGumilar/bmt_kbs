@@ -17,7 +17,6 @@ class _MenuInternetDanTvScreenState extends State<MenuInternetDanTvScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     value = "Pilih operator layanan";
   }
@@ -26,7 +25,7 @@ class _MenuInternetDanTvScreenState extends State<MenuInternetDanTvScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "Internet & TV Kabel",
           isHaveActions: false,
@@ -72,7 +71,7 @@ class _MenuInternetDanTvScreenState extends State<MenuInternetDanTvScreen> {
               Container(
                 width: double.infinity,
                 height: 40,
-                decoration: BoxDecoration(color: Colors.transparent),
+                decoration: const BoxDecoration(color: Colors.transparent),
                 child: GestureDetector(
                   onTap: () {
                     // ignore: avoid_print

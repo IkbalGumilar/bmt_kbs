@@ -11,7 +11,7 @@ class DetailTagihanPdamScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(title: "PDAM", isHaveActions: false),
       ),
       body: Padding(
@@ -26,7 +26,7 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,7 +69,8 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +94,8 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                             height: 10,
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,7 +132,7 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -173,7 +175,8 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -197,7 +200,8 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                             height: 10,
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

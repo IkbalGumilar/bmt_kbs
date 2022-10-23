@@ -9,7 +9,7 @@ class BpjsKesehatanScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "BPJS",
           isHaveActions: false,
@@ -26,7 +26,7 @@ class BpjsKesehatanScreen extends StatelessWidget {
             child: Container(
               width: double.infinity,
               height: 50,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.amber,
               ),
               child: Row(
@@ -34,17 +34,17 @@ class BpjsKesehatanScreen extends StatelessWidget {
                   Container(
                     width: 50,
                     height: double.infinity,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.red,
                     ),
                     child: Image.asset(
                       "assets/screens/bpjs/logo_bpjs2.png",
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 16,
                   ),
-                  Text("BPJS Kesehatan"),
+                  const Text("BPJS Kesehatan"),
                 ],
               ),
             ),

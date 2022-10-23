@@ -216,6 +216,7 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                                 children: carouselList.map((data) {
                                   return GestureDetector(
                                     onTap: () {
+                                      // ignore: avoid_print
                                       print("Klik voucher");
                                       Navigator.push(
                                           context,
@@ -244,7 +245,7 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        Container(
+                                        SizedBox(
                                           width: 150,
                                           child: Text(
                                             data.title,
@@ -319,10 +320,10 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                                       const SizedBox(
                                         height: 10,
                                       ),
-                                      Container(
+                                      SizedBox(
                                         width: 150,
                                         child: Text(
-                                          "${data.title}",
+                                          data.title,
                                         ),
                                       ),
                                     ],

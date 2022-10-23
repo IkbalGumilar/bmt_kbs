@@ -71,8 +71,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   if (currentIndex == slides.length - 1) {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()),
+                      MaterialPageRoute(builder: (context) => LoginPage()),
                     );
                   } else {
                     _controller.hasClients

@@ -1,6 +1,7 @@
 // ignore: must_be_immutable
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SomeTextWithSpaceBetweenAlignment extends StatelessWidget {
   SomeTextWithSpaceBetweenAlignment({
     Key? key,

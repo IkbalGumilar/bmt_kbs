@@ -19,9 +19,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     selectedIndex = 0;
   }
 

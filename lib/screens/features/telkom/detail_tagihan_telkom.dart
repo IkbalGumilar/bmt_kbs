@@ -1,5 +1,4 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/features/pdam/konfirmasi_tagihan_pdam.dart';
 import 'package:bmt_kbs/screens/features/telkom/konfirmasi_telkom.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,7 @@ class DetailTagihanTelkomScreen extends StatelessWidget {
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Column(
                             children: [
                               Row(
@@ -103,7 +102,8 @@ class DetailTagihanTelkomScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,7 +127,8 @@ class DetailTagihanTelkomScreen extends StatelessWidget {
                             height: 10,
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -164,7 +165,7 @@ class DetailTagihanTelkomScreen extends StatelessWidget {
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,7 +208,8 @@ class DetailTagihanTelkomScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -231,7 +233,8 @@ class DetailTagihanTelkomScreen extends StatelessWidget {
                             height: 10,
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

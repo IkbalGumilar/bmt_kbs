@@ -335,6 +335,7 @@ class HomePage extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
+                            // ignore: avoid_print
                             print("Anda beralih ke BPJS Screen");
                             Navigator.push(
                               context,
@@ -358,6 +359,7 @@ class HomePage extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
+                            // ignore: avoid_print
                             print("Beralih ke PDAM Screen");
                             Navigator.push(
                               context,
@@ -373,6 +375,7 @@ class HomePage extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
+                            // ignore: avoid_print
                             print("Beralih ke Internet & TV Kabel Screen");
                             Navigator.push(
                               context,

@@ -1,6 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/pdam/status_transaksi_pdam.dart';
-import 'package:bmt_kbs/screens/features/voucher_permainan/status_transaksi_voucher_permainan.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
