@@ -71,6 +71,7 @@ flutter:
     - assets/screens/isi_saldo/
     - assets/screens/voucher_permainan/
     - assets/screens/internet_dan_tv/
+    - assets/screens/bpjs/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

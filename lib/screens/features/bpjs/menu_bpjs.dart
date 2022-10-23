@@ -1,3 +1,6 @@
+import 'package:bmt_kbs/screens/features/bpjs/bpjs_kesehatan/bpjs_kesehatan.dart';
+import 'package:bmt_kbs/screens/features/bpjs/bpjs_ketenagakerjaan/bpjs_ketenagakerjaan.dart';
+import 'package:bmt_kbs/widgets/box_container_with_route.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +18,30 @@ class MenuBpjsScreen extends StatelessWidget {
           isHaveActions: false,
         ),
       ),
-      body: Center(
-        child: Text("Testing"),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(
+          vertical: 20.0,
+          horizontal: 30.0,
+        ),
+        children: [
+          Column(
+            children: [
+              BoxContainerWithRoute(
+                title: "BPJS Kesehatan",
+                route: const BpjsKesehatanScreen(),
+                imgIcon: "assets/screens/bpjs/logo_bpjs.png",
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              BoxContainerWithRoute(
+                title: "BPJS Ketenagakerjaan",
+                route: const BpjsKetenagakerjaanScreen(),
+                imgIcon: "assets/screens/bpjs/logo_bpjs.png",
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
