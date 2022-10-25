@@ -1,14 +1,21 @@
-import 'package:bmt_kbs/controllers/login_controller.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/home.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
-  final loginCtrl = Get.put(LoginController());
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool isChecked = false;
+
+  void toggleCheckbox(bool value) {
+    isChecked == false ? isChecked = true : isChecked = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,23 +126,24 @@ class LoginPage extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Obx(() {
-                          return SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: Checkbox(
-                              value: loginCtrl.isChecked.value,
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: Checkbox(
+                            value: isChecked,
+                            // ignore: avoid_print
+                            onChanged: (value) {
                               // ignore: avoid_print
-                              onChanged: (value) {
-                                // ignore: avoid_print
-                                print(value);
-                                loginCtrl.switching();
-                              },
-                              fillColor: MaterialStateProperty.resolveWith(
-                                  (states) => ColorPallete.primaryColor),
-                            ),
-                          );
-                        }),
+                              print(value);
+
+                              setState(() {
+                                toggleCheckbox(value!);
+                              });
+                            },
+                            fillColor: MaterialStateProperty.resolveWith(
+                                (states) => ColorPallete.primaryColor),
+                          ),
+                        ),
                         const SizedBox(
                           width: 10,
                         ),

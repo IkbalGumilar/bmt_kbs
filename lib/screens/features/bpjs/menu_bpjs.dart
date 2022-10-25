@@ -28,7 +28,7 @@ class MenuBpjsScreen extends StatelessWidget {
             children: [
               BoxContainerWithRoute(
                 title: "BPJS Kesehatan",
-                route: const BpjsKesehatanScreen(),
+                route: BpjsKesehatanScreen(),
                 imgIcon: "assets/screens/bpjs/logo_bpjs.png",
               ),
               const SizedBox(

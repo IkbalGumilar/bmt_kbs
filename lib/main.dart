@@ -1,7 +1,6 @@
 import 'package:bmt_kbs/screens/intro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:get/get.dart';
 
 void main(List<String> args) {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       theme: ThemeData(fontFamily: "Inter"),
       debugShowCheckedModeBanner: false,
       home: const IntroductionScreen(),

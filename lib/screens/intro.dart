@@ -116,7 +116,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
           padding: const EdgeInsets.only(
             left: 30.0,
             right: 30.0,
-            top: 10.0,
+            top: 15.0,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
