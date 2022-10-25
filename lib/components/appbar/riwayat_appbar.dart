@@ -1,4 +1,4 @@
-import 'package:bmt_kbs/widgets/custom_appbar.dart';
+import 'package:bmt_kbs/screens/initial_page.dart';
 import 'package:flutter/material.dart';
 
 class RiwayatScreenAppBar extends StatelessWidget {
@@ -6,9 +6,28 @@ class RiwayatScreenAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomAppBar(
-      title: "Riwayat",
-      isHaveActions: false,
+    return AppBar(
+      iconTheme: const IconThemeData(color: Colors.black),
+      toolbarHeight: 60,
+      title: const Text(
+        "Riwayat Transaksi",
+        style: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+      ),
+      centerTitle: false,
+      backgroundColor: Colors.white,
+      elevation: 0.0,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios),
+        onPressed: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const InitialPageScreen(),
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -64,6 +64,7 @@ flutter:
     - assets/icons/menu_icons/
     - assets/icons/bottom_navigation_icons/
     - assets/img/
+    - assets/images/
     - assets/img/introduction/
     - assets/icons/screens/isi_saldo/
     - assets/icons/screens/transfer/

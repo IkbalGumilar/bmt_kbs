@@ -47,7 +47,8 @@ class _InitialPageScreenState extends State<InitialPageScreen> {
       ),
       body: _bottomNavigationPages[_selectedIndex],
       backgroundColor: Colors.white,
-      bottomNavigationBar: _customBottomNavigationBar(),
+      bottomNavigationBar:
+          _selectedIndex < 1 ? _customBottomNavigationBar() : null,
     );
   }
 
