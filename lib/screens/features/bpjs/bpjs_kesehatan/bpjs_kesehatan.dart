@@ -16,7 +16,7 @@ class BpjsKesehatanScreen extends StatefulWidget {
 
 class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
   String dateState = "Pilih Bulan";
-  bool tagihanLunas = false;
+  bool tagihanLunas = true;
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +162,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   if (tagihanLunas == false) {
-                    tagihanKesehatanTersediaBottomSheet(context);
+                    _tagihanKesehatanTersediaBottomSheet(context);
                   } else {
                     Navigator.push(
                       context,
@@ -192,7 +192,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
     );
   }
 
-  Future<dynamic> tagihanKesehatanTersediaBottomSheet(BuildContext context) {
+  Future<dynamic> _tagihanKesehatanTersediaBottomSheet(BuildContext context) {
     return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

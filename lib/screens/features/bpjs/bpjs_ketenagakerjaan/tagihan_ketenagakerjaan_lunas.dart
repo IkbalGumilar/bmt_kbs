@@ -2,8 +2,8 @@ import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
-class TagihanKesehatanLunasScreen extends StatelessWidget {
-  const TagihanKesehatanLunasScreen({super.key});
+class TagihanKetenagakerjaanLunasScreen extends StatelessWidget {
+  const TagihanKetenagakerjaanLunasScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class TagihanKesehatanLunasScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: CustomAppBar(
-          title: "BPJS Kesehatan",
+          title: "BPJS Ketenagakerjaan",
           isHaveActions: false,
         ),
       ),
@@ -32,7 +32,7 @@ class TagihanKesehatanLunasScreen extends StatelessWidget {
                   runSpacing: 10,
                   children: [
                     const Text(
-                      "ID Pelanggan ",
+                      "ID Pelanggan",
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
@@ -71,7 +71,7 @@ class TagihanKesehatanLunasScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(
+          SizedBox(
             height: 50,
           ),
           Center(
@@ -81,7 +81,7 @@ class TagihanKesehatanLunasScreen extends StatelessWidget {
                   'assets/img/tagihan_lunas.png',
                   width: 150,
                 ),
-                const Padding(
+                Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Text(
                     "Kamu tidak memiliki tagihan baru",
