@@ -10,7 +10,7 @@ class TagihanKesehatanLunasScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "BPJS Kesehatan",
           isHaveActions: false,
@@ -82,7 +82,7 @@ class TagihanKesehatanLunasScreen extends StatelessWidget {
                   width: 150,
                 ),
                 const Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: Text(
                     "Kamu tidak memiliki tagihan baru",
                     style: TextStyle(

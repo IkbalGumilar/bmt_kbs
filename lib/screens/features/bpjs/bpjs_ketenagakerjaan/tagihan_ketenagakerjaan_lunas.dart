@@ -10,7 +10,7 @@ class TagihanKetenagakerjaanLunasScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "BPJS Ketenagakerjaan",
           isHaveActions: false,
@@ -71,7 +71,7 @@ class TagihanKetenagakerjaanLunasScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           Center(
@@ -81,8 +81,8 @@ class TagihanKetenagakerjaanLunasScreen extends StatelessWidget {
                   'assets/img/tagihan_lunas.png',
                   width: 150,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: Text(
                     "Kamu tidak memiliki tagihan baru",
                     style: TextStyle(

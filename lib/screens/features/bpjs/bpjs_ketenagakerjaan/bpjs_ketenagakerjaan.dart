@@ -1,6 +1,4 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/features/bpjs/bpjs_kesehatan/konfirmasi_bpjs_kesehatan.dart';
-import 'package:bmt_kbs/screens/features/bpjs/bpjs_kesehatan/tagihan_kesehatan_lunas.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_ketenagakerjaan/konfirmasi_bpjs_ketenagakerjaan.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_ketenagakerjaan/tagihan_ketenagakerjaan_lunas.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
