@@ -1,4 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/features/bpjs/bpjs_kesehatan/konfirmasi_bpjs_kesehatan.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_kesehatan/tagihan_kesehatan_lunas.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class BpjsKesehatanScreen extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   BpjsKesehatanScreen({super.key});
 
   @override
@@ -592,7 +594,15 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                         child: SizedBox(
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const KonfirmasiBpjsKesehatanScreen(),
+                                ),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: ColorPallete.primaryColor,
                               shape: RoundedRectangleBorder(

@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   LoginPage({super.key});
 
   @override
