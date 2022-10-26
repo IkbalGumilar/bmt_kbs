@@ -1,4 +1,7 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/bottom_navigation/notifikasi/detail_pesan.dart';
+import 'package:bmt_kbs/screens/bottom_navigation/notifikasi/notifikasi_topup_berhasil.dart';
+import 'package:bmt_kbs/screens/bottom_navigation/notifikasi/notifikasi_transfer_berhasil.dart';
 import 'package:flutter/material.dart';
 
 class NotifikasiScreen extends StatelessWidget {
@@ -16,8 +19,14 @@ class NotifikasiScreen extends StatelessWidget {
               const TabBar(
                 indicatorColor: ColorPallete.primaryColor,
                 labelColor: Colors.black,
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                ),
                 tabs: [
-                  Tab(text: 'Notifikasi'),
+                  Tab(
+                    text: 'Notifikasi',
+                  ),
                   Tab(text: 'Pesan'),
                 ],
               ),
@@ -96,10 +105,14 @@ class NotifikasiScreen extends StatelessWidget {
                     ),
                   ),
                   NotifikasiItem(
-                    value: "Top up Rp. 200.000 dari BANK BCA telah berhasil ",
+                    value: "Top up Rp. 200.000 dari BANK BCA telah berhasil",
+                    isHaveNextScreen: true,
+                    nextScreenRoute: const NotifikasiTopUpBerhasilScreen(),
                   ),
                   NotifikasiItem(
                     value: "Transfer ke CentralAssesmenindo-HADI MULYADI",
+                    isHaveNextScreen: true,
+                    nextScreenRoute: const NotifikasiTransferBerhasilScreen(),
                   ),
                   NotifikasiItem(
                     value:
@@ -162,26 +175,36 @@ class _PesanItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 60,
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.grey[300]!),
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            message,
-            style: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-            ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DetailPesanScreen(),
           ),
-        ],
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        height: 60,
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: Colors.grey[300]!),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              message,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -191,36 +214,81 @@ class _PesanItem extends StatelessWidget {
 class NotifikasiItem extends StatelessWidget {
   NotifikasiItem({
     required this.value,
+    this.isHaveNextScreen,
+    this.nextScreenRoute,
     Key? key,
   }) : super(key: key);
 
   late String value;
+  bool? isHaveNextScreen = false;
+  Widget? nextScreenRoute;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 60,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(bottom: BorderSide(color: Colors.grey[300]!))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: Text(
-              value,
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
+    if (isHaveNextScreen == true) {
+      return GestureDetector(
+        onTap: () {
+          if (nextScreenRoute != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => nextScreenRoute!,
+              ),
+            );
+          } else {
+            print("next screen route is null");
+          }
+        },
+        child: Container(
+          width: double.infinity,
+          height: 60,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(bottom: BorderSide(color: Colors.grey[300]!))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Text(
+                  value,
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        width: double.infinity,
+        height: 60,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(bottom: BorderSide(color: Colors.grey[300]!))),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Text(
+                value,
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    }
   }
 }
