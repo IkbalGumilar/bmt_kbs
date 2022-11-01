@@ -1,3 +1,4 @@
+import 'package:bmt_kbs/screens/features/scan/scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:bmt_kbs/screens/features/bpjs/menu_bpjs.dart';
 import 'package:bmt_kbs/screens/features/internet_dan_tv/menu_internet_dan_tv.dart';
@@ -198,7 +199,12 @@ class HomeScreen extends StatelessWidget {
                                 child: GestureDetector(
                                   onTap: () {
                                     // ignore: avoid_print
-                                    print("Beralih ke Scan");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ScannerScreen(),
+                                      ),
+                                    );
                                   },
                                   child: Image.asset(
                                     'assets/icons/card_icons/fourth.png',
