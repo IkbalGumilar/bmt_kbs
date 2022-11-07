@@ -25,7 +25,7 @@ class _InitialPageScreenState extends State<InitialPageScreen> {
   }
 
   final List<Widget> _bottomNavigationPages = [
-    const HomeScreen(),
+    HomeScreen(),
     const RiwayatScreen(),
     const NotifikasiScreen(),
     const ProfileScreen(),

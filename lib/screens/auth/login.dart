@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:http/http.dart' as http;
@@ -23,51 +24,62 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
 
-
   void toggleCheckbox(bool value) {
     isChecked == false ? isChecked = true : isChecked = false;
   }
-  login() async{
-    final prefs = await SharedPreferences.getInstance();
-    Uri url = Uri.parse(IpAdress().getIp + '/api/login');
-    var response = await http.post(
-      url, headers: {
+
+  login() async {
+    try {
+      var errMsg = 'ini toast';
+      print('ini debug');
+      final prefs = await SharedPreferences.getInstance();
+      Uri url = Uri.parse(IpAdress().getIp + '/api/login');
+      var response = await http.post(url, headers: {
         "Accept": 'application/json',
-      },
-      body: {
+      }, body: {
         "email": emailC.text,
         "password": passwordC.text,
-      }
-    ); 
+      });
 
-    var data = json.decode(response.body);
+      var data = json.decode(response.body);
 
-    await prefs.setString('token', data['token']);
+      log(data.toString());
 
-    print('ini debug');
-    print(data ['message'] );
-    print(data ['errors'] ['password']);
+      prefs.setString('token', data['token']);
+      prefs.setString('nama', data['profile']['name']);
+      prefs.setString('saldo', data['wallet']['credit']);
+      prefs.setString('img', data['profile']['url_photo_profile']);
 
-    if(response.statusCode == 200) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) =>
-          const InitialPageScreen(),
+      print('ini debug');
+
+      if (response.statusCode == 200) {
+        print(data);
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const InitialPageScreen(),
           ),
         );
-    }
-      else {
+      } else {
         var errMsg = data['message'];
         Fluttertoast.showToast(
-        msg: errMsg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
+            msg: errMsg,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'Email atau password salah!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 
   @override
@@ -151,7 +163,6 @@ class _LoginPageState extends State<LoginPage> {
                             ElevatedButton(
                               onPressed: () {
                                 login();
-                                
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: ColorPallete.primaryColor,

@@ -10,9 +10,36 @@ import 'package:bmt_kbs/screens/features/listrik_pln/menu_pln.dart';
 import 'package:bmt_kbs/screens/features/telkom/menu_telkom.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:bmt_kbs/screens/features/voucher_permainan/menu_voucher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String? authNama, authSaldo, authPoto;
+
+  void userProfile() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    var token = _prefs.getString('token');
+    var nama = _prefs.getString('nama');
+    var saldo = _prefs.getString('saldo');
+    var poto = _prefs.getString('img');
+
+    authNama = nama;
+    authSaldo = saldo;
+    authPoto = poto;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userProfile();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +69,13 @@ class HomeScreen extends StatelessWidget {
                       // -- SISA SALDO SECTION --
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
                             "Sisa Saldo",
                             style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
                           Text(
-                            "Rp.823.123",
+                            "Rp.$authSaldo",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
