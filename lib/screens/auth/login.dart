@@ -1,7 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:bmt_kbs/config/ip.dart';
+import 'package:http/http.dart' as http;
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/initial_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -13,9 +20,54 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool isChecked = false;
+  TextEditingController emailC = TextEditingController();
+  TextEditingController passwordC = TextEditingController();
+
 
   void toggleCheckbox(bool value) {
     isChecked == false ? isChecked = true : isChecked = false;
+  }
+  login() async{
+    final prefs = await SharedPreferences.getInstance();
+    Uri url = Uri.parse(IpAdress().getIp + '/api/login');
+    var response = await http.post(
+      url, headers: {
+        "Accept": 'application/json',
+      },
+      body: {
+        "email": emailC.text,
+        "password": passwordC.text,
+      }
+    ); 
+
+    var data = json.decode(response.body);
+
+    await prefs.setString('token', data['token']);
+
+    print('ini debug');
+    print(data ['message'] );
+    print(data ['errors'] ['password']);
+
+    if(response.statusCode == 200) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) =>
+          const InitialPageScreen(),
+          ),
+        );
+    }
+      else {
+        var errMsg = data['message'];
+        Fluttertoast.showToast(
+        msg: errMsg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+      }
   }
 
   @override
@@ -48,18 +100,18 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   LoginInputWidget(
-                    label: "Nama Pengguna",
-                    inputIcon: Icons.account_circle_rounded,
-                    hint: "Masukkan Nama Pengguna",
-                  ),
+                      label: "Email",
+                      inputIcon: Icons.account_circle_rounded,
+                      hint: "Masukkan Nama Pengguna",
+                      myController: emailC),
                   const SizedBox(
                     height: 20,
                   ),
                   LoginInputWidget(
-                    label: "Password",
-                    inputIcon: Icons.lock,
-                    hint: "Masukkan Password",
-                  ),
+                      label: "Password",
+                      inputIcon: Icons.lock,
+                      hint: "Masukkan Password",
+                      myController: passwordC),
                   const SizedBox(
                     height: 20,
                   ),
@@ -98,12 +150,8 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const InitialPageScreen(),
-                                  ),
-                                );
+                                login();
+                                
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: ColorPallete.primaryColor,
@@ -206,11 +254,13 @@ class LoginInputWidget extends StatelessWidget {
   String label;
   String hint;
   IconData inputIcon;
+  TextEditingController myController;
 
   LoginInputWidget({
     required this.label,
     required this.inputIcon,
     required this.hint,
+    required this.myController,
     Key? key,
   }) : super(key: key);
 
@@ -231,6 +281,7 @@ class LoginInputWidget extends StatelessWidget {
           height: 10,
         ),
         TextField(
+          controller: myController,
           autocorrect: false,
           decoration: InputDecoration(
             filled: true,
