@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/screens/features/scan/scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:bmt_kbs/screens/features/bpjs/menu_bpjs.dart';
@@ -13,6 +15,7 @@ import 'package:bmt_kbs/screens/features/telkom/menu_telkom.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:bmt_kbs/screens/features/voucher_permainan/menu_voucher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -22,17 +25,35 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? authNama, authSaldo, authPoto;
+  String? authNama, authSaldo, authPoto, authPoint;
 
   void userProfile() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var token = _prefs.getString('token');
     var saldo = _prefs.getString('saldo');
 
-    authSaldo = saldo;
+    setState(() {
+      authSaldo = saldo;
+    });
 
     log("SALDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO    " + saldo.toString());
     log("Auth sasaasasasasasa    " + authSaldo.toString());
+  }
+
+  getPoint() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    var token = _prefs.getString('token');
+    Uri url = Uri.parse(IpAdress().getIp + '/api/point');
+    var response = await http.post(
+      url,
+      headers: {"Accept": 'application/json', "Authorization": "Bearer $token"},
+    );
+    var _data = jsonDecode(response.body);
+    var point = _data['data']['point'].toString();
+    log(_data['data']['point'].toString());
+    setState(() {
+      authPoint = point;
+    });
   }
 
   @override
@@ -40,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     userProfile();
+    getPoint();
   }
 
   @override
@@ -89,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Column(
                         children: [
                           Container(
-                            width: 120,
+                            width: 140,
                             height: 36,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -104,9 +126,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     width: 28,
                                   ),
                                   Wrap(
-                                    children: const [
+                                    children: [
                                       Text(
-                                        "9.000 poin",
+                                        "$authPoint poin",
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 12,

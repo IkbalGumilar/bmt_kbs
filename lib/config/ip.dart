@@ -1,7 +1,7 @@
 class IpAdress {
-  String ip = 'http://192.168.100.80:8000';
+  String ip = 'http://192.168.100.66:8000';
 
-  get getIp{
+  get getIp {
     return ip;
   }
 }

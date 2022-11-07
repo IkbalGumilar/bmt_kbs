@@ -17,9 +17,10 @@ class _HomeScreenAppBarState extends State<HomeScreenAppBar> {
     var token = _prefs.getString('token');
     var nama = _prefs.getString('nama');
     var poto = _prefs.getString('img');
-
-    authNama = nama;
-    authPoto = poto;
+    setState(() {
+      authNama = nama;
+      authPoto = poto;
+    });
 
     log(poto.toString());
   }
@@ -48,7 +49,7 @@ class _HomeScreenAppBarState extends State<HomeScreenAppBar> {
               borderRadius: BorderRadius.circular(1000),
               image: DecorationImage(
                 image: NetworkImage(
-                    '${authPoto != null ? authPoto : "https://png.pngtree.com/png-vector/20190223/ourmid/pngtree-profile-glyph-black-icon-png-image_691589.jpg"}'),
+                    'https://png.pngtree.com/png-vector/20190223/ourmid/pngtree-profile-glyph-black-icon-png-image_691589.jpg'),
                 fit: BoxFit.cover,
               ),
             ),

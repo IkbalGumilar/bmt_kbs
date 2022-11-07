@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/isi_saldo/konfirmasi.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class IsiSaldoScreen extends StatefulWidget {
   const IsiSaldoScreen({super.key});
@@ -12,20 +17,35 @@ class IsiSaldoScreen extends StatefulWidget {
 }
 
 class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
-  String? authSaldo;
+  String? authSaldo, authPoint;
 
-  void _getSaldo() async {
+  getSaldoDanPoint() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
+    var token = _prefs.getString('token');
     var saldo = _prefs.getString('saldo');
+    Uri url = Uri.parse(IpAdress().getIp + '/api/point');
+    var response = await http.post(
+      url,
+      headers: {"Accept": 'application/json', "Authorization": "Bearer $token"},
+    );
 
-    authSaldo = saldo;
+    var _data = jsonDecode(response.body);
+    var point = _data['data']['point'].toString();
+
+    log(_data['data']['point'].toString());
+    log(saldo.toString());
+
+    setState(() {
+      authPoint = point;
+      authSaldo = saldo;
+    });
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getSaldo();
+    getSaldoDanPoint();
   }
 
   @override
@@ -96,7 +116,7 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                         Column(
                           children: [
                             Container(
-                              width: 120,
+                              width: 140,
                               height: 36,
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -111,9 +131,9 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                                       width: 28,
                                     ),
                                     Wrap(
-                                      children: const [
+                                      children: [
                                         Text(
-                                          "9.000 poin",
+                                          "$authPoint poin",
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12,

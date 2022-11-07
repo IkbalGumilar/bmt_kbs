@@ -50,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
       prefs.setString('token', data['token']);
       prefs.setString('nama', data['profile']['name']);
       prefs.setString('saldo', data['wallet']['credit']);
+      // prefs.setString(key, data['']['']);
       prefs.setString('img', data['profile']['url_photo_profile']);
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
@@ -126,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   LoginInputWidget(
+                      inputType: TextInputType.emailAddress,
                       label: "Email",
                       inputIcon: Icons.account_circle_rounded,
                       hint: "Masukkan Nama Pengguna",
@@ -134,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20,
                   ),
                   LoginInputWidget(
+                      inputType: TextInputType.visiblePassword,
                       label: "Password",
                       inputIcon: Icons.lock,
                       hint: "Masukkan Password",
@@ -283,12 +286,14 @@ class LoginInputWidget extends StatelessWidget {
   String hint;
   IconData inputIcon;
   TextEditingController myController;
+  TextInputType inputType;
 
   LoginInputWidget({
     required this.label,
     required this.inputIcon,
     required this.hint,
     required this.myController,
+    required this.inputType,
     Key? key,
   }) : super(key: key);
 
@@ -311,6 +316,7 @@ class LoginInputWidget extends StatelessWidget {
         TextField(
           controller: myController,
           autocorrect: false,
+          keyboardType: inputType,
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color.fromARGB(10, 44, 80, 203),
