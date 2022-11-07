@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bmt_kbs/screens/features/scan/scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:bmt_kbs/screens/features/bpjs/menu_bpjs.dart';
@@ -25,13 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void userProfile() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var token = _prefs.getString('token');
-    var nama = _prefs.getString('nama');
     var saldo = _prefs.getString('saldo');
-    var poto = _prefs.getString('img');
 
-    authNama = nama;
     authSaldo = saldo;
-    authPoto = poto;
+
+    log("SALDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO    " + saldo.toString());
+    log("Auth sasaasasasasasa    " + authSaldo.toString());
   }
 
   @override
@@ -43,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print(authSaldo);
     return ListView(
       padding: const EdgeInsets.all(10.0),
       children: [

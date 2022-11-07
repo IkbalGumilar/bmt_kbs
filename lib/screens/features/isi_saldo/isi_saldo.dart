@@ -2,9 +2,31 @@ import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/isi_saldo/konfirmasi.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class IsiSaldoScreen extends StatelessWidget {
+class IsiSaldoScreen extends StatefulWidget {
   const IsiSaldoScreen({super.key});
+
+  @override
+  State<IsiSaldoScreen> createState() => _IsiSaldoScreenState();
+}
+
+class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
+  String? authSaldo;
+
+  void _getSaldo() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    var saldo = _prefs.getString('saldo');
+
+    authSaldo = saldo;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getSaldo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +74,14 @@ class IsiSaldoScreen extends StatelessWidget {
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               "Sisa Saldo",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 14),
                             ),
                             Text(
-                              "Rp.823.123",
+                              "Rp.$authSaldo",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,

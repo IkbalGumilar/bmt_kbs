@@ -21,6 +21,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool isChecked = false;
+  bool isDisabled = true;
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
 
@@ -29,48 +30,61 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   login() async {
-    try {
-      var errMsg = 'ini toast';
-      print('ini debug');
-      final prefs = await SharedPreferences.getInstance();
-      Uri url = Uri.parse(IpAdress().getIp + '/api/login');
-      var response = await http.post(url, headers: {
-        "Accept": 'application/json',
-      }, body: {
-        "email": emailC.text,
-        "password": passwordC.text,
-      });
+    final prefs = await SharedPreferences.getInstance();
+    Uri url = Uri.parse(IpAdress().getIp + '/api/login');
+    var response = await http.post(url, headers: {
+      "Accept": 'application/json',
+    }, body: {
+      "email": emailC.text,
+      "password": passwordC.text,
+    });
 
-      var data = json.decode(response.body);
+    var data = json.decode(response.body);
 
-      log(data.toString());
+    log(data.toString());
+    log(response.statusCode.toString());
+
+    if (response.statusCode == 200) {
+      print(data);
 
       prefs.setString('token', data['token']);
       prefs.setString('nama', data['profile']['name']);
       prefs.setString('saldo', data['wallet']['credit']);
       prefs.setString('img', data['profile']['url_photo_profile']);
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const InitialPageScreen(),
+        ),
+        (Route<dynamic> route) => false,
+      );
+    } else if (response.statusCode == 422) {
+      var errEmail = data['errors']['email'];
+      var errPassword = data['errors']['password'];
 
-      print('ini debug');
+      print(errEmail);
+      print(errPassword);
 
-      if (response.statusCode == 200) {
-        print(data);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const InitialPageScreen(),
-          ),
-        );
-      } else {
-        var errMsg = data['message'];
+      if (errEmail != null) {
         Fluttertoast.showToast(
-            msg: errMsg,
+            msg: 'Email masih kosong!',
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
+      } else if (errEmail != null || errPassword != null) {
+        Fluttertoast.showToast(
+            msg:
+                'Kredensial Anda tidak cocok dengan data Kami, harap cek kembali inputan Anda!',
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
-    } catch (e) {
+    } else if (response.statusCode == 401) {
       Fluttertoast.showToast(
           msg: 'Email atau password salah!',
           toastLength: Toast.LENGTH_SHORT,
@@ -162,10 +176,12 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                login();
+                                isDisabled == false ? login() : null;
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorPallete.primaryColor,
+                                backgroundColor: isDisabled == false
+                                    ? ColorPallete.primaryColor
+                                    : Colors.grey,
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 20),
                               ),
@@ -199,6 +215,7 @@ class _LoginPageState extends State<LoginPage> {
 
                               setState(() {
                                 toggleCheckbox(value!);
+                                isDisabled = !isDisabled;
                               });
                             },
                             fillColor: MaterialStateProperty.resolveWith(
