@@ -7,20 +7,23 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 class KonfirmasiIsiSaldoScreen extends StatefulWidget {
-  const KonfirmasiIsiSaldoScreen({super.key});
-
+  KonfirmasiIsiSaldoScreen({Key? key, @required this.text}) : super(key: key);
+  var text;
   @override
   State<KonfirmasiIsiSaldoScreen> createState() =>
-      _KonfirmasiIsiSaldoScreenState();
+      _KonfirmasiIsiSaldoScreenState(text);
 }
 
 class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
+  _KonfirmasiIsiSaldoScreenState(this.text);
+  var text;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
+        preferredSize: Size.fromHeight(60),
         child: CustomAppBar(
           title: "Konfirmasi",
           isHaveActions: true,
@@ -39,7 +42,7 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
           ),
           CustomInputWithoutOutlineBorder(
             label: "Jumlah top-up",
-            inputValue: "Rp. 50.000",
+            inputValue: "Rp. $text",
             isBanking: false,
           ),
           CustomInputWithoutOutlineBorder(

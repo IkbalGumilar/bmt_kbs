@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:bmt_kbs/config/ip.dart';
+import 'package:bmt_kbs/etc/custom_format.dart';
 import 'package:bmt_kbs/screens/features/scan/scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:bmt_kbs/screens/features/bpjs/menu_bpjs.dart';
@@ -14,10 +14,9 @@ import 'package:bmt_kbs/screens/features/listrik_pln/menu_pln.dart';
 import 'package:bmt_kbs/screens/features/telkom/menu_telkom.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:bmt_kbs/screens/features/voucher_permainan/menu_voucher.dart';
-import 'package:intl/locale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart' as intl;
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -27,18 +26,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? authNama, authSaldo, authPoto, authPoint;
+  String? authNama, authPoto, authPoint;
+  String? authSaldo;
 
   void userProfile() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var token = _prefs.getString('token');
     var saldo = _prefs.getString('saldo');
+    var val = double.parse(saldo!);
+    var formatedSaldo = CustomFormat.UbahFormatRupiah(val, 0);
 
     setState(() {
-      authSaldo = saldo;
+      authSaldo = formatedSaldo;
     });
-    log("SALDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO    " + saldo.toString());
-    log("Auth sasaasasasasasa    " + authSaldo.toString());
+
+    print(authSaldo);
   }
 
   getPoint() async {
@@ -51,9 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     var _data = jsonDecode(response.body);
     var point = _data['data']['point'].toString();
-    log(_data['data']['point'].toString());
+    var parsedVal = double.parse(point);
+    var formatedPoint = NumberFormat.currency(name: "").format(parsedVal);
+    log(formatedPoint);
     setState(() {
-      authPoint = point;
+      authPoint = formatedPoint;
     });
   }
 
@@ -100,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
                           Text(
-                            "Rp.$authSaldo",
+                            "$authSaldo",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
@@ -112,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Column(
                         children: [
                           Container(
-                            width: 140,
+                            width: 150,
                             height: 36,
                             decoration: BoxDecoration(
                               color: Colors.white,
