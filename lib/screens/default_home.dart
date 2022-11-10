@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var _data = jsonDecode(response.body);
     var point = _data['data']['point'].toString();
     var parsedVal = double.parse(point);
-    var formatedPoint = NumberFormat.currency(name: "").format(parsedVal);
+    var formatedPoint = CustomFormat.UbahFormatPoint(parsedVal, 0);
     log(formatedPoint);
     setState(() {
       authPoint = formatedPoint;

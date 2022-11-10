@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/isi_saldo/status_transaksi_isi_saldo.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
@@ -7,19 +9,32 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 class KonfirmasiIsiSaldoScreen extends StatefulWidget {
-  KonfirmasiIsiSaldoScreen({Key? key, @required this.text}) : super(key: key);
-  var text;
+  KonfirmasiIsiSaldoScreen(
+      {Key? key, required this.jmlTopup, required this.dataTransaksi})
+      : super(key: key);
+  String jmlTopup;
+  Map<String, dynamic> dataTransaksi;
+
   @override
   State<KonfirmasiIsiSaldoScreen> createState() =>
-      _KonfirmasiIsiSaldoScreenState(text);
+      _KonfirmasiIsiSaldoScreenState();
 }
 
 class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
-  _KonfirmasiIsiSaldoScreenState(this.text);
-  var text;
+  late String _jmlTopup;
+  late Map<String, dynamic> _dataTransaksi;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _jmlTopup = widget.jmlTopup;
+    _dataTransaksi = widget.dataTransaksi;
+  }
 
   @override
   Widget build(BuildContext context) {
+    log(_dataTransaksi.toString());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -42,7 +57,7 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
           ),
           CustomInputWithoutOutlineBorder(
             label: "Jumlah top-up",
-            inputValue: "Rp. $text",
+            inputValue: "Rp. DEFULt",
             isBanking: false,
           ),
           CustomInputWithoutOutlineBorder(

@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
       prefs.setString('token', data['token']);
       prefs.setString('nama', data['profile']['name']);
       prefs.setString('saldo', data['wallet']['credit']);
-      // prefs.setString(key, data['']['']);
+      prefs.setString('email', data['profile']['email']);
       prefs.setString('img', data['profile']['url_photo_profile']);
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
