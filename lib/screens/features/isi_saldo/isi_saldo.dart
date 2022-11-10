@@ -9,7 +9,6 @@ import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 class IsiSaldoScreen extends StatefulWidget {
   const IsiSaldoScreen({super.key});
@@ -21,14 +20,13 @@ class IsiSaldoScreen extends StatefulWidget {
 class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
   String? authSaldo, authPoint;
   TextEditingController saldoC = TextEditingController();
-  var authId, authJumlah, authBank, authRekenig;
 
   getSaldoDanPoint() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var token = _prefs.getString('token');
     var saldo = _prefs.getString('saldo');
     var val = double.parse(saldo!);
-    var formatedSaldo = CustomFormat.UbahFormatRupiah(val, 0);
+    var formatedSaldo = CustomFormat.ubahFormatRupiah(val, 0);
 
     Uri url = Uri.parse(IpAdress().getIp + '/api/point');
     var response = await http.post(

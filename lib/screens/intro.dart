@@ -2,6 +2,7 @@ import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/models/slider_model.dart';
 import 'package:bmt_kbs/screens/auth/login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroductionScreen extends StatefulWidget {
   const IntroductionScreen({super.key});

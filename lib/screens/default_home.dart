@@ -19,7 +19,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var token = _prefs.getString('token');
     var saldo = _prefs.getString('saldo');
     var val = double.parse(saldo!);
-    var formatedSaldo = CustomFormat.UbahFormatRupiah(val, 0);
+    var formatedSaldo = CustomFormat.ubahFormatRupiah(val, 0);
 
     setState(() {
       authSaldo = formatedSaldo;
@@ -44,21 +44,35 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getPoint() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    var token = _prefs.getString('token');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     Uri url = Uri.parse(IpAdress().getIp + '/api/point');
     var response = await http.post(
       url,
       headers: {"Accept": 'application/json', "Authorization": "Bearer $token"},
     );
-    var _data = jsonDecode(response.body);
-    var point = _data['data']['point'].toString();
-    var parsedVal = double.parse(point);
-    var formatedPoint = NumberFormat.currency(name: "").format(parsedVal);
-    log(formatedPoint);
-    setState(() {
-      authPoint = formatedPoint;
-    });
+
+    var data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      print(data);
+      setState(() {
+        authPoint = '000';
+      });
+    } else {
+      setState(() {
+        authPoint = '0';
+      });
+    }
+
+    // var _data = jsonDecode(response.body);
+    // var point = _data['data']['point'].toString();
+    // var parsedVal = double.parse(point);
+    // var formatedPoint = NumberFormat.currency(name: "").format(parsedVal);
+    // log(formatedPoint);
+    // setState(() {
+    //   authPoint = formatedPoint;
+    // });
   }
 
   @override

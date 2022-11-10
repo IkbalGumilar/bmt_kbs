@@ -30,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   login() async {
-    final prefs = await SharedPreferences.getInstance();
     Uri url = Uri.parse(IpAdress().getIp + '/api/login');
     var response = await http.post(url, headers: {
       "Accept": 'application/json',
@@ -45,13 +44,13 @@ class _LoginPageState extends State<LoginPage> {
     log(response.statusCode.toString());
 
     if (response.statusCode == 200) {
-      print(data);
-
+      final prefs = await SharedPreferences.getInstance();
       prefs.setString('token', data['token']);
       prefs.setString('nama', data['profile']['name']);
       prefs.setString('saldo', data['wallet']['credit']);
-      // prefs.setString(key, data['']['']);
       prefs.setString('img', data['profile']['url_photo_profile']);
+      prefs.setString('email', data['profile']['email']);
+
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => const InitialPageScreen(),
@@ -61,9 +60,6 @@ class _LoginPageState extends State<LoginPage> {
     } else if (response.statusCode == 422) {
       var errEmail = data['errors']['email'];
       var errPassword = data['errors']['password'];
-
-      print(errEmail);
-      print(errPassword);
 
       if (errEmail != null) {
         Fluttertoast.showToast(
