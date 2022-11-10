@@ -100,13 +100,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Sisa Saldo",
                             style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
                           Text(
                             "$authSaldo",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold),
@@ -293,132 +293,127 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.white,
           child: Column(
             children: [
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          // ignore: avoid_print
-                          print("Beralih ke pulsa & data");
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const PulsaScreen(),
-                              ));
-                        },
-                        child: MenuItem(
-                          iconPath: "pulsa.png",
-                          title: "Pulsa dan Paket Data",
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MenuPlnScreen(),
-                            ),
-                          );
-                        },
-                        child: MenuItem(
-                          iconPath: "pln.png",
-                          title: "Tagihan Listrik PLN",
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // ignore: avoid_print
-                          print("Anda beralih ke Voucher Game Screen");
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MenuVoucherScreen(),
-                            ),
-                          );
-                        },
-                        child: MenuItem(
-                          iconPath: "vouchergame.png",
-                          title: "Voucher Permainan",
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // ignore: avoid_print
-                          print("Anda beralih ke BPJS Screen");
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MenuBpjsScreen(),
-                            ),
-                          );
-                        },
-                        child: MenuItem(
-                          iconPath: "bpjs.png",
-                          title: "BPJS Kesehatan",
-                        ),
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      // ignore: avoid_print
+                      print("Beralih ke pulsa & data");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PulsaScreen(),
+                          ));
+                    },
+                    child: MenuItem(
+                      iconPath: "pulsa.png",
+                      title: "Pulsa dan Paket Data",
+                    ),
                   ),
-                  const SizedBox(
-                    height: 30,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MenuPlnScreen(),
+                        ),
+                      );
+                    },
+                    child: MenuItem(
+                      iconPath: "pln.png",
+                      title: "Tagihan Listrik PLN",
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          // ignore: avoid_print
-                          print("Beralih ke PDAM Screen");
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MenuPdamScreen(),
-                            ),
-                          );
-                        },
-                        child: MenuItem(
-                          iconPath: "pdam.png",
-                          title: "PDAM",
+                  GestureDetector(
+                    onTap: () {
+                      // ignore: avoid_print
+                      print("Anda beralih ke Voucher Game Screen");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MenuVoucherScreen(),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // ignore: avoid_print
-                          print("Beralih ke Internet & TV Kabel Screen");
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const MenuInternetDanTvScreen(),
-                            ),
-                          );
-                        },
-                        child: MenuItem(
-                          iconPath: "internet.png",
-                          title: "Internet dan TV Kabel",
+                      );
+                    },
+                    child: MenuItem(
+                      iconPath: "vouchergame.png",
+                      title: "Voucher Permainan",
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      // ignore: avoid_print
+                      print("Anda beralih ke BPJS Screen");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MenuBpjsScreen(),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MenuTelkomScreen(),
-                            ),
-                          );
-                        },
-                        child: MenuItem(
-                          iconPath: "telkom.png",
-                          title: "Tagihan Telkom",
+                      );
+                    },
+                    child: MenuItem(
+                      iconPath: "bpjs.png",
+                      title: "BPJS Kesehatan",
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      // ignore: avoid_print
+                      print("Beralih ke PDAM Screen");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MenuPdamScreen(),
                         ),
-                      ),
-                      MenuItem(
-                        iconPath: "lainnya.png",
-                        title: "Lain-lain",
-                      ),
-                    ],
+                      );
+                    },
+                    child: MenuItem(
+                      iconPath: "pdam.png",
+                      title: "PDAM",
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      // ignore: avoid_print
+                      print("Beralih ke Internet & TV Kabel Screen");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MenuInternetDanTvScreen(),
+                        ),
+                      );
+                    },
+                    child: MenuItem(
+                      iconPath: "internet.png",
+                      title: "Internet dan TV Kabel",
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MenuTelkomScreen(),
+                        ),
+                      );
+                    },
+                    child: MenuItem(
+                      iconPath: "telkom.png",
+                      title: "Tagihan Telkom",
+                    ),
+                  ),
+                  MenuItem(
+                    iconPath: "lainnya.png",
+                    title: "Lain-lain",
                   ),
                 ],
               ),

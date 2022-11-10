@@ -10,7 +10,7 @@ class DetailPesanScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title:
               "Selamat! Khusus buat kamu, NIkmatin Cashback 50% Belanja, Jajan,& bayar tagihan pake saldo dana",
@@ -20,7 +20,8 @@ class DetailPesanScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
             child: Container(
               width: double.infinity,
               height: 150,
@@ -31,10 +32,10 @@ class DetailPesanScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               children: [
-                Text(
+                const Text(
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                   style: TextStyle(
                     color: Colors.black,
@@ -42,7 +43,7 @@ class DetailPesanScreen extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
@@ -69,7 +70,7 @@ class DetailPesanScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorPallete.primaryColor,
               ),
-              child: Text(
+              child: const Text(
                 "Mulai Belanja",
                 style: TextStyle(
                   color: Colors.white,

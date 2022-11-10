@@ -153,7 +153,7 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                         Column(
                           children: [
                             Container(
-                              width: 150,
+                              width: 130,
                               height: 36,
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -162,10 +162,14 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Image.asset(
                                       'assets/icons/card_icons/points.png',
                                       width: 28,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
                                     ),
                                     Wrap(
                                       children: [
@@ -273,6 +277,7 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                             color: ColorPallete.primaryColor,
                           ),
                         ),
+                        hintText: "Rp. xxxxx",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

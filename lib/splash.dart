@@ -15,10 +15,10 @@ class _SplashScreenState extends State<SplashScreen> {
   // buat fungsi untuk mengecek apakah user sudah melihat introduction screen atau belum
   checkIntroductionScreenFirstSeen(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool _seen = (prefs.getBool('seen') ?? false);
+    bool seen = (prefs.getBool('seen') ?? false);
 
     if (mounted) {
-      if (_seen) {
+      if (seen) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => LoginPage(),
