@@ -25,22 +25,23 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var token = _prefs.getString('token');
     var saldo = _prefs.getString('saldo');
+    var email = _prefs.getString('email');
     var val = double.parse(saldo!);
     var formatedSaldo = CustomFormat.ubahFormatRupiah(val, 0);
 
     Uri url = Uri.parse(IpAdress().getIp + '/api/point');
-    var response = await http.post(
-      url,
-      headers: {"Accept": 'application/json', "Authorization": "Bearer $token"},
-    );
+    var response = await http.post(url, headers: {
+      "Accept": 'application/json',
+      "Authorization": "Bearer $token"
+    });
     var _data = jsonDecode(response.body);
-    var point = _data['data']['point'].toString();
-    var parsedVar = double.parse(point);
-    var formatedPoint = log(saldo.toString());
-
+    var point = _data['point'].toString();
+    var parsedVal = double.parse(point);
+    var formatedPoint = CustomFormat.UbahFormatPoint(parsedVal, 0);
+    log(formatedPoint);
     setState(() {
-      //authPoint = formatedPoint;
       authSaldo = formatedSaldo;
+      authPoint = formatedPoint;
     });
     print(authSaldo);
   }
@@ -54,31 +55,19 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
       "Authorization": "Bearer $token"
     }, body: {
       "amount": "20000",
-      "amount": "b0522a2b-3652-445d-8fa2-68d0fb464a93"
+      "account_id": "b0522a2b-3652-445d-8fa2-68d0fb464a93"
     });
-    var data = jsonDecode(response.body);
-    var _data = data['data'].toString();
-    print(_data);
 
-    // var id = jsonDecode(response.body);
-    // var id_transaksi = id['data']['id_transaksi'].toString();
+    var data = jsonDecode(response.body)['data'];
 
-    // var _jumlah = jsonDecode(response.body);
-    // var jumlah = _jumlah['data']['jumlah'].toString();
-    // log(jumlah);
+    if (response.statusCode == 200) {
+      print(data.toString());
 
-    // var _bank = jsonDecode(response.body);
-    // var bank = _bank['data']['nama_bank'].toString();
-    // log(bank);
-
-    // var _rekening = jsonDecode(response.body);
-    // var rekening = _rekening['data']['rekening'].toString();
-    // log(rekening);
-    initState() {
-      // authId = id_transaksi;
-      // authJumlah = jumlah;
-      // authBank = bank;
-      // authRekenig = rekening;
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => KonfirmasiIsiSaldoScreen(
+                jmlTopup: '20000',
+                dataTransaksi: data,
+              )));
     }
   }
 
@@ -216,10 +205,7 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => KonfirmasiIsiSaldoScreen(
-                                  text: '20.000',
-                                )));
+                        konfirmasi();
                       },
                       child: Container(
                         width: 100,
@@ -250,7 +236,8 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => KonfirmasiIsiSaldoScreen(
-                                  text: '50.000',
+                                  jmlTopup: '50.000',
+                                  dataTransaksi: {},
                                 )));
                       },
                       child: Container(
@@ -282,7 +269,8 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => KonfirmasiIsiSaldoScreen(
-                                  text: '100.000',
+                                  jmlTopup: '100000',
+                                  dataTransaksi: {},
                                 )));
                       },
                       child: Container(
@@ -322,7 +310,8 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => KonfirmasiIsiSaldoScreen(
-                                  text: '20.000',
+                                  jmlTopup: '20.000',
+                                  dataTransaksi: {},
                                 )));
                       },
                       child: Container(
@@ -354,7 +343,8 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => KonfirmasiIsiSaldoScreen(
-                                  text: '50.000',
+                                  jmlTopup: '50.000',
+                                  dataTransaksi: {},
                                 )));
                       },
                       child: Container(
@@ -385,8 +375,10 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                KonfirmasiIsiSaldoScreen(text: '100.000')));
+                            builder: (context) => KonfirmasiIsiSaldoScreen(
+                                  jmlTopup: '100.000',
+                                  dataTransaksi: {},
+                                )));
                       },
                       child: Container(
                         width: 100,
@@ -456,8 +448,10 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                         children: [
                           FullWidthButton(
                             text: "Selanjutnya",
-                            navigateTo:
-                                KonfirmasiIsiSaldoScreen(text: '20.000'),
+                            navigateTo: KonfirmasiIsiSaldoScreen(
+                              jmlTopup: '20.000',
+                              dataTransaksi: {},
+                            ),
                           ),
                         ],
                       ),

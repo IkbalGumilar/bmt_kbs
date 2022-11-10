@@ -51,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
       url,
       headers: {"Accept": 'application/json', "Authorization": "Bearer $token"},
     );
+<<<<<<< HEAD
 
     var data = jsonDecode(response.body);
 
@@ -73,6 +74,16 @@ class _HomeScreenState extends State<HomeScreen> {
     // setState(() {
     //   authPoint = formatedPoint;
     // });
+=======
+    var _data = jsonDecode(response.body);
+    var point = _data['data']['point'].toString();
+    var parsedVal = double.parse(point);
+    var formatedPoint = CustomFormat.UbahFormatPoint(parsedVal, 0);
+    log(formatedPoint);
+    setState(() {
+      authPoint = formatedPoint;
+    });
+>>>>>>> a701406e0f3e1727c0b727a138cd73dddd23f299
   }
 
   @override

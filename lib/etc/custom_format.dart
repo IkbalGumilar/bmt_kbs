@@ -9,7 +9,7 @@ class CustomFormat {
 
   static String ubahFormatPoint(dynamic number, int decimal) {
     NumberFormat currencyFormatter =
-        NumberFormat.currency(locale: 'id', decimalDigits: decimal);
+        NumberFormat.currency(locale: 'id', symbol: '', decimalDigits: decimal);
     return currencyFormatter.format(number);
   }
 }
