@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/custom_format.dart';
 import 'package:bmt_kbs/screens/features/scan/scanner.dart';
@@ -50,7 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
     var data = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      print(data);
+      log(response.statusCode.toString());
+      print("sdadasdasds $data");
       setState(() {
         authPoint = data['point'].toString();
       });
