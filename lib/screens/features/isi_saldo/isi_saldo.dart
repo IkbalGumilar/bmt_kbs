@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/etc/custom_format.dart';
+import 'package:bmt_kbs/models/isi_saldo_model.dart';
 import 'package:bmt_kbs/screens/features/isi_saldo/konfirmasi.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +35,14 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
       "Accept": 'application/json',
       "Authorization": "Bearer $token"
     });
-    var _data = jsonDecode(response.body);
-    var point = _data['point'].toString();
+
+    var data = jsonDecode(response.body);
+    var point = data['point'].toString();
     var parsedVal = double.parse(point);
-    var formatedPoint = CustomFormat.UbahFormatPoint(parsedVal, 0);
+    var formatedPoint = CustomFormat.ubahFormatPoint(parsedVal, 0);
+
     log(formatedPoint);
+
     setState(() {
       authSaldo = formatedSaldo;
       authPoint = formatedPoint;
@@ -47,8 +51,8 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
   }
 
   konfirmasi() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    var token = _prefs.getString('token');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     Uri url = Uri.parse(IpAdress().getIp + '/api/isi-saldo');
     var response = await http.post(url, headers: {
       "Accept": 'application/json',
@@ -63,17 +67,19 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
     if (response.statusCode == 200) {
       print(data.toString());
 
-      Navigator.of(context).push(MaterialPageRoute(
+      Navigator.of(context).push(
+        MaterialPageRoute(
           builder: (context) => KonfirmasiIsiSaldoScreen(
-                jmlTopup: '20000',
-                dataTransaksi: data,
-              )));
+            jmlTopup: '20000',
+            dataTransaksi: data,
+          ),
+        ),
+      );
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getSaldoDanPoint();
     konfirmasi();
@@ -126,14 +132,14 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               "Sisa Saldo",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 14),
                             ),
                             Text(
                               "$authSaldo",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -165,13 +171,13 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                                       children: [
                                         Text(
                                           "$authPoint poin",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        Icon(
+                                        const Icon(
                                           Icons.keyboard_arrow_right,
                                           size: 16,
                                         ),
@@ -200,10 +206,17 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
+                GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: isiSaldoList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
                       onTap: () {
                         konfirmasi();
                       },
@@ -222,7 +235,8 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                               color: Colors.grey[600],
                             ),
                             Text(
-                              "Rp. 20.000",
+                              CustomFormat.ubahFormatRupiah(
+                                  isiSaldoList[index].nominal, 0),
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey[600],
@@ -231,181 +245,8 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                           ],
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => KonfirmasiIsiSaldoScreen(
-                                  jmlTopup: '50.000',
-                                  dataTransaksi: {},
-                                )));
-                      },
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.photo,
-                              color: Colors.grey[600],
-                            ),
-                            Text(
-                              "Rp. 50.000",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => KonfirmasiIsiSaldoScreen(
-                                  jmlTopup: '100000',
-                                  dataTransaksi: {},
-                                )));
-                      },
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.photo,
-                              color: Colors.grey[600],
-                            ),
-                            Text(
-                              "Rp. 100.000",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => KonfirmasiIsiSaldoScreen(
-                                  jmlTopup: '20.000',
-                                  dataTransaksi: {},
-                                )));
-                      },
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.photo,
-                              color: Colors.grey[600],
-                            ),
-                            Text(
-                              "Rp. 20.000",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => KonfirmasiIsiSaldoScreen(
-                                  jmlTopup: '50.000',
-                                  dataTransaksi: {},
-                                )));
-                      },
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.photo,
-                              color: Colors.grey[600],
-                            ),
-                            Text(
-                              "Rp. 50.000",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => KonfirmasiIsiSaldoScreen(
-                                  jmlTopup: '100.000',
-                                  dataTransaksi: {},
-                                )));
-                      },
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.photo,
-                              color: Colors.grey[600],
-                            ),
-                            Text(
-                              "Rp. 100.000",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 30,

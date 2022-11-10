@@ -47,7 +47,7 @@ class _HomeScreenAppBarState extends State<HomeScreenAppBar> {
             decoration: BoxDecoration(
               color: Colors.amber,
               borderRadius: BorderRadius.circular(1000),
-              image: DecorationImage(
+              image: const DecorationImage(
                 image: NetworkImage(
                     'https://png.pngtree.com/png-vector/20190223/ourmid/pngtree-profile-glyph-black-icon-png-image_691589.jpg'),
                 fit: BoxFit.cover,
@@ -58,13 +58,13 @@ class _HomeScreenAppBarState extends State<HomeScreenAppBar> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Halo, Selamat Pagi 👋",
                 style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
               Text(
                 "$authNama",
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/custom_format.dart';
 import 'package:bmt_kbs/screens/features/scan/scanner.dart';
@@ -16,7 +15,6 @@ import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:bmt_kbs/screens/features/voucher_permainan/menu_voucher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,9 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   String? authSaldo;
 
   void userProfile() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    var token = _prefs.getString('token');
-    var saldo = _prefs.getString('saldo');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var saldo = prefs.getString('saldo');
     var val = double.parse(saldo!);
     var formatedSaldo = CustomFormat.ubahFormatRupiah(val, 0);
 
@@ -51,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
       url,
       headers: {"Accept": 'application/json', "Authorization": "Bearer $token"},
     );
-<<<<<<< HEAD
 
     var data = jsonDecode(response.body);
 
@@ -65,30 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
         authPoint = '0';
       });
     }
-
-    // var _data = jsonDecode(response.body);
-    // var point = _data['data']['point'].toString();
-    // var parsedVal = double.parse(point);
-    // var formatedPoint = NumberFormat.currency(name: "").format(parsedVal);
-    // log(formatedPoint);
-    // setState(() {
-    //   authPoint = formatedPoint;
-    // });
-=======
-    var _data = jsonDecode(response.body);
-    var point = _data['data']['point'].toString();
-    var parsedVal = double.parse(point);
-    var formatedPoint = CustomFormat.UbahFormatPoint(parsedVal, 0);
-    log(formatedPoint);
-    setState(() {
-      authPoint = formatedPoint;
-    });
->>>>>>> a701406e0f3e1727c0b727a138cd73dddd23f299
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userProfile();
     getPoint();
@@ -141,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Column(
                         children: [
                           Container(
-                            width: 150,
+                            width: 130,
                             height: 36,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -150,22 +126,26 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
                                     'assets/icons/card_icons/points.png',
                                     width: 28,
                                   ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   Wrap(
                                     children: [
                                       Text(
                                         "$authPoint poin",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.keyboard_arrow_right,
                                         size: 16,
                                       ),
@@ -308,8 +288,7 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 15,
         ),
         Container(
-          padding: const EdgeInsets.only(
-              left: 10.0, right: 10.0, top: 10.0, bottom: 20.0),
+          padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
           width: double.infinity,
           color: Colors.white,
           child: Column(

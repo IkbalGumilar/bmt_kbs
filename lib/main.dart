@@ -1,5 +1,4 @@
 import 'package:bmt_kbs/screens/auth/login.dart';
-import 'package:bmt_kbs/screens/default_home.dart';
 import 'package:bmt_kbs/screens/initial_page.dart';
 import 'package:bmt_kbs/screens/intro.dart';
 import 'package:bmt_kbs/splash.dart';

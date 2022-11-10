@@ -110,6 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -121,23 +122,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: const Text("Log Out"),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
-          ),
-          Center(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorPallete.primaryColor),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SplashScreen(),
-                  ),
-                );
-              },
-              child: const Text("Lihat Splash Screen"),
-            ),
           ),
         ],
       ),
