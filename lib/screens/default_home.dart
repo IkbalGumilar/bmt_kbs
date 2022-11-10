@@ -36,8 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       authSaldo = formatedSaldo;
     });
-
-    print(authSaldo);
   }
 
   getPoint() async {
@@ -54,12 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (response.statusCode == 200) {
       print(data);
       setState(() {
-        authPoint = '000';
+        authPoint = data['point'].toString();
       });
     } else {
-      setState(() {
-        authPoint = '0';
-      });
+      print(response.statusCode);
     }
   }
 

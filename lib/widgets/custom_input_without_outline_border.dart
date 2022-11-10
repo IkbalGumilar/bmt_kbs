@@ -12,6 +12,7 @@ class CustomInputWithoutOutlineBorder extends StatelessWidget {
     this.isBanking,
     this.isColored,
     this.bankCustomer = "INSERT_NAME_HERE",
+    this.bankName,
   }) : super(key: key);
 
   String label;
@@ -21,13 +22,14 @@ class CustomInputWithoutOutlineBorder extends StatelessWidget {
   bool? isBanking;
   bool? isColored = false;
   String? bankCustomer;
+  String? bankName;
 
   String bankCheck() {
     if (isBanking == true) {
       String? customerName = bankCustomer;
 
       if (customerName != null) {
-        return "Bank Mandiri A/n $bankCustomer";
+        return "$bankName | $bankCustomer";
       } else {
         return "";
       }
