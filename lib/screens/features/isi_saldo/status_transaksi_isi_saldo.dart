@@ -1,13 +1,35 @@
+import 'dart:developer';
+
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:flutter/material.dart';
 
-class StatusTransaksiIsiSaldoScreen extends StatelessWidget {
-  const StatusTransaksiIsiSaldoScreen({super.key});
+class StatusTransaksiIsiSaldoScreen extends StatefulWidget {
+  StatusTransaksiIsiSaldoScreen(
+      {super.key, required this.dataTransaksiIsiSaldo});
+
+  Map<String, dynamic> dataTransaksiIsiSaldo;
+
+  @override
+  State<StatusTransaksiIsiSaldoScreen> createState() =>
+      _StatusTransaksiIsiSaldoScreenState();
+}
+
+class _StatusTransaksiIsiSaldoScreenState
+    extends State<StatusTransaksiIsiSaldoScreen> {
+  late Map<String, dynamic> _dataTransaksiIsiSaldo;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _dataTransaksiIsiSaldo = widget.dataTransaksiIsiSaldo;
+  }
 
   @override
   Widget build(BuildContext context) {
+    log(_dataTransaksiIsiSaldo.toString());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -71,10 +93,6 @@ class StatusTransaksiIsiSaldoScreen extends StatelessWidget {
               ),
               CustomInputWithoutOutlineBorder(
                 label: "Jumlah yang harus dibayar",
-                inputValue: "Rp. 50.500",
-              ),
-              CustomInputWithoutOutlineBorder(
-                label: "Jumlah dibayarkan",
                 inputValue: "Rp. 50.500",
               ),
               CustomInputWithoutOutlineBorder(

@@ -179,7 +179,8 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                   height: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  padding: const EdgeInsets.only(
+                      left: 30.0, right: 30.0, bottom: 30.0),
                   child: Wrap(
                     runSpacing: 10.0,
                     children: [
@@ -215,41 +216,37 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
+                                  // ignore: avoid_print
                                   print(
                                       "Anda memilih ${semuaGameList[index].namaGame}");
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          TransaksiVoucherScreen(),
+                                    ),
+                                  );
                                 },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.2),
-                                        spreadRadius: 1,
-                                        blurRadius: 7,
-                                        offset: const Offset(0, 3),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image.asset(
+                                      semuaGameList[index].imgGame,
+                                      width: 120,
+                                      height: 80,
+                                    ),
+                                    Text(
+                                      semuaGameList[index].namaGame,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
                                       ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Image.asset(
-                                        semuaGameList[index].imgGame,
-                                        width: 50,
-                                        height: 50,
-                                      ),
-                                      Text(
-                                        semuaGameList[index].namaGame,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               );
                             },

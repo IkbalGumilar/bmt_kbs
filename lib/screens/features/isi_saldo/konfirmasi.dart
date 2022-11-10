@@ -240,7 +240,9 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
           ),
           FullWidthButton(
             text: "Cek Status Transaksi",
-            navigateTo: const StatusTransaksiIsiSaldoScreen(),
+            navigateTo: StatusTransaksiIsiSaldoScreen(
+              dataTransaksiIsiSaldo: _dataKonfirmasiIsiSaldo,
+            ),
           ),
         ],
       ),

@@ -45,6 +45,7 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
     var parsedVal = double.parse(point);
     var formatedPoint = CustomFormat.ubahFormatPoint(parsedVal, 0);
 
+    log('LOADING SAAT KONFIRMASI Get Saldo dan Point GIMANA NICHHH: $loading');
     log(formatedPoint);
 
     if (mounted) {
@@ -91,11 +92,10 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
     log('LOADING SAAT KONFIRMASI GIMANA NICHHH: $loading');
     log('JUMLAH TOP UP YANG DIPASSING:::::: $jmlTopUpSaldo');
 
-    if (response.statusCode == 200) {
-      // ignore: avoid_print
-      print(data.toString());
-
-      if (mounted) {
+    if (mounted) {
+      if (response.statusCode == 200) {
+        // ignore: avoid_print
+        print(data.toString());
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -103,9 +103,9 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                 KonfirmasiIsiSaldoScreen(jmlTopup: jumlah, dataTransaksi: data),
           ),
         );
+      } else {
+        print('Gagal');
       }
-    } else {
-      print('Gagal');
     }
   }
 
