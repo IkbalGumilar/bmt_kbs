@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/etc/custom_format.dart';
 import 'package:bmt_kbs/screens/features/isi_saldo/status_transaksi_isi_saldo.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
@@ -7,7 +10,11 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 class KonfirmasiIsiSaldoScreen extends StatefulWidget {
-  const KonfirmasiIsiSaldoScreen({super.key});
+  KonfirmasiIsiSaldoScreen(
+      {Key? key, required this.jmlTopup, required this.dataTransaksi})
+      : super(key: key);
+  String jmlTopup;
+  Map<String, dynamic> dataTransaksi;
 
   @override
   State<KonfirmasiIsiSaldoScreen> createState() =>
@@ -15,12 +22,25 @@ class KonfirmasiIsiSaldoScreen extends StatefulWidget {
 }
 
 class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
+  late String _jmlTopup;
+  late Map<String, dynamic> _dataKonfirmasiIsiSaldo;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _jmlTopup = widget.jmlTopup;
+    _dataKonfirmasiIsiSaldo = widget.dataTransaksi;
+  }
+
   @override
   Widget build(BuildContext context) {
+    log("Jumlah Top Up Saldo: $_jmlTopup");
+    log("Data Konfirmasi Isi Saldo: $_dataKonfirmasiIsiSaldo");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
+        preferredSize: Size.fromHeight(60),
         child: CustomAppBar(
           title: "Konfirmasi",
           isHaveActions: true,
@@ -34,24 +54,26 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
         children: [
           CustomInputWithoutOutlineBorder(
             label: "ID Transaksi",
-            inputValue: "1234567891011121314",
+            inputValue: "${_dataKonfirmasiIsiSaldo['id_transaksi']}",
             isBanking: false,
           ),
           CustomInputWithoutOutlineBorder(
             label: "Jumlah top-up",
-            inputValue: "Rp. 50.000",
+            inputValue: CustomFormat.ubahFormatRupiah(int.parse(_jmlTopup), 0),
             isBanking: false,
           ),
           CustomInputWithoutOutlineBorder(
             label: "Jumlah yang harus dibayar",
-            inputValue: "Rp. 50.123",
+            inputValue: CustomFormat.ubahFormatRupiah(
+                _dataKonfirmasiIsiSaldo['jumlah'], 0),
             isBold: true,
             isImportant: true,
             isBanking: false,
           ),
           CustomInputWithoutOutlineBorder(
             label: "Dikirim ke",
-            inputValue: "0982 9878 6154 6218",
+            inputValue: _dataKonfirmasiIsiSaldo['rekening'].toString(),
+            bankName: _dataKonfirmasiIsiSaldo['nama_bank'].toString(),
             isBold: true,
             isImportant: true,
             isBanking: true,
@@ -218,7 +240,9 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
           ),
           FullWidthButton(
             text: "Cek Status Transaksi",
-            navigateTo: const StatusTransaksiIsiSaldoScreen(),
+            navigateTo: StatusTransaksiIsiSaldoScreen(
+              dataTransaksiIsiSaldo: _dataKonfirmasiIsiSaldo,
+            ),
           ),
         ],
       ),

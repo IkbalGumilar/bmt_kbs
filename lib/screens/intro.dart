@@ -2,6 +2,7 @@ import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/models/slider_model.dart';
 import 'package:bmt_kbs/screens/auth/login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroductionScreen extends StatefulWidget {
   const IntroductionScreen({super.key});
@@ -104,33 +105,6 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   Widget _showSkipButton() {
     if (currentIndex < 2) {
-      // return GestureDetector(
-      //   onTap: () {
-      //     _controller.animateToPage(
-      //       slides.length - 1,
-      //       duration: const Duration(milliseconds: 500),
-      //       curve: Curves.easeOut,
-      //     );
-      //   },
-      //   child: Padding(
-      //     padding: const EdgeInsets.only(
-      //       left: 30.0,
-      //       right: 30.0,
-      //       top: 15.0,
-      //     ),
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.end,
-      //       children: const [
-      //         Text(
-      //           "Skip",
-      //           style: TextStyle(
-      //             fontWeight: FontWeight.w500,
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // );
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -157,18 +131,30 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
         ],
       );
     } else {
-      return Padding(
-        padding: const EdgeInsets.only(
-          left: 30.0,
-          right: 30.0,
-          top: 10.0,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
-            Text(""),
-          ],
-        ),
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          TextButton(
+            style: TextButton.styleFrom(
+              minimumSize: Size.zero,
+              padding: const EdgeInsets.only(
+                right: 30.0,
+                top: 20.0,
+              ),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            onPressed: () {
+              //
+            },
+            child: const Text(
+              "",
+              style: TextStyle(
+                color: ColorPallete.primaryColor,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
       );
     }
   }

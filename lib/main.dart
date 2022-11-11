@@ -1,10 +1,10 @@
+import 'package:bmt_kbs/screens/auth/login.dart';
+import 'package:bmt_kbs/screens/initial_page.dart';
 import 'package:bmt_kbs/screens/intro.dart';
+import 'package:bmt_kbs/splash.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main(List<String> args) {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
 
@@ -21,18 +21,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData(fontFamily: "Inter"),
       debugShowCheckedModeBanner: false,
-      home: const IntroductionScreen(),
+      home: const SplashScreen(),
+      routes: {
+        '/login': (context) => LoginPage(),
+        '/intro': (context) => const IntroductionScreen(),
+        '/home': (context) => const InitialPageScreen(),
+        '/splash': (context) => const SplashScreen(),
+      },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initialize();
-  }
-
-  void initialize() async {
-    await Future.delayed(const Duration(seconds: 1));
-    FlutterNativeSplash.remove();
   }
 }

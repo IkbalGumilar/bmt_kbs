@@ -1,4 +1,4 @@
-package com.example.bmt_kbs
+package id.theprime.kbsmobile
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -30,64 +30,74 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   login() async {
-    final prefs = await SharedPreferences.getInstance();
-    Uri url = Uri.parse(IpAdress().getIp + '/api/login');
-    var response = await http.post(url, headers: {
-      "Accept": 'application/json',
-    }, body: {
-      "email": emailC.text,
-      "password": passwordC.text,
-    });
+    try {
+      Uri url = Uri.parse(IpAdress().getIp + '/api/login');
+      var response = await http.post(url, headers: {
+        "Accept": 'application/json',
+      }, body: {
+        "email": emailC.text,
+        "password": passwordC.text,
+      });
 
-    var data = json.decode(response.body);
+      var data = json.decode(response.body);
 
-    log(data.toString());
-    log(response.statusCode.toString());
+      log(data.toString());
+      log(response.statusCode.toString());
 
-    if (response.statusCode == 200) {
-      print(data);
+      if (response.statusCode == 200) {
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', data['token']);
+        prefs.setString('nama', data['profile']['name']);
+        prefs.setString('saldo', data['wallet']['credit']);
+        prefs.setString('img', data['profile']['url_photo_profile']);
+        prefs.setString('email', data['profile']['email']);
 
-      prefs.setString('token', data['token']);
-      prefs.setString('nama', data['profile']['name']);
-      prefs.setString('saldo', data['wallet']['credit']);
-      // prefs.setString(key, data['']['']);
-      prefs.setString('img', data['profile']['url_photo_profile']);
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const InitialPageScreen(),
-        ),
-        (Route<dynamic> route) => false,
-      );
-    } else if (response.statusCode == 422) {
-      var errEmail = data['errors']['email'];
-      var errPassword = data['errors']['password'];
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const InitialPageScreen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      } else if (response.statusCode == 422) {
+        var errEmail = data['errors']['email'];
+        var errPassword = data['errors']['password'];
 
-      print(errEmail);
-      print(errPassword);
-
-      if (errEmail != null) {
+        if (errEmail != null) {
+          Fluttertoast.showToast(
+              msg: 'Email masih kosong!',
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        } else if (errEmail != null || errPassword != null) {
+          Fluttertoast.showToast(
+              msg:
+                  'Kredensial Anda tidak cocok dengan data Kami, harap cek kembali inputan Anda!',
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        }
+      } else if (response.statusCode == 401) {
         Fluttertoast.showToast(
-            msg: 'Email masih kosong!',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      } else if (errEmail != null || errPassword != null) {
-        Fluttertoast.showToast(
-            msg:
-                'Kredensial Anda tidak cocok dengan data Kami, harap cek kembali inputan Anda!',
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      }
-    } else if (response.statusCode == 401) {
-      Fluttertoast.showToast(
           msg: 'Email atau password salah!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    } catch (e) {
+      print(e.toString());
+      // make a flutterToast that have an error message
+      Fluttertoast.showToast(
+          msg: 'Terjadi kesalahan, harap coba lagi!',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,

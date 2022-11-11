@@ -1,5 +1,6 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/models/carousel_voucher_model.dart';
+import 'package:bmt_kbs/models/semua_game_model.dart';
 import 'package:bmt_kbs/screens/features/voucher_permainan/transaksi_voucher.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -23,7 +24,7 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
-          title: "Voucher Permainan",
+          title: "Top-up Game",
           isHaveActions: false,
         ),
       ),
@@ -43,7 +44,7 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                     Expanded(
                       flex: 2,
                       child: Container(
-                        height: 60,
+                        height: 50,
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           border: Border(
@@ -73,7 +74,7 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                     Expanded(
                       flex: 8,
                       child: Container(
-                        height: 60,
+                        height: 50,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
@@ -92,6 +93,10 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                               child: TextField(
                                 decoration: InputDecoration(
                                   hintText: "Cari Semua Voucher",
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                  ),
                                   contentPadding: EdgeInsets.all(0),
                                   isDense: true,
                                   border: InputBorder.none,
@@ -113,39 +118,42 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
             ),
             child: Column(
               children: [
-                CarouselSlider.builder(
-                  carouselController: controller,
-                  itemCount: carouselList.length,
-                  options: CarouselOptions(
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        currentPos = index;
-                      });
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: CarouselSlider.builder(
+                    carouselController: controller,
+                    itemCount: carouselList.length,
+                    options: CarouselOptions(
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          currentPos = index;
+                        });
 
-                      // ignore: avoid_print
-                      print(currentPos);
-                    },
-                    height: 200,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 5),
-                    enlargeCenterPage: false,
-                    autoPlayAnimationDuration:
-                        const Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                  ),
-                  itemBuilder: (context, index, realIndex) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image:
-                              Image.asset(carouselList[index].imagePath).image,
-                          fit: BoxFit.cover,
+                        // ignore: avoid_print
+                        print(currentPos);
+                      },
+                      height: 150,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 5),
+                      enlargeCenterPage: false,
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                    ),
+                    itemBuilder: (context, index, realIndex) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: Image.asset(carouselList[index].imagePath)
+                                .image,
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +179,8 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                   height: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  padding: const EdgeInsets.only(
+                      left: 30.0, right: 30.0, bottom: 30.0),
                   child: Wrap(
                     runSpacing: 10.0,
                     children: [
@@ -179,27 +188,13 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Paling Populer",
+                            children: const [
+                              Text(
+                                "Semua Game",
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  // ignore: avoid_print
-                                  print("Lihat semua yang paling populer");
-                                },
-                                child: const Text(
-                                  "Lihat Semua >>>",
-                                  style: TextStyle(
-                                    color: ColorPallete.primaryColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  ),
                                 ),
                               ),
                             ],
@@ -207,130 +202,54 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          SizedBox(
-                            height: 200.0,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Wrap(
-                                spacing: 10.0,
-                                children: carouselList.map((data) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      // ignore: avoid_print
-                                      print("Klik voucher");
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const TransaksiVoucherScreen()));
-                                    },
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 164.0,
-                                          height: 100,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                data.imagePath.toString(),
-                                              ),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        SizedBox(
-                                          width: 150,
-                                          child: Text(
-                                            data.title,
-                                          ),
-                                        ),
-                                      ],
+                          GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 0.8,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: semuaGameList.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  // ignore: avoid_print
+                                  print(
+                                      "Anda memilih ${semuaGameList[index].namaGame}");
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          TransaksiVoucherScreen(),
                                     ),
                                   );
-                                }).toList(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Baru & Event",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  // ignore: avoid_print
-                                  print("Lihat semua yang paling populer");
                                 },
-                                child: const Text(
-                                  "Lihat Semua >>>",
-                                  style: TextStyle(
-                                    color: ColorPallete.primaryColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image.asset(
+                                      semuaGameList[index].imgGame,
+                                      width: 120,
+                                      height: 80,
+                                    ),
+                                    Text(
+                                      semuaGameList[index].namaGame,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            height: 200.0,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Wrap(
-                                spacing: 10.0,
-                                children: carouselList.map((data) {
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: 164,
-                                        height: 100,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                              data.imagePath.toString(),
-                                            ),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: Text(
-                                          data.title,
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                }).toList(),
-                              ),
-                            ),
+                              );
+                            },
                           ),
                         ],
                       ),
