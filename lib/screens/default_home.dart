@@ -14,6 +14,7 @@ import 'package:bmt_kbs/screens/features/listrik_pln/menu_pln.dart';
 import 'package:bmt_kbs/screens/features/telkom/menu_telkom.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
 import 'package:bmt_kbs/screens/features/voucher_permainan/menu_voucher.dart';
+import 'package:intl/locale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:shimmer/shimmer.dart';
