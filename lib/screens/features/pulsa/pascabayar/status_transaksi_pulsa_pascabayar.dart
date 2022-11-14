@@ -3,8 +3,8 @@ import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:flutter/material.dart';
 
-class StatusTransaksiPulsaScreen extends StatelessWidget {
-  const StatusTransaksiPulsaScreen({super.key});
+class StatusTransaksiPulsaPrabayarScreen extends StatelessWidget {
+  const StatusTransaksiPulsaPrabayarScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
