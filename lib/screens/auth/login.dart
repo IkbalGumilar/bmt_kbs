@@ -22,6 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool isChecked = false;
   bool isDisabled = true;
+  bool isHidden = true;
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
 
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
 
   login() async {
     try {
-      Uri url = Uri.parse(IpAdress().getIp + '/api/login');
+      Uri url = Uri.parse('https://ppob.koperasibmtkbs.com/api/login');
       var response = await http.post(url, headers: {
         "Accept": 'application/json',
       }, body: {
@@ -94,8 +95,7 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     } catch (e) {
-      print(e.toString());
-      // make a flutterToast that have an error message
+      log(e.toString());
       Fluttertoast.showToast(
           msg: 'Terjadi kesalahan, harap coba lagi!',
           toastLength: Toast.LENGTH_SHORT,
@@ -136,23 +136,94 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  LoginInputWidget(
-                      isObscure: false,
-                      inputType: TextInputType.emailAddress,
-                      label: "Email",
-                      inputIcon: Icons.account_circle_rounded,
-                      hint: "Masukkan Nama Pengguna",
-                      myController: emailC),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Email",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextField(
+                        controller: emailC,
+                        autocorrect: false,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color.fromARGB(10, 44, 80, 203),
+                          hintText: "Masukkan Email Pengguna",
+                          hintStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          prefixIcon: const Icon(Icons.account_circle_rounded),
+                          prefixIconColor: Colors.red,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
-                  LoginInputWidget(
-                      isObscure: true,
-                      inputType: TextInputType.visiblePassword,
-                      label: "Password",
-                      inputIcon: Icons.lock,
-                      hint: "Masukkan Password",
-                      myController: passwordC),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Password",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextField(
+                        obscureText: isHidden,
+                        controller: passwordC,
+                        autocorrect: false,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color.fromARGB(10, 44, 80, 203),
+                          hintText: "Masukkan Password",
+                          hintStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          prefixIcon: const Icon(Icons.lock),
+                          prefixIconColor: Colors.red,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isHidden
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isHidden = !isHidden;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -287,88 +358,6 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-// ignore: must_be_immutable
-class LoginInputWidget extends StatefulWidget {
-  String label;
-  String hint;
-  IconData inputIcon;
-  TextEditingController myController;
-  TextInputType inputType;
-  bool? isObscure = false;
-
-  LoginInputWidget({
-    required this.label,
-    required this.inputIcon,
-    required this.hint,
-    required this.myController,
-    required this.inputType,
-    required this.isObscure,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<LoginInputWidget> createState() => _LoginInputWidgetState();
-}
-
-class _LoginInputWidgetState extends State<LoginInputWidget> {
-  bool hidden = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          widget.label,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        TextField(
-          obscureText: hidden ? true : false,
-          controller: widget.myController,
-          autocorrect: false,
-          keyboardType: widget.inputType,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: const Color.fromARGB(10, 44, 80, 203),
-            hintText: widget.hint,
-            hintStyle: const TextStyle(
-              color: Colors.grey,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-            prefixIcon: Icon(widget.inputIcon),
-            prefixIconColor: Colors.red,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            suffixIcon: widget.isObscure == true
-                ? IconButton(
-                    onPressed: () {
-                      // ignore: avoid_print
-                      print("CLicked");
-                      setState(() {
-                        hidden = !hidden;
-                      });
-                    },
-                    icon: hidden == true
-                        ? const Icon(Icons.visibility_off)
-                        : const Icon(Icons.visibility),
-                  )
-                : null,
-          ),
-        ),
-      ],
     );
   }
 }

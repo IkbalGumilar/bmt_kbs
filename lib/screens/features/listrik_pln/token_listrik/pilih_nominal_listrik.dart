@@ -225,12 +225,12 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                     print("Anda meng-klik nomor $index");
                     setState(() {
                       selectedIndex = index;
-                      _productCode = _listNominal![index]['pulsa_code'];
+                      _productCode = _listNominal[index]['pulsa_code'];
                     });
 
                     log("Pulsa Code/Product Code: $_productCode");
                     nominalTokenBottomSheet(
-                        context, _listNominal![index]['pulsa_price']);
+                        context, _listNominal[index]['pulsa_price']);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -251,7 +251,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                         runSpacing: 5,
                         children: [
                           Text(
-                            _listNominal![index]['pulsa_nominal'].toString(),
+                            _listNominal[index]['pulsa_nominal'].toString(),
                             style: TextStyle(
                               color: selectedIndex == index
                                   ? Colors.white
@@ -273,7 +273,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                               ),
                               Text(
                                 CustomFormat.ubahFormatRupiah(
-                                    _listNominal![index]['pulsa_price'], 0),
+                                    _listNominal[index]['pulsa_price'], 0),
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: selectedIndex == index
