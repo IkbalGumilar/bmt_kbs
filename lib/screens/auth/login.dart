@@ -112,13 +112,13 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
@@ -180,41 +180,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-              Flexible(
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+              child: Flexible(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                isDisabled == false ? login() : null;
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: isDisabled == false
-                                    ? ColorPallete.primaryColor
-                                    : Colors.grey,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                              ),
-                              child: const Text(
-                                "Submit",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -223,7 +196,6 @@ class _LoginPageState extends State<LoginPage> {
                           height: 20,
                           child: Checkbox(
                             value: isChecked,
-                            // ignore: avoid_print
                             onChanged: (value) {
                               // ignore: avoid_print
                               print(value);
@@ -281,11 +253,40 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            isDisabled == false ? login() : null;
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isDisabled == false
+                                ? ColorPallete.primaryColor
+                                : Colors.grey,
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                          ),
+                          child: const Text(
+                            "Login",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -316,6 +317,8 @@ class LoginInputWidget extends StatefulWidget {
 }
 
 class _LoginInputWidgetState extends State<LoginInputWidget> {
+  bool hidden = true;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -333,7 +336,7 @@ class _LoginInputWidgetState extends State<LoginInputWidget> {
           height: 10,
         ),
         TextField(
-          obscureText: widget.isObscure == true ? true : false,
+          obscureText: hidden ? true : false,
           controller: widget.myController,
           autocorrect: false,
           keyboardType: widget.inputType,
@@ -355,8 +358,14 @@ class _LoginInputWidgetState extends State<LoginInputWidget> {
                 ? IconButton(
                     onPressed: () {
                       // ignore: avoid_print
+                      print("CLicked");
+                      setState(() {
+                        hidden = !hidden;
+                      });
                     },
-                    icon: const Icon(Icons.remove_red_eye),
+                    icon: hidden == true
+                        ? const Icon(Icons.visibility)
+                        : const Icon(Icons.visibility_off),
                   )
                 : null,
           ),
