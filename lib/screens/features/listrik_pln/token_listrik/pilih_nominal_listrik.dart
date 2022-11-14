@@ -9,6 +9,7 @@ import 'package:bmt_kbs/screens/features/listrik_pln/token_listrik/konfirmasi_to
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,11 +33,11 @@ class PilihNominalListrikScreen extends StatefulWidget {
 
 class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
   late int selectedIndex;
-  late String? _noMeter;
-  late String? _namaPelanggan;
-  late String? _segmentPower;
+  late String _noMeter;
+  late String _namaPelanggan;
+  late String _segmentPower;
 
-  List<dynamic>? _listNominal;
+  List<dynamic> _listNominal = [];
   String? _productSubCategoriesID;
   String? _productCode;
 
@@ -212,7 +213,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: _listNominal!.length,
+              itemCount: _listNominal.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 mainAxisSpacing: 10,
@@ -326,6 +327,16 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
       } else {
         print('RESPONSE CHECKOUT ERROR: $data');
         print(response.statusCode);
+
+        Fluttertoast.showToast(
+          msg: data['message'],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
     }
 

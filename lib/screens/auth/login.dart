@@ -184,106 +184,104 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
-              child: Flexible(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Checkbox(
-                            value: isChecked,
-                            onChanged: (value) {
-                              // ignore: avoid_print
-                              print(value);
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Checkbox(
+                          value: isChecked,
+                          onChanged: (value) {
+                            // ignore: avoid_print
+                            print(value);
 
-                              setState(() {
-                                toggleCheckbox(value!);
-                                isDisabled = !isDisabled;
-                              });
-                            },
-                            fillColor: MaterialStateProperty.resolveWith(
-                                (states) => ColorPallete.primaryColor),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Flexible(
-                          child: RichText(
-                            text: const TextSpan(
-                              children: [
-                                TextSpan(
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 13,
-                                  ),
-                                  text:
-                                      "Dengan menekan tombol selanjutnya saya setuju dengan ",
-                                ),
-                                TextSpan(
-                                  text: "ketentuan penggunaan ",
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "dan ",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "kebijakan privasi ",
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            isDisabled == false ? login() : null;
+                            setState(() {
+                              toggleCheckbox(value!);
+                              isDisabled = !isDisabled;
+                            });
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: isDisabled == false
-                                ? ColorPallete.primaryColor
-                                : Colors.grey,
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                          ),
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
+                          fillColor: MaterialStateProperty.resolveWith(
+                              (states) => ColorPallete.primaryColor),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Flexible(
+                        child: RichText(
+                          text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                ),
+                                text:
+                                    "Dengan menekan tombol selanjutnya saya setuju dengan ",
+                              ),
+                              TextSpan(
+                                text: "ketentuan penggunaan ",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "dan ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "kebijakan privasi ",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          isDisabled == false ? login() : null;
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: isDisabled == false
+                              ? ColorPallete.primaryColor
+                              : Colors.grey,
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                        ),
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
               ),
             ),
           ],
@@ -317,7 +315,7 @@ class LoginInputWidget extends StatefulWidget {
 }
 
 class _LoginInputWidgetState extends State<LoginInputWidget> {
-  bool hidden = true;
+  bool hidden = false;
 
   @override
   Widget build(BuildContext context) {
@@ -364,8 +362,8 @@ class _LoginInputWidgetState extends State<LoginInputWidget> {
                       });
                     },
                     icon: hidden == true
-                        ? const Icon(Icons.visibility)
-                        : const Icon(Icons.visibility_off),
+                        ? const Icon(Icons.visibility_off)
+                        : const Icon(Icons.visibility),
                   )
                 : null,
           ),

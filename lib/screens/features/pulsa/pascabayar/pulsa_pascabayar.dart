@@ -214,21 +214,7 @@ class _PulsaPascabayarScreenState extends State<PulsaPascabayarScreen>
                 const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
             child: Column(
               children: [
-                // CustomInputPulsa(
-                //   isHaveRoute: true,
-                //   route: PulsaPascabayarScreen(),
-                //   label: "Nomor Ponsel",
-                //   placeholder: "Masukkan Nomor Ponsel",
-                //   imageIcon: "no_ponsel.png",
-                // ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                // CustomInputPulsa(
-                //   label: "Operator",
-                //   placeholder: "",
-                //   imageIcon: "telkomsel.png",
-                // ),
+                // TODO: add search bar
               ],
             ),
           ),

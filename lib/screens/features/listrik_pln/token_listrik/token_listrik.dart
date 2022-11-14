@@ -23,11 +23,11 @@ class _TokenListrikScreenState extends State<TokenListrikScreen> {
   bool loading = false;
 
   checkPlnID() async {
-    setState(() {
-      loading = true;
-    });
-
     try {
+      setState(() {
+        loading = true;
+      });
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var token = prefs.getString('token');
       var response = await http.post(
@@ -45,22 +45,22 @@ class _TokenListrikScreenState extends State<TokenListrikScreen> {
 
       if (mounted) {
         if (response.statusCode == 200 && res['status'] == "1") {
-          // ignore: avoid_print
-          print(res);
-          log(response.statusCode.toString());
-
           setState(() {
             loading = false;
           });
+
+          // ignore: avoid_print
+          print(res);
+          log(response.statusCode.toString());
 
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) {
                 return PilihNominalListrikScreen(
-                  namaPelanggan: res['name'],
-                  noMeter: res['meter_no'],
-                  segmentPower: res['segment_power'],
+                  namaPelanggan: res['name']!,
+                  noMeter: res['meter_no']!,
+                  segmentPower: res['segment_power']!,
                 );
               },
             ),
@@ -69,12 +69,8 @@ class _TokenListrikScreenState extends State<TokenListrikScreen> {
           print(res);
           print(response.statusCode);
 
-          setState(() {
-            loading = false;
-          });
-
           Fluttertoast.showToast(
-            msg: res['message'],
+            msg: "${res['message']} (${res['error_details']['hp']})",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -86,7 +82,7 @@ class _TokenListrikScreenState extends State<TokenListrikScreen> {
       }
     } catch (e) {
       Fluttertoast.showToast(
-        msg: "Terjadi kesalahan, silahkan coba lagi",
+        msg: "NOMOR PLN TIDAK TERDAFTAR",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -94,6 +90,10 @@ class _TokenListrikScreenState extends State<TokenListrikScreen> {
         textColor: Colors.white,
         fontSize: 16.0,
       );
+
+      setState(() {
+        loading = false;
+      });
     }
   }
 
@@ -101,13 +101,15 @@ class _TokenListrikScreenState extends State<TokenListrikScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: CustomAppBar(
-          title: "PLN",
-          isHaveActions: false,
-        ),
-      ),
+      appBar: loading == true
+          ? null
+          : PreferredSize(
+              preferredSize: const Size.fromHeight(60),
+              child: CustomAppBar(
+                title: "PLN",
+                isHaveActions: false,
+              ),
+            ),
       body: loading == true
           ? const Center(
               child: SizedBox(
@@ -142,7 +144,7 @@ class _TokenListrikScreenState extends State<TokenListrikScreen> {
                           TextField(
                             controller: plnIDController,
                             onChanged: (value) {
-                              if (value.length > 0) {
+                              if (value.length >= 10 && value.length <= 15) {
                                 setState(() {
                                   isDisabled = false;
                                 });
