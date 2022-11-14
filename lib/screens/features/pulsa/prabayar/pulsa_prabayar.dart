@@ -1,9 +1,9 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/models/paket_data_model.dart';
 import 'package:bmt_kbs/models/pulsa_model.dart';
+import 'package:bmt_kbs/screens/features/pulsa/pascabayar/pulsa_pascabayar.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/konfirmasi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
-import 'package:bmt_kbs/widgets/custom_input_pulsa.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
@@ -215,18 +215,73 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                 const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
             child: Column(
               children: [
-                CustomInputPulsa(
-                  label: "Nomor Ponsel",
-                  placeholder: "Masukkan Nomor Ponsel",
-                  imageIcon: "no_ponsel.png",
+                Wrap(
+                  runSpacing: 10,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Nomor Ponsel",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: const Size(50, 30),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            alignment: Alignment.centerLeft,
+                          ),
+                          onPressed: () {
+                            print("Beralih ke menu pulsa pascabayar");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const PulsaPascabayarScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "No. Pascabayar?",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        fillColor: ColorPallete.lightBlueColor,
+                        filled: true,
+                        hintText: "Masukkan No. Ponsel",
+                        hintStyle: const TextStyle(
+                          color: Colors.black54,
+                          fontSize: 14,
+                        ),
+                        suffixIcon: Image.asset(
+                          "assets/icons/screens/pulsa/no_ponsel.png",
+                          scale: 2,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20.0,
-                ),
-                CustomInputPulsa(
-                  label: "Operator",
-                  placeholder: "",
-                  imageIcon: "telkomsel.png",
                 ),
               ],
             ),

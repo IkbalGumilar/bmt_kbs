@@ -3,7 +3,6 @@ import 'package:bmt_kbs/models/paket_data_model.dart';
 import 'package:bmt_kbs/models/pulsa_model.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/konfirmasi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
-import 'package:bmt_kbs/widgets/custom_input_pulsa.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
@@ -215,19 +214,21 @@ class _PulsaPascabayarScreenState extends State<PulsaPascabayarScreen>
                 const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
             child: Column(
               children: [
-                CustomInputPulsa(
-                  label: "Nomor Ponsel",
-                  placeholder: "Masukkan Nomor Ponsel",
-                  imageIcon: "no_ponsel.png",
-                ),
+                // CustomInputPulsa(
+                //   isHaveRoute: true,
+                //   route: PulsaPascabayarScreen(),
+                //   label: "Nomor Ponsel",
+                //   placeholder: "Masukkan Nomor Ponsel",
+                //   imageIcon: "no_ponsel.png",
+                // ),
                 const SizedBox(
                   height: 20.0,
                 ),
-                CustomInputPulsa(
-                  label: "Operator",
-                  placeholder: "",
-                  imageIcon: "telkomsel.png",
-                ),
+                // CustomInputPulsa(
+                //   label: "Operator",
+                //   placeholder: "",
+                //   imageIcon: "telkomsel.png",
+                // ),
               ],
             ),
           ),

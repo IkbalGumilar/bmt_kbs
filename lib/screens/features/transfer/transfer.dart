@@ -1,6 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
-import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 
 class TransferScreen extends StatelessWidget {
@@ -18,7 +17,6 @@ class TransferScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
         child: Column(
-          // padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
@@ -64,23 +62,321 @@ class TransferScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    InputFieldTransfer(
-                      type: InputFieldType.catatan,
-                      label: "",
-                      placeholder: "Catatan (opsional)",
-                      imageIconPath: "catatan.png",
+                    TextField(
+                      autocorrect: false,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: ColorPallete.lightBlueColor,
+                        hintText: "Catatan (opsional)",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[800],
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        prefixIcon: const Icon(Icons.edit),
+                        prefixIconColor: Colors.red,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
-            FullWidthButton(
-              text: "Selanjutnya",
-              navigateTo: const TransferScreen(),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: () {
+                  _konfirmasiTransferBottomSheet(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorPallete.primaryColor,
+                ),
+                child: const Text(
+                  "Selanjutnya",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Future<dynamic> _konfirmasiTransferBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10.0),
+          topRight: Radius.circular(10.0),
+        ),
+      ),
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: 0.6,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 20,
+              horizontal: 30,
+            ),
+            child: ListView(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Column(
+                  children: [
+                    Wrap(
+                      children: [
+                        const Text(
+                          "Informasi Pelanggan",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      "Saldo Terpakai",
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      "Rp. 199.000",
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      "Tanggal",
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      "17 Okt 2022",
+                                      textAlign: TextAlign.end,
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      "Waktu",
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      "10.30",
+                                      textAlign: TextAlign.end,
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      "No. Referensi",
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      "p-00121-220122...",
+                                      textAlign: TextAlign.end,
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Divider(),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Nominal Top Up",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                "Rp. 48.000",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Biaya Admin",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                "Rp. 2.000",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            "Total",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          Text(
+                            "RP. 50.000",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -88,7 +384,6 @@ class TransferScreen extends StatelessWidget {
 enum InputFieldType {
   pilihPenerima,
   sumberDana,
-  catatan,
 }
 
 // ignore: must_be_immutable
@@ -128,8 +423,6 @@ class InputFieldTransfer extends StatelessWidget {
               cariKontakBottomSheet(context);
             } else if (type == InputFieldType.sumberDana) {
               sumberDanaBottomSheet(context);
-            } else if (type == InputFieldType.catatan) {
-              catatanBottomSheet(context);
             }
           },
           child: Container(
