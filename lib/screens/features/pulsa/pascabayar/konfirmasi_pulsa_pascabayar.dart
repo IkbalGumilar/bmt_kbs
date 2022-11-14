@@ -1,10 +1,10 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/features/pulsa/status_transaksi_pulsa.dart';
+import 'package:bmt_kbs/screens/features/pulsa/prabayar/status_transaksi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
-class KonfirmasiPulsaScreen extends StatelessWidget {
-  const KonfirmasiPulsaScreen({super.key});
+class KonfirmasiPulsaPrabayarScreen extends StatelessWidget {
+  const KonfirmasiPulsaPrabayarScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +271,7 @@ class KonfirmasiPulsaScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  const StatusTransaksiPulsaScreen(),
+                                  const StatusTransaksiPulsaPrabayarScreen(),
                             ),
                           );
                         },

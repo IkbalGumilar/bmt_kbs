@@ -224,7 +224,7 @@ class _MenuVoucherScreenState extends State<MenuVoucherScreen> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          TransaksiVoucherScreen(),
+                                          const TransaksiVoucherScreen(),
                                     ),
                                   );
                                 },

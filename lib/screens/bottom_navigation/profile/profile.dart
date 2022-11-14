@@ -76,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               await SharedPreferences.getInstance();
                           prefs.setString('token', '');
                           Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/login', (Route<dynamic> route) => false);
+                              '/splash', (Route<dynamic> route) => false);
                         },
                         child: Container(
                           width: width,

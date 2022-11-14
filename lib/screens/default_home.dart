@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/custom_format.dart';
+import 'package:bmt_kbs/screens/features/pulsa/prabayar/pulsa_prabayar.dart';
 import 'package:bmt_kbs/screens/features/scan/scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:bmt_kbs/screens/features/bpjs/menu_bpjs.dart';
@@ -9,7 +10,6 @@ import 'package:bmt_kbs/screens/features/internet_dan_tv/menu_internet_dan_tv.da
 import 'package:bmt_kbs/screens/features/isi_saldo/isi_saldo.dart';
 import 'package:bmt_kbs/screens/features/pdam/menu_pdam.dart';
 import 'package:bmt_kbs/screens/features/penarikan_dana/penarikan_dana.dart';
-import 'package:bmt_kbs/screens/features/pulsa/pulsa.dart';
 import 'package:bmt_kbs/screens/features/listrik_pln/menu_pln.dart';
 import 'package:bmt_kbs/screens/features/telkom/menu_telkom.dart';
 import 'package:bmt_kbs/screens/features/transfer/transfer.dart';
@@ -29,7 +29,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String? authNama, authPoto, authPoint;
   String? authSaldo;
-  bool loading = true;
+  bool loading = false;
 
   void userProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -61,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
         authPoint = data['point'].toString();
       });
     } else {
+      // ignore: avoid_print
       print(response.statusCode);
     }
   }
@@ -315,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Shimmer.fromColors(
@@ -343,10 +344,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             // ignore: avoid_print
                             print("Beralih ke pulsa & data");
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const PulsaScreen(),
-                                ));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const PulsaPrabayarScreen(),
+                              ),
+                            );
                           },
                           child: MenuItem(
                             iconPath: "pulsa.png",

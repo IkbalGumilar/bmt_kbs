@@ -12,7 +12,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  // buat fungsi untuk mengecek apakah user sudah melihat introduction screen atau belum
   checkIntroductionScreenFirstSeen(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool seen = (prefs.getBool('seen') ?? false);
@@ -44,6 +43,11 @@ class _SplashScreenState extends State<SplashScreen> {
         Timer(
           const Duration(seconds: 3),
           () => Navigator.of(context).pushReplacementNamed('/home'),
+        );
+      } else if (token.isEmpty) {
+        Timer(
+          const Duration(seconds: 3),
+          () => Navigator.of(context).pushReplacementNamed('/login'),
         );
       } else {
         Timer(

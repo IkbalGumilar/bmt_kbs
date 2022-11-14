@@ -137,6 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   LoginInputWidget(
+                      isObscure: false,
                       inputType: TextInputType.emailAddress,
                       label: "Email",
                       inputIcon: Icons.account_circle_rounded,
@@ -146,6 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20,
                   ),
                   LoginInputWidget(
+                      isObscure: true,
                       inputType: TextInputType.visiblePassword,
                       label: "Password",
                       inputIcon: Icons.lock,
@@ -291,12 +293,13 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 // ignore: must_be_immutable
-class LoginInputWidget extends StatelessWidget {
+class LoginInputWidget extends StatefulWidget {
   String label;
   String hint;
   IconData inputIcon;
   TextEditingController myController;
   TextInputType inputType;
+  bool? isObscure = false;
 
   LoginInputWidget({
     required this.label,
@@ -304,16 +307,22 @@ class LoginInputWidget extends StatelessWidget {
     required this.hint,
     required this.myController,
     required this.inputType,
+    required this.isObscure,
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<LoginInputWidget> createState() => _LoginInputWidgetState();
+}
+
+class _LoginInputWidgetState extends State<LoginInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          label,
+          widget.label,
           style: const TextStyle(
             color: Colors.black,
             fontSize: 14,
@@ -324,23 +333,32 @@ class LoginInputWidget extends StatelessWidget {
           height: 10,
         ),
         TextField(
-          controller: myController,
+          obscureText: widget.isObscure == true ? true : false,
+          controller: widget.myController,
           autocorrect: false,
-          keyboardType: inputType,
+          keyboardType: widget.inputType,
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color.fromARGB(10, 44, 80, 203),
-            hintText: hint,
+            hintText: widget.hint,
             hintStyle: const TextStyle(
               color: Colors.grey,
               fontSize: 14,
               fontWeight: FontWeight.w400,
             ),
-            prefixIcon: Icon(inputIcon),
+            prefixIcon: Icon(widget.inputIcon),
             prefixIconColor: Colors.red,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
+            suffixIcon: widget.isObscure == true
+                ? IconButton(
+                    onPressed: () {
+                      // ignore: avoid_print
+                    },
+                    icon: const Icon(Icons.remove_red_eye),
+                  )
+                : null,
           ),
         ),
       ],
