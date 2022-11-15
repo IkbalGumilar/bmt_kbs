@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/etc/custom_format.dart';
+import 'package:bmt_kbs/screens/features/listrik_pln/token_listrik/konfirmasi_token_listrik.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,8 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
   List<dynamic> _listNominal = [];
   String? _productSubCategoriesID;
   String? _productCode;
+
+  bool loading = true;
 
   getPriceListTokenPLN() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -322,6 +325,13 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
 
       if (response.statusCode == 200) {
         print('DATA CHECKOUT TOKEN LISTRIK: $data');
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => KonfirmasiTokenListrik(),
+          ),
+        );
       } else {
         print('RESPONSE CHECKOUT ERROR: $data');
         print(response.statusCode);

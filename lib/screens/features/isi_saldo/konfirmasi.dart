@@ -8,6 +8,7 @@ import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class KonfirmasiIsiSaldoScreen extends StatefulWidget {
   KonfirmasiIsiSaldoScreen(
@@ -24,6 +25,20 @@ class KonfirmasiIsiSaldoScreen extends StatefulWidget {
 class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
   late String _jmlTopup;
   late Map<String, dynamic> _dataKonfirmasiIsiSaldo;
+  String _radioValue = "";
+  XFile _image = XFile("");
+
+  _getImageFromGallery() async {
+    // ignore: unused_local_variable
+    XFile? image = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, maxHeight: 200, maxWidth: 200);
+
+    if (image != null) {
+      setState(() {
+        _image = image;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -107,91 +122,111 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                     ),
                     context: context,
                     builder: (context) {
-                      return SizedBox(
-                        height: 220,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 30),
-                          child: Wrap(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 50,
-                                    height: 10,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[300],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20.0),
-                                child: Column(
+                      return StatefulBuilder(builder:
+                          (BuildContext context, StateSetter stateSetter) {
+                        return SizedBox(
+                          height: 220,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 30),
+                            child: Wrap(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: double.infinity,
+                                      width: 50,
+                                      height: 10,
                                       decoration: BoxDecoration(
-                                        color: ColorPallete.lightBlueColor,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: ListTile(
-                                        leading: const Icon(Icons.photo),
-                                        title: Text(
-                                          'Ambil dari galeri',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.grey[600],
-                                              fontSize: 14),
-                                        ),
-                                        trailing: Radio(
-                                          value: "0",
-                                          // ignore: avoid_print
-                                          onChanged: (value) => print(value),
-                                          groupValue: const {"key": "0"},
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: ColorPallete.lightBlueColor,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: ListTile(
-                                        leading: const Icon(Icons.camera_alt),
-                                        title: Text(
-                                          'Ambil Gambar',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.grey[600],
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        trailing: Radio(
-                                          value: "0",
-                                          // ignore: avoid_print
-                                          onChanged: (value) => print(value),
-                                          groupValue: const {"key": "0"},
-                                        ),
+                                        color: Colors.grey[300],
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20.0),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: ColorPallete.lightBlueColor,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: ListTile(
+                                          leading: const Icon(Icons.photo),
+                                          title: Text(
+                                            'Ambil dari galeri',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.grey[600],
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          trailing: Radio(
+                                            value: "galeri",
+                                            onChanged: (value) {
+                                              stateSetter(() {
+                                                _radioValue = value!;
+                                              });
+
+                                              _getImageFromGallery();
+
+                                              print(
+                                                  "Radio value: $_radioValue");
+                                            },
+                                            groupValue: _radioValue,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: ColorPallete.lightBlueColor,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: ListTile(
+                                          leading: const Icon(Icons.camera_alt),
+                                          title: Text(
+                                            'Ambil Gambar',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.grey[600],
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          trailing: Radio(
+                                            value: 'kamera',
+                                            groupValue: _radioValue,
+                                            onChanged: (value) {
+                                              stateSetter(() {
+                                                _radioValue = value!;
+                                              });
+
+                                              print(
+                                                  "Radio value: $_radioValue");
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      });
                     },
                   );
                 },

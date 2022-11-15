@@ -45,5 +45,27 @@ void main() async {
     }
   }
 
-  getTransactionHistory();
+  checkNomorPonsel() async {
+    var response = await http.post(
+      Uri.parse(IpAdress().getIp + '/api/ppob/check_nomor'),
+      headers: {
+        "Authorization": "Bearer $myToken",
+        "Accept": "application/json",
+      },
+      body: {"nomor": "0821", "type": "pulsa"},
+    );
+
+    var data = jsonDecode(response.body)['data']['data'];
+
+    if (response.statusCode == 200) {
+      var result = data.map((e) => e['product_code']).toList();
+      print(result);
+    } else {
+      print(response.statusCode);
+      log(data.toString());
+    }
+  }
+
+  // getTransactionHistory();
+  checkNomorPonsel();
 }

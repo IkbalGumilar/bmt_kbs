@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
 
   login() async {
     try {
-      Uri url = Uri.parse('https://ppob.koperasibmtkbs.com/api/login');
+      Uri url = Uri.parse(IpAdress().getIp + '/api/login');
       var response = await http.post(url, headers: {
         "Accept": 'application/json',
       }, body: {
