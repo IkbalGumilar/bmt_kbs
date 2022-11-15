@@ -37,6 +37,7 @@ void main() async {
     var data = jsonDecode(response.body)['data'];
 
     if (response.statusCode == 200) {
+      // ignore: avoid_print
       print(data.toString());
     } else {
       print(response.statusCode);

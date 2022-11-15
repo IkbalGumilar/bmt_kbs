@@ -38,6 +38,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   String? nilai;
   TextEditingController numberC = TextEditingController();
   String? authTotal;
+  String _radioValue = "";
 
   cekNomer() async {
     try {
@@ -279,82 +280,92 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
             padding:
                 const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Wrap(
-                  runSpacing: 10,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Wrap(
+                      spacing: 10,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        const Text(
-                          "Nomor Ponsel",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                        Radio(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          value: "nomor_ponsel",
+                          visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity,
                           ),
-                        ),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: const Size(50, 30),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            alignment: Alignment.centerLeft,
-                          ),
-                          onPressed: () {
-                            print("Beralih ke menu pulsa pascabayar");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const PulsaPascabayarScreen(),
-                              ),
-                            );
+                          groupValue: _radioValue,
+                          onChanged: (index) {
+                            setState(() {
+                              _radioValue = index!;
+                            });
+
+                            print(_radioValue);
                           },
-                          child: const Text(
-                            "No. Pascabayar?",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
+                        ),
+                        const Text("Nomor Ponsel"),
+                      ],
+                    ),
+                    Wrap(
+                      spacing: 10,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Radio(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          value: "nomor_pascabayar",
+                          visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity,
                           ),
-                        )
+                          groupValue: _radioValue,
+                          onChanged: (index) {
+                            setState(() {
+                              _radioValue = index!;
+                            });
+
+                            print(_radioValue);
+                          },
+                        ),
+                        const Text("No. Pascabayar"),
                       ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextField(
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      controller: numberC,
-                      onChanged: (content) {
-                        cekNomer();
-                      },
-                      autocorrect: false,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        fillColor: ColorPallete.lightBlueColor,
-                        filled: true,
-                        hintText: "Masukkan No. Ponsel",
-                        hintStyle: const TextStyle(
-                          color: Colors.black54,
-                          fontSize: 14,
-                        ),
-                        suffixIcon: Image.asset(
-                          "assets/icons/screens/pulsa/no_ponsel.png",
-                          scale: 2,
-                        ),
-                      ),
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 20.0,
+                  height: 20,
+                ),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  controller: numberC,
+                  onChanged: (content) {
+                    cekNomer();
+                  },
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    fillColor: ColorPallete.lightBlueColor,
+                    filled: true,
+                    hintText: "Masukkan No. Ponsel",
+                    hintStyle: const TextStyle(
+                      color: Colors.black54,
+                      fontSize: 14,
+                    ),
+                    suffixIcon: Image.asset(
+                      "assets/icons/screens/pulsa/no_ponsel.png",
+                      scale: 2,
+                    ),
+                  ),
                 ),
               ],
             ),

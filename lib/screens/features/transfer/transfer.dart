@@ -1,4 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/features/transfer/status_transfer.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:flutter/material.dart';
@@ -131,121 +132,145 @@ class TransferScreen extends StatelessWidget {
               vertical: 20,
               horizontal: 30,
             ),
-            child: Column(
+            child: ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
               children: [
-                ListView(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(10),
+                    Container(
+                      width: 50,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(80 / 2),
+                            ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            "Konfirmasi Terakhir",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 30,
                     ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          "Nama Penerima",
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                          ),
+                        ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
+                          padding: const EdgeInsets.only(
+                            top: 16.0,
+                          ),
                           child: Column(
-                            children: [
-                              Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius: BorderRadius.circular(80 / 2),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                "Ana Agustina Pamungkas",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 height: 10,
                               ),
-                              const Text(
-                                "Konfirmasi Terakhir",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 10.0),
+                                child: Text(
+                                  "anaagustinap@gmail.com",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Nama Penerima",
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 16.0,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    "Ana Agustina Pamungkas",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(bottom: 10.0),
-                                    child: Text(
-                                      "anaagustinap@gmail.com",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Divider(color: Colors.grey, thickness: 1),
-                          ],
-                        ),
+                        const Divider(color: Colors.grey, thickness: 1),
                       ],
                     ),
-                    CustomInputWithoutOutlineBorder(
-                      label: "Sumber Dana",
-                      inputValue: "Saldo",
-                      isBold: true,
-                    ),
-                    CustomInputWithoutOutlineBorder(
-                      label: "Jumlah Transfer",
-                      inputValue: "Rp. xxxxxx",
-                      isBold: true,
-                    ),
-                    CustomInputWithoutOutlineBorder(
-                      label: "Biaya Administrasi",
-                      inputValue: "Rp. -0",
-                      isBold: true,
-                    ),
-                    CustomInputWithoutOutlineBorder(
-                      label: "Catatan",
-                      inputValue: "Buat beli beras",
-                      isBold: true,
-                    ),
                   ],
+                ),
+                CustomInputWithoutOutlineBorder(
+                  label: "Sumber Dana",
+                  inputValue: "Saldo",
+                  isBold: true,
+                ),
+                CustomInputWithoutOutlineBorder(
+                  label: "Jumlah Transfer",
+                  inputValue: "Rp. xxxxxx",
+                  isBold: true,
+                ),
+                CustomInputWithoutOutlineBorder(
+                  label: "Biaya Administrasi",
+                  inputValue: "Rp. -0",
+                  isBold: true,
+                ),
+                CustomInputWithoutOutlineBorder(
+                  label: "Catatan",
+                  inputValue: "Buat beli beras",
+                  isBold: true,
+                ),
+                // make a elevated button
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const StatusTransferScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorPallete.primaryColor,
+                    ),
+                    child: const Text(
+                      "Transfer",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

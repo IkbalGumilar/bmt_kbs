@@ -13,7 +13,7 @@ class StatusTransferScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
-          title: "Transaksi",
+          title: "Transfer",
           isHaveActions: false,
         ),
       ),
@@ -49,7 +49,7 @@ class StatusTransferScreen extends StatelessWidget {
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Text(
-                          "Transaksi Berhasil!",
+                          "Transfer Berhasil",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 16,
@@ -75,7 +75,7 @@ class StatusTransferScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Produk",
+                              "Jumlah Transfer",
                               style: TextStyle(
                                 color: Colors.grey[600],
                               ),
@@ -88,84 +88,10 @@ class StatusTransferScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    "BPJS Ketenagakerjaan",
+                                  Text(
+                                    "Rp. 120.000",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 10.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: const [
-                                        Text(
-                                          "NIK Pelanggan",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        Text(
-                                          "536612381527",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 10.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: const [
-                                        Text(
-                                          "Nama Pelanggan",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Ari Ramdani",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: const [
-                                        Text(
-                                          "Total Pembayaran",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Rp. 125.500",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ],
                                     ),
                                   ),
                                 ],
@@ -179,19 +105,62 @@ class StatusTransferScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Nama Penerima",
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 16.0,
+                            bottom: 8.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Ana Agustina Pamungkas",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Text(
+                                    "anaagustinap@gmail.com",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Divider(color: Colors.grey, thickness: 1),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                      ],
+                    ),
                     CustomInputWithoutOutlineBorder(
                       label: "Sumber Dana",
                       inputValue: "Saldo",
                       isBold: true,
                     ),
                     CustomInputWithoutOutlineBorder(
-                      label: "Jumlah Bayar",
-                      inputValue: "Rp. 123.000",
-                      isBold: true,
-                    ),
-                    CustomInputWithoutOutlineBorder(
                       label: "Biaya Administrasi",
-                      inputValue: "Rp. 2.500",
+                      inputValue: "Rp. -0",
                       isBold: true,
                     ),
                   ],
