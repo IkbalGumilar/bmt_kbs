@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/etc/custom_format.dart';
@@ -26,17 +27,30 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
   late String _jmlTopup;
   late Map<String, dynamic> _dataKonfirmasiIsiSaldo;
   String _radioValue = "";
-  XFile _image = XFile("");
+  File? _image;
 
   _getImageFromGallery() async {
     // ignore: unused_local_variable
-    XFile? image = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, maxHeight: 200, maxWidth: 200);
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
 
-    if (image != null) {
+    if (pickedFile != null) {
       setState(() {
-        _image = image;
+        _image = File(pickedFile.path);
       });
+    }
+  }
+
+  _getImageFromCamera() async {
+    final pickedImage =
+        await ImagePicker().getImage(source: ImageSource.camera);
+
+    if (pickedImage != null) {
+      setState(
+        () {
+          _image = File(pickedImage.path);
+        },
+      );
     }
   }
 
@@ -85,13 +99,54 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
             isImportant: true,
             isBanking: false,
           ),
-          CustomInputWithoutOutlineBorder(
-            label: "Dikirim ke",
-            inputValue: _dataKonfirmasiIsiSaldo['rekening'].toString(),
-            bankName: _dataKonfirmasiIsiSaldo['nama_bank'].toString(),
-            isBold: true,
-            isImportant: true,
-            isBanking: true,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Dikirim ke",
+                style: TextStyle(
+                  color: Colors.grey[600],
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _dataKonfirmasiIsiSaldo['nama_bank'].toString(),
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  TextField(
+                    autocorrect: false,
+                    readOnly: true,
+                    controller: TextEditingController(
+                      text: _dataKonfirmasiIsiSaldo['rekening'].toString(),
+                    ),
+                    decoration: const InputDecoration(
+                      // make focused border same as default border
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+            ],
           ),
           CustomInputWithoutOutlineBorder(
             label: "Batas waktu transfer",
@@ -213,6 +268,8 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                                                 _radioValue = value!;
                                               });
 
+                                              _getImageFromCamera();
+
                                               print(
                                                   "Radio value: $_radioValue");
                                             },
@@ -230,27 +287,34 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                     },
                   );
                 },
-                child: Container(
-                  width: double.infinity,
-                  height: 125,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(25, 0, 146, 199),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.photo),
-                      Text(
-                        "Upload bukti transaksi",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
+                child: _image != null
+                    ? Image.file(
+                        _image!,
+                        height: 200,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        width: double.infinity,
+                        height: 125,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(25, 0, 146, 199),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.photo),
+                            Text(
+                              "Upload bukti transaksi",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
               ),
             ),
           ),

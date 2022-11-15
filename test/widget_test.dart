@@ -66,6 +66,33 @@ void main() async {
     }
   }
 
+  getPdamList() async {
+    var response = await http
+        .post(Uri.parse(IpAdress().getIp + '/api/ppob/pdam-list'), headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $myToken",
+    }, body: {
+      "ppob_category_id": "6",
+    });
+
+    var data = jsonDecode(response.body)['data'];
+
+    if (response.statusCode == 200) {
+      print(data);
+    } else {
+      print(response.statusCode);
+      log(data.toString());
+    }
+  }
+
   // getTransactionHistory();
-  checkNomorPonsel();
+  // checkNomorPonsel();
+  getPdamList();
+
+  removeAlphabetFromPulsaCode(String value) {
+    var result = value.replaceAll(RegExp(r'[a-zA-Z]'), '');
+    print(result);
+  }
+
+  removeAlphabetFromPulsaCode('xl5000');
 }
