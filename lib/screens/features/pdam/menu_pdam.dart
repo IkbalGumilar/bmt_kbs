@@ -153,7 +153,7 @@ class _MenuPdamScreenState extends State<MenuPdamScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: selectedWilayah != 'Pilih Wilayah >' &&
-                        _noPDAMController.text.isNotEmpty
+                        _noPDAMController.text.length >= 15
                     ? () {
                         print("Beralih ke Detail Tagihan Screen");
                         // Navigator.push(
