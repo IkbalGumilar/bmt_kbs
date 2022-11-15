@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, unused_element
+
 import 'dart:convert';
 import 'dart:developer';
 
@@ -37,7 +39,6 @@ void main() async {
     var data = jsonDecode(response.body)['data'];
 
     if (response.statusCode == 200) {
-      // ignore: avoid_print
       print(data.toString());
     } else {
       print(response.statusCode);

@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/features/pdam/detail_tagihan_pdam.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +20,7 @@ class _MenuPdamScreenState extends State<MenuPdamScreen> {
   List listDataPdam = [];
   List<String> listWilayah = [];
   String selectedWilayah = "Pilih Wilayah >";
-  TextEditingController _noPDAMController = TextEditingController();
+  final TextEditingController _noPDAMController = TextEditingController();
 
   getPdamList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -56,7 +56,6 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
       var total = jsonDecode(response.body)['data']['price'];
 
       log(data.toString());
-      Sets() {}
       log(response.statusCode.toString());
 
       setState(() {
@@ -64,7 +63,6 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
       });
     } catch (e) {
       print(e.toString());
-      // make a flutterToast that have an error message
       Fluttertoast.showToast(
           msg: 'Terjadi kesalahan, harap coba lagi!',
           toastLength: Toast.LENGTH_SHORT,
@@ -511,7 +509,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                 ),
                               ),
                               Text(
-                                'Rp. ${nilai}',
+                                nilai!,
                                 style: TextStyle(
                                   color: Colors.grey[600],
                                   fontSize: 14,
@@ -565,7 +563,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "Total",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -574,7 +572,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                           ),
                           Text(
                             "$authTotal",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 14.0,
                             ),

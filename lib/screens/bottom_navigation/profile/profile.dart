@@ -1,5 +1,3 @@
-import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,8 +73,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           prefs.setString('token', '');
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/splash', (Route<dynamic> route) => false);
+
+                          if (mounted) {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/splash', (Route<dynamic> route) => false);
+                          }
                         },
                         child: Container(
                           width: width,
@@ -109,23 +110,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                logout();
-              },
-              child: const Text("Log Out"),
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+        return Future.value(false);
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  logout();
+                },
+                child: const Text("Log Out"),
+              ),
             ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-        ],
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
       ),
     );
   }

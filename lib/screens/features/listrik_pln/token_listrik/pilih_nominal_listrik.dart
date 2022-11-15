@@ -323,28 +323,30 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
 
       var data = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        print('DATA CHECKOUT TOKEN LISTRIK: $data');
+      if (mounted) {
+        if (response.statusCode == 200) {
+          print('DATA CHECKOUT TOKEN LISTRIK: $data');
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => KonfirmasiTokenListrik(),
-          ),
-        );
-      } else {
-        print('RESPONSE CHECKOUT ERROR: $data');
-        print(response.statusCode);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const KonfirmasiTokenListrik(),
+            ),
+          );
+        } else {
+          print('RESPONSE CHECKOUT ERROR: $data');
+          print(response.statusCode);
 
-        Fluttertoast.showToast(
-          msg: data['message'],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0,
-        );
+          Fluttertoast.showToast(
+            msg: data['message'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        }
       }
     }
 
@@ -414,7 +416,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "$_noMeter",
+                                      _noMeter,
                                       overflow: TextOverflow.visible,
                                       style: TextStyle(
                                         color: Colors.grey[600],
@@ -443,7 +445,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "$_namaPelanggan".toUpperCase(),
+                                      _namaPelanggan.toUpperCase(),
                                       textAlign: TextAlign.end,
                                       overflow: TextOverflow.visible,
                                       style: TextStyle(

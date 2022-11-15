@@ -87,7 +87,7 @@ class StatusTransferScreen extends StatelessWidget {
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text(
                                     "Rp. 120.000",
                                     style: TextStyle(
