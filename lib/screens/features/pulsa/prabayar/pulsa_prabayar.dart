@@ -5,7 +5,6 @@ import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/models/paket_data_model.dart';
 import 'package:bmt_kbs/models/pulsa_model.dart';
-import 'package:bmt_kbs/screens/features/pulsa/pascabayar/pulsa_pascabayar.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/konfirmasi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -371,38 +370,40 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
             ),
           ),
           const Divider(),
-          Expanded(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 0, horizontal: 30.0),
-              child: NestedScrollView(
-                controller: _scrollController,
-                headerSliverBuilder: (context, value) {
-                  return [
-                    SliverToBoxAdapter(
-                      child: TabBar(
-                        controller: _tabController,
-                        labelColor: Colors.black,
-                        indicatorColor: ColorPallete.primaryColor,
-                        isScrollable: true,
-                        tabs: myTabs,
+          _radioValue == 'nomor_ponsel'
+              ? Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 0, horizontal: 30.0),
+                    child: NestedScrollView(
+                      controller: _scrollController,
+                      headerSliverBuilder: (context, value) {
+                        return [
+                          SliverToBoxAdapter(
+                            child: TabBar(
+                              controller: _tabController,
+                              labelColor: Colors.black,
+                              indicatorColor: ColorPallete.primaryColor,
+                              isScrollable: true,
+                              tabs: myTabs,
+                            ),
+                          ),
+                        ];
+                      },
+                      body: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: [
+                            _pulsaTabContext(),
+                            _paketDataTabContext(),
+                          ],
+                        ),
                       ),
                     ),
-                  ];
-                },
-                body: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      _pulsaTabContext(),
-                      _paketDataTabContext(),
-                    ],
                   ),
-                ),
-              ),
-            ),
-          ),
+                )
+              : const SizedBox(),
         ],
       ),
     );
