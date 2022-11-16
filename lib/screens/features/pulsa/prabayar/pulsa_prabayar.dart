@@ -35,6 +35,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   late bool fixedScroll = false;
   late int selectedIndex = 1;
   var nilai;
+  var nomor;
   TextEditingController numberC = TextEditingController();
   String? authTotal;
   String _radioValue = '';
@@ -205,7 +206,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
-      itemCount: paketDataList.length,
+      itemCount: authData.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 20.0),
@@ -221,7 +222,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    paketDataList[index].paketTitle,
+                    authData[index]['product_name'],
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
@@ -231,14 +232,14 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                     height: 10,
                   ),
                   Text(
-                    paketDataList[index].paketDesc,
+                    authData[index]['description'],
                     style: TextStyle(color: Colors.grey[500], fontSize: 12),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   Text(
-                    "Rp. ${paketDataList[index].paketHarga}",
+                    "Rp. ${authData[index]['price']}",
                     style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
                 ],
@@ -335,6 +336,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                   controller: numberC,
                   onChanged: (content) {
                     cekNomer();
+                    cekData();
                   },
                   autocorrect: false,
                   decoration: InputDecoration(
@@ -384,8 +386,16 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            _pulsaTabContext(),
-                            _paketDataTabContext(),
+                            numberC.text.length <= 4
+                                ? SizedBox()
+                                : authTotal != null
+                                    ? _pulsaTabContext()
+                                    : SizedBox(),
+                            numberC.text.length <= 4
+                                ? SizedBox()
+                                : authTotal != null
+                                    ? _paketDataTabContext()
+                                    : SizedBox(),
                           ],
                         ),
                       ),
@@ -458,7 +468,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                 ),
                               ),
                               Text(
-                                "${numberC.text}",
+                                numberC.text,
                                 style: TextStyle(
                                   color: Colors.grey[600],
                                   fontSize: 14,
@@ -500,7 +510,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                 ),
                               ),
                               Text(
-                                nilai!,
+                                nilai.toString(),
                                 style: TextStyle(
                                   color: Colors.grey[600],
                                   fontSize: 14,
@@ -562,7 +572,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                             ),
                           ),
                           Text(
-                            "$authTotal",
+                            '$nilai',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 14.0,
@@ -613,9 +623,16 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const KonfirmasiPulsaPrabayarScreen(),
-                                ),
+                                    builder: (context) =>
+                                        KonfirmasiPulsaPrabayarScreen(
+                                          nomor: nomor,
+                                          category_id: category_id,
+                                          sub_category_id: sub_category_id,
+                                          harga: nilai,
+                                          produk: product,
+                                          deskripsi: deskripsi,
+                                          admin: admin,
+                                        )),
                               );
                             },
                             style: ElevatedButton.styleFrom(

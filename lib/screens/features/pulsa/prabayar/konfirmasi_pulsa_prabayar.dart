@@ -1,13 +1,9 @@
-// ignore: unused_import
-import 'dart:convert';
-import 'dart:developer';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/status_transaksi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KonfirmasiPulsaPrabayarScreen extends StatefulWidget {
@@ -197,9 +193,9 @@ class _KonfirmasiPulsaPrabayarScreenState
                             padding: const EdgeInsets.all(10),
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text(
-                                    "Bicara semua operator 1 hari",
+                                    "$deskripsi",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -216,7 +212,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                                     ),
                                   ),
                                   Text(
-                                    "Rp. 15.000",
+                                    "$harga",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -295,7 +291,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "Total Bayar",
                           style: TextStyle(
@@ -303,7 +299,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                           ),
                         ),
                         Text(
-                          "Rp 15.000",
+                          "Rp ${harga + admin}",
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
