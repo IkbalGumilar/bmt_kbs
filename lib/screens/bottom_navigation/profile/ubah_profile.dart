@@ -18,8 +18,9 @@ class _UbahProfileScreenState extends State<UbahProfileScreen> {
         double width = MediaQuery.of(context).size.width;
         double height = MediaQuery.of(context).size.height;
         return Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: Container(
             height: height * 0.25,
             width: width,
@@ -34,11 +35,12 @@ class _UbahProfileScreenState extends State<UbahProfileScreen> {
                 const Text(
                   'Apakah Anda \nYakin Ingin Keluar?',
                   style: TextStyle(
-                      fontSize: 16,
-                      height: 1,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Archivo'),
+                    fontSize: 16,
+                    height: 1,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Archivo',
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 Row(

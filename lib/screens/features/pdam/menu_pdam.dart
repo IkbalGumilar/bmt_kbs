@@ -3,8 +3,10 @@ import 'dart:developer';
 
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/features/pdam/detail_tagihan_pdam.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +22,9 @@ class _MenuPdamScreenState extends State<MenuPdamScreen> {
   List listDataPdam = [];
   List<String> listWilayah = [];
   String selectedWilayah = "Pilih Wilayah >";
+  String codeWilayah = '';
   final TextEditingController _noPDAMController = TextEditingController();
+  bool loading = true;
 
   getPdamList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -37,17 +41,111 @@ class _MenuPdamScreenState extends State<MenuPdamScreen> {
 
     if (response.statusCode == 200) {
       setState(() {
+        loading = false;
         listDataPdam = data;
         listWilayah =
             listDataPdam.map((e) => e['name']).toList().cast<String>();
       });
-
-      print(data);
     } else {
       print(response.statusCode);
       log(data.toString());
     }
   }
+
+  cekTagihanPDAM() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
+      var response = await http.post(
+        Uri.parse(IpAdress().getIp + '/api/v2/ppob/check-tagihan/pasca'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token",
+        },
+        body: {
+          "ppob_category_id": "6",
+          "hp": _noPDAMController.text,
+          "product_code": codeWilayah,
+        },
+      );
+
+      log(codeWilayah);
+
+      var data = jsonDecode(response.body);
+
+      switch (response.statusCode) {
+        case 200:
+          log(data.toString());
+
+          setState(() {
+            loading = false;
+          });
+          Fluttertoast.showToast(
+            msg: data['message'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          ).then(
+            (value) => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailTagihanPdamScreen(
+                  dataTagihanPDAM: data,
+                  nomorMeterPelanggan: _noPDAMController.text,
+                ),
+              ),
+            ),
+          );
+          break;
+        case 400:
+          setState(() {
+            loading = false;
+          });
+          Fluttertoast.showToast(
+            msg: data['message'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          break;
+        default:
+          setState(() {
+            loading = false;
+          });
+          Fluttertoast.showToast(
+            msg: data['message'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "Terjadi Kesalahan",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+  }
+
+  loadingBar() => const SizedBox(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
 
   @override
   void initState() {
@@ -58,128 +156,130 @@ class _MenuPdamScreenState extends State<MenuPdamScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log(listWilayah.toString());
-
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: CustomAppBar(
-          title: "PDAM",
-          isHaveActions: false,
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 30.0,
-          vertical: 20.0,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Wrap(
-              runSpacing: 20,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "No. Pelanggan",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextField(
-                      controller: _noPDAMController,
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: ColorPallete.lightBlueColor,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        hintText: "Masukkan No. Pelanggan",
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Wilayah",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // ignore: avoid_print
-                        print("Pop-up Modal Wilayah");
-                        pilihWilayahPdamBottomSheet(context);
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        color: Colors.transparent,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                selectedWilayah,
-                                textAlign: TextAlign.end,
-                                style: const TextStyle(color: Colors.grey),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 60,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: selectedWilayah != 'Pilih Wilayah >' &&
-                        _noPDAMController.text.length >= 15
-                    ? () {
-                        print("Beralih ke Detail Tagihan Screen");
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const DetailTagihanPdamScreen(),
-                        //   ),
-                        // );
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorPallete.primaryColor,
-                ),
-                child: const Text(
-                  "Cek Tagihan",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                  ),
-                ),
+      appBar: loading == false
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(60),
+              child: CustomAppBar(
+                title: "PDAM",
+                isHaveActions: false,
               ),
             )
-          ],
-        ),
-      ),
+          : null,
+      body: loading == true
+          ? loadingBar()
+          : Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30.0,
+                vertical: 20.0,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Wrap(
+                    runSpacing: 20,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "No. Pelanggan",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextField(
+                            controller: _noPDAMController,
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: ColorPallete.lightBlueColor,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide.none,
+                              ),
+                              hintText: "Masukkan No. Pelanggan",
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Wilayah",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              // ignore: avoid_print
+                              print("Pop-up Modal Wilayah");
+                              pilihWilayahPdamBottomSheet(context);
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              color: Colors.transparent,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      selectedWilayah,
+                                      textAlign: TextAlign.end,
+                                      style:
+                                          const TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 60,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: selectedWilayah != 'Pilih Wilayah >' &&
+                              _noPDAMController.text.length >= 8
+                          ? () {
+                              setState(() {
+                                loading = true;
+                                loadingBar();
+                              });
+
+                              cekTagihanPDAM();
+                            }
+                          : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorPallete.primaryColor,
+                      ),
+                      child: const Text(
+                        "Cek Tagihan",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
     );
   }
 
@@ -281,6 +381,7 @@ class _MenuPdamScreenState extends State<MenuPdamScreen> {
 
                             setState(() {
                               selectedWilayah = listDataPdam[index]['name'];
+                              codeWilayah = listDataPdam[index]['code'];
                             });
 
                             Navigator.pop(context);
