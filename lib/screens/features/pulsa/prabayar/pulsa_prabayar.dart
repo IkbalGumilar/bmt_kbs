@@ -34,10 +34,65 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   late ScrollController _scrollController;
   late bool fixedScroll = false;
   late int selectedIndex = 1;
-  String? nilai;
+  var nilai;
+  var nomor;
   TextEditingController numberC = TextEditingController();
-  String? authTotal;
+  var authTotal;
+  var authData;
+  var deskripsi;
+  var hargaData;
+  var product;
+  var category_id;
+  var sub_category_id;
+  var admin;
+
+  var paketData;
   String _radioValue = "";
+  cekData() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Uri url = Uri.parse(IpAdress().getIp + '/api/ppob/check_nomor');
+      var token = prefs.getString('token');
+      var response = await http.post(url, headers: {
+        "Authorization": "Bearer $token",
+        "Accept": 'application/json',
+      }, body: {
+        "nomor": numberC.text,
+        "type": "data"
+      });
+      log(numberC.text.toString());
+      List data = jsonDecode(response.body)['data']['data'];
+      var status = jsonDecode(response.body)['status'];
+
+      log(status);
+      //log(data.toString());
+
+      if (response.statusCode == 200) {
+        setState(() {
+          authData = data;
+        });
+      } else if (response.statusCode == 401) {
+        Fluttertoast.showToast(
+            msg: 'Nomer Yang Anda Masukan Salah!',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+    } catch (e) {
+      print(e.toString());
+      // Fluttertoast.showToast(
+      //     msg: 'Terjadi kesalahan, harap coba lagi!',
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
+    }
+  }
 
   cekNomer() async {
     try {
@@ -51,26 +106,34 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
         "nomor": numberC.text,
         "type": "pulsa"
       });
-      log(numberC.text.toString());
-      var data = jsonDecode(response.body)['data']['price'];
-      var total = jsonDecode(response.body)['data']['price'];
-
-      log(data.toString());
+      var total = jsonDecode(response.body)['data']['data'];
+      log(total.toString());
       log(response.statusCode.toString());
 
-      setState(() {
-        authTotal = total;
-      });
+      if (response.statusCode == 200) {
+        setState(() {
+          authTotal = total;
+        });
+      } else if (response.statusCode == 401) {
+        Fluttertoast.showToast(
+            msg: 'Nomer Yang Anda Masukan Salah!',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
     } catch (e) {
       print(e.toString());
-      Fluttertoast.showToast(
-          msg: 'Terjadi kesalahan, harap coba lagi!',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: 'Terjadi kesalahan, harap coba lagi!',
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
     }
   }
 
@@ -113,7 +176,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
     return GridView.builder(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
-      itemCount: pulsaList.length,
+      itemCount: authTotal!.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 1.1,
@@ -145,12 +208,25 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
               customBottomSheet(context);
             }
             // ignore: avoid_print
-            print('Pulsa ${pulsaList[index].jmlPulsa} selected');
+            print('Pulsa ${authTotal[index]['product_code']} selected');
 
             setState(() {
               selectedIndex = index;
-              nilai = (pulsaList[index].jmlPulsa);
+              nilai = (authTotal[index]['price']);
+              category_id = (authTotal[index]['category_id']);
+              sub_category_id = (authTotal[index]['sub_category_id']);
+              nomor = numberC.text;
+              deskripsi = (authTotal[index]['description']);
+              product = (authTotal[index]['product_code']);
+              admin = (authTotal[index]['admin_bank']);
             });
+            log(nomor);
+            log(category_id);
+            log(sub_category_id);
+            log(nilai.toString());
+            log(deskripsi);
+            log(product);
+            log(admin.toString());
           },
           child: Container(
             width: 100,
@@ -175,7 +251,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                       Wrap(
                         children: [
                           Text(
-                            pulsaList[index].jmlPulsa,
+                            '${authTotal[index]['product_code']}'.substring(6),
                             style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ],
@@ -189,7 +265,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                 color: Colors.grey[500], fontSize: 12),
                           ),
                           Text(
-                            "Rp. ${pulsaList[index].hargaPulsa}",
+                            "Rp. ${authTotal[index]['price']}",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.grey[900],
@@ -214,7 +290,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
-      itemCount: paketDataList.length,
+      itemCount: authData.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 20.0),
@@ -230,7 +306,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    paketDataList[index].paketTitle,
+                    authData[index]['product_name'],
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
@@ -240,14 +316,14 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                     height: 10,
                   ),
                   Text(
-                    paketDataList[index].paketDesc,
+                    authData[index]['description'],
                     style: TextStyle(color: Colors.grey[500], fontSize: 12),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   Text(
-                    "Rp. ${paketDataList[index].paketHarga}",
+                    "Rp. ${authData[index]['price']}",
                     style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
                 ],
@@ -344,6 +420,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                   controller: numberC,
                   onChanged: (content) {
                     cekNomer();
+                    cekData();
                   },
                   autocorrect: false,
                   decoration: InputDecoration(
@@ -393,8 +470,16 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            _pulsaTabContext(),
-                            _paketDataTabContext(),
+                            numberC.text.length <= 4
+                                ? SizedBox()
+                                : authTotal != null
+                                    ? _pulsaTabContext()
+                                    : SizedBox(),
+                            numberC.text.length <= 4
+                                ? SizedBox()
+                                : authTotal != null
+                                    ? _paketDataTabContext()
+                                    : SizedBox(),
                           ],
                         ),
                       ),
@@ -467,7 +552,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                 ),
                               ),
                               Text(
-                                "${numberC.text}",
+                                numberC.text,
                                 style: TextStyle(
                                   color: Colors.grey[600],
                                   fontSize: 14,
@@ -509,7 +594,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                 ),
                               ),
                               Text(
-                                nilai!,
+                                nilai.toString(),
                                 style: TextStyle(
                                   color: Colors.grey[600],
                                   fontSize: 14,
@@ -571,7 +656,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                             ),
                           ),
                           Text(
-                            "$authTotal",
+                            '$nilai',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 14.0,
@@ -622,9 +707,16 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const KonfirmasiPulsaPrabayarScreen(),
-                                ),
+                                    builder: (context) =>
+                                        KonfirmasiPulsaPrabayarScreen(
+                                          nomor: nomor,
+                                          category_id: category_id,
+                                          sub_category_id: sub_category_id,
+                                          harga: nilai,
+                                          produk: product,
+                                          deskripsi: deskripsi,
+                                          admin: admin,
+                                        )),
                               );
                             },
                             style: ElevatedButton.styleFrom(

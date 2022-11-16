@@ -1,10 +1,97 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/status_transaksi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
+// ignore: unused_import
+import './pulsa_prabayar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class KonfirmasiPulsaPrabayarScreen extends StatelessWidget {
-  const KonfirmasiPulsaPrabayarScreen({super.key});
+class KonfirmasiPulsaPrabayarScreen extends StatefulWidget {
+  String nomor;
+  String category_id;
+  String sub_category_id;
+  int harga;
+  String deskripsi;
+  String produk;
+  int admin;
+
+  KonfirmasiPulsaPrabayarScreen({
+    super.key,
+    required this.nomor,
+    required this.category_id,
+    required this.sub_category_id,
+    required this.harga,
+    required this.deskripsi,
+    required this.produk,
+    required this.admin,
+  });
+
+  @override
+  State<KonfirmasiPulsaPrabayarScreen> createState() =>
+      _KonfirmasiPulsaPrabayarScreenState();
+}
+
+class _KonfirmasiPulsaPrabayarScreenState
+    extends State<KonfirmasiPulsaPrabayarScreen> {
+  late String noPengguna;
+  late String kategori;
+  late String subKategori;
+  late String produk;
+  late int harga;
+  late String deskripsi;
+  late int admin;
+  String? categityId;
+  String? subCategoryId;
+
+  konfirmasi() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Uri url = Uri.parse(IpAdress().getIp + '/api/ppob/check_nomor');
+      var token = prefs.getString('token');
+      var response = await http.post(url, headers: {
+        "Authorization": "Bearer $token",
+        "Accept": 'application/json',
+      }, body: {
+        "nomor": '',
+        "category_id": '',
+        "sub_category_id": '',
+        "type": "pulsa"
+      });
+
+      log(response.statusCode.toString());
+
+      if (response.statusCode == 200) {}
+    } catch (e) {
+      print(e.toString());
+      // make a flutterToast that have an error message
+      Fluttertoast.showToast(
+          msg: 'Terjadi kesalahan, harap coba lagi!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    noPengguna = widget.nomor;
+    kategori = widget.category_id;
+    subKategori = widget.sub_category_id;
+    harga = widget.harga;
+    deskripsi = widget.deskripsi;
+    produk = widget.produk;
+    admin = widget.admin;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,9 +232,9 @@ class KonfirmasiPulsaPrabayarScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(10),
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text(
-                                    "Bicara semua operator 1 hari",
+                                    "$deskripsi",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -164,7 +251,7 @@ class KonfirmasiPulsaPrabayarScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Rp. 15.000",
+                                    "$harga",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -243,7 +330,7 @@ class KonfirmasiPulsaPrabayarScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "Total Bayar",
                           style: TextStyle(
@@ -251,7 +338,7 @@ class KonfirmasiPulsaPrabayarScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Rp 15.000",
+                          "Rp ${harga + admin}",
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
