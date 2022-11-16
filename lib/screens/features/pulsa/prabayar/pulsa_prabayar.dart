@@ -34,16 +34,17 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   late ScrollController _scrollController;
   late bool fixedScroll = false;
   late int selectedIndex = 1;
-  String? nilai;
+  var nilai;
   TextEditingController numberC = TextEditingController();
   String? authTotal;
-  String _radioValue = "";
+  String _radioValue = '';
 
   cekNomer() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Uri url = Uri.parse(IpAdress().getIp + '/api/ppob/check_nomor');
       var token = prefs.getString('token');
+
       var response = await http.post(url, headers: {
         "Authorization": "Bearer $token",
         "Accept": 'application/json',
@@ -51,18 +52,15 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
         "nomor": numberC.text,
         "type": "pulsa"
       });
-      log(numberC.text.toString());
-      var data = jsonDecode(response.body)['data']['price'];
-      var total = jsonDecode(response.body)['data']['price'];
 
-      log(data.toString());
-      log(response.statusCode.toString());
+      var total = jsonDecode(response.body)['data']['data'];
 
-      setState(() {
-        authTotal = total;
-      });
+      if (response.statusCode == 200) {
+        setState(() {
+          authTotal = total;
+        });
+      }
     } catch (e) {
-      print(e.toString());
       Fluttertoast.showToast(
           msg: 'Terjadi kesalahan, harap coba lagi!',
           toastLength: Toast.LENGTH_SHORT,
@@ -113,7 +111,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
     return GridView.builder(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
-      itemCount: pulsaList.length,
+      itemCount: authTotal!.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 1.1,
@@ -144,13 +142,6 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
             } else {
               customBottomSheet(context);
             }
-            // ignore: avoid_print
-            print('Pulsa ${pulsaList[index].jmlPulsa} selected');
-
-            setState(() {
-              selectedIndex = index;
-              nilai = (pulsaList[index].jmlPulsa);
-            });
           },
           child: Container(
             width: 100,
@@ -175,7 +166,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                       Wrap(
                         children: [
                           Text(
-                            pulsaList[index].jmlPulsa,
+                            '',
                             style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ],
@@ -189,7 +180,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                 color: Colors.grey[500], fontSize: 12),
                           ),
                           Text(
-                            "Rp. ${pulsaList[index].hargaPulsa}",
+                            "Rp. ",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.grey[900],
