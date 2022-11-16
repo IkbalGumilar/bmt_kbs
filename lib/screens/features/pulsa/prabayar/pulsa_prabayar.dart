@@ -35,9 +35,9 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   late ScrollController _scrollController;
   late bool fixedScroll = false;
   late int selectedIndex = 1;
-  String? nilai;
+  var nilai;
   TextEditingController numberC = TextEditingController();
-  String? authTotal;
+  var authTotal;
 
   cekNomer() async {
     try {
@@ -52,16 +52,17 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
         "type": "pulsa"
       });
       log(numberC.text.toString());
-      var data = jsonDecode(response.body)['data']['price'];
-      var total = jsonDecode(response.body)['data']['price'];
+      var total = jsonDecode(response.body)['data']['data'];
 
-      log(data.toString());
-      Sets() {}
+      log(total.toString());
+
       log(response.statusCode.toString());
 
-      setState(() {
-        authTotal = total;
-      });
+      if (response.statusCode == 200) {
+        setState(() {
+          authTotal = total;
+        });
+      }
     } catch (e) {
       print(e.toString());
       // make a flutterToast that have an error message
@@ -115,7 +116,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
     return GridView.builder(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
-      itemCount: pulsaList.length,
+      itemCount: authTotal!.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 1.1,
@@ -147,11 +148,11 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
               customBottomSheet(context);
             }
             // ignore: avoid_print
-            print('Pulsa ${pulsaList[index].jmlPulsa} selected');
+            print('Pulsa ${authTotal[index]['product_code']} selected');
 
             setState(() {
               selectedIndex = index;
-              nilai = (pulsaList[index].jmlPulsa);
+              nilai = (authTotal[index]['price']);
             });
           },
           child: Container(
@@ -177,7 +178,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                       Wrap(
                         children: [
                           Text(
-                            pulsaList[index].jmlPulsa,
+                            '${authTotal[index]['product_code']}'.substring(6),
                             style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ],
@@ -191,7 +192,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                 color: Colors.grey[500], fontSize: 12),
                           ),
                           Text(
-                            "Rp. ${pulsaList[index].hargaPulsa}",
+                            "Rp. ${authTotal[index]['price']}",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.grey[900],
@@ -384,7 +385,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      _pulsaTabContext(),
+                      authTotal != null ? _pulsaTabContext() : SizedBox(),
                       _paketDataTabContext(),
                     ],
                   ),
@@ -561,7 +562,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                             ),
                           ),
                           Text(
-                            "$authTotal",
+                            "${nilai}",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 14.0,

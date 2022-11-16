@@ -1,10 +1,63 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/status_transaksi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
+// ignore: unused_import
+import './pulsa_prabayar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class KonfirmasiPulsaPrabayarScreen extends StatelessWidget {
+class KonfirmasiPulsaPrabayarScreen extends StatefulWidget {
   const KonfirmasiPulsaPrabayarScreen({super.key});
+
+  @override
+  State<KonfirmasiPulsaPrabayarScreen> createState() =>
+      _KonfirmasiPulsaPrabayarScreenState();
+}
+
+class _KonfirmasiPulsaPrabayarScreenState
+    extends State<KonfirmasiPulsaPrabayarScreen> {
+  int? nomer;
+
+  String? categityId;
+
+  String? subCategoryId;
+
+  konfirmasi() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Uri url = Uri.parse(IpAdress().getIp + '/api/ppob/check_nomor');
+      var token = prefs.getString('token');
+      var response = await http.post(url, headers: {
+        "Authorization": "Bearer $token",
+        "Accept": 'application/json',
+      }, body: {
+        "nomor": '',
+        "category_id": '',
+        "sub_category_id": '',
+        "type": "pulsa"
+      });
+
+      log(response.statusCode.toString());
+
+      if (response.statusCode == 200) {}
+    } catch (e) {
+      print(e.toString());
+      // make a flutterToast that have an error message
+      Fluttertoast.showToast(
+          msg: 'Terjadi kesalahan, harap coba lagi!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
