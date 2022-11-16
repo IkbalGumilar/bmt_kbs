@@ -118,19 +118,383 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        body: ListView(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+          ),
           children: [
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  logout();
-                },
-                child: const Text("Log Out"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 160,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: const DecorationImage(
+                        image:
+                            AssetImage('assets/icons/card_icons/card_mask.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        width: 65,
+                        height: 65,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(65 / 2),
+                          ),
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/avatar.png',
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        child: Text(
+                          "Anggi Rima Saputra".toUpperCase(),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
             ),
-            const SizedBox(
-              width: 10,
+            const SizedBox(height: 30),
+            Container(
+              width: double.infinity,
+              height: 40,
+              color: Colors.grey[300],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 30.0,
+                    ),
+                    child: Text(
+                      'Profil',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 30.0),
+              child: Wrap(
+                runSpacing: -16,
+                children: [
+                  ListTile(
+                    leading: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Icon(
+                        Icons.drive_file_rename_outline,
+                        color: Colors.black,
+                      ),
+                    ),
+                    minLeadingWidth: 0,
+                    title: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Text(
+                        'Ubah Profil',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    trailing: Transform.scale(
+                      scale: 1.1,
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/edit_profile');
+                    },
+                  ),
+                  ListTile(
+                    leading: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Icon(
+                        Icons.generating_tokens,
+                        color: Colors.black,
+                      ),
+                    ),
+                    minLeadingWidth: 0,
+                    title: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Text(
+                        'My Coin',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    trailing: Transform.scale(
+                      scale: 1.1,
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/edit_profile');
+                    },
+                  ),
+                  ListTile(
+                    leading: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: Transform.rotate(
+                        angle: 3.14 / -3,
+                        child: const Icon(
+                          Icons.confirmation_number,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    minLeadingWidth: 0,
+                    title: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Text(
+                        'Kode Promo',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    trailing: Transform.scale(
+                      scale: 1.1,
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/edit_profile');
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              height: 40,
+              color: Colors.grey[300],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 30.0,
+                    ),
+                    child: Text(
+                      'Keamanan',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 30.0),
+              child: Wrap(
+                runSpacing: -16,
+                children: [
+                  ListTile(
+                    leading: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Icon(
+                        Icons.lock,
+                        color: Colors.black,
+                      ),
+                    ),
+                    minLeadingWidth: 0,
+                    title: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Text(
+                        'Ubah Security Code',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    trailing: Transform.scale(
+                      scale: 1.1,
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/edit_profile');
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              height: 40,
+              color: Colors.grey[300],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 30.0,
+                    ),
+                    child: Text(
+                      'Tentang',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 30.0),
+              child: Wrap(
+                runSpacing: -16,
+                children: [
+                  ListTile(
+                    leading: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Icon(
+                        Icons.description,
+                        color: Colors.black,
+                      ),
+                    ),
+                    minLeadingWidth: 0,
+                    title: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Text(
+                        'Syarat dan Ketentuan',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    trailing: Transform.scale(
+                      scale: 1.1,
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/edit_profile');
+                    },
+                  ),
+                  ListTile(
+                    leading: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Icon(
+                        Icons.verified_user,
+                        color: Colors.black,
+                      ),
+                    ),
+                    minLeadingWidth: 0,
+                    title: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Text(
+                        'Kebijakan Privasi',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    trailing: Transform.scale(
+                      scale: 1.1,
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/edit_profile');
+                    },
+                  ),
+                  ListTile(
+                    leading: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Icon(
+                        Icons.quiz,
+                        color: Colors.black,
+                      ),
+                    ),
+                    minLeadingWidth: 0,
+                    title: Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: const Text(
+                        'Pusat Bantuan',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    trailing: Transform.scale(
+                      scale: 1.1,
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/edit_profile');
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),

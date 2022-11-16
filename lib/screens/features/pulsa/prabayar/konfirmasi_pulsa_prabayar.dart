@@ -1,3 +1,4 @@
+// ignore: unused_import
 import 'dart:convert';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,8 +8,6 @@ import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/status_transaksi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
-// ignore: unused_import
-import './pulsa_prabayar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KonfirmasiPulsaPrabayarScreen extends StatefulWidget {
