@@ -65,8 +65,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
+          children: const [
+            Text(
               "Letakkan QR Code di dalam kotak",
               style: TextStyle(
                 color: Colors.black,

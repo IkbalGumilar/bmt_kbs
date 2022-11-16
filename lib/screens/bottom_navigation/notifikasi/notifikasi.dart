@@ -9,38 +9,45 @@ class NotifikasiScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: DefaultTabController(
-        length: 2,
-        child: (Scaffold(
-          backgroundColor: Colors.white,
-          body: Column(
-            children: [
-              const TabBar(
-                indicatorColor: ColorPallete.primaryColor,
-                labelColor: Colors.black,
-                labelStyle: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                ),
-                tabs: [
-                  Tab(
-                    text: 'Notifikasi',
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+        return Future.value(false);
+      },
+      child: Scaffold(
+        body: DefaultTabController(
+          length: 2,
+          child: (Scaffold(
+            backgroundColor: Colors.white,
+            body: Column(
+              children: [
+                const TabBar(
+                  indicatorColor: ColorPallete.primaryColor,
+                  labelColor: Colors.black,
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
                   ),
-                  Tab(text: 'Pesan'),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    _notifikasiTabSection(),
-                    _pesanTabSection(),
+                  tabs: [
+                    Tab(
+                      text: 'Notifikasi',
+                    ),
+                    Tab(text: 'Pesan'),
                   ],
                 ),
-              )
-            ],
-          ),
-        )),
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      _notifikasiTabSection(),
+                      _pesanTabSection(),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )),
+        ),
       ),
     );
   }

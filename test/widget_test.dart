@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, unused_element
+
 import 'dart:convert';
 import 'dart:developer';
 
@@ -44,5 +46,54 @@ void main() async {
     }
   }
 
-  getTransactionHistory();
+  checkNomorPonsel() async {
+    var response = await http.post(
+      Uri.parse(IpAdress().getIp + '/api/ppob/check_nomor'),
+      headers: {
+        "Authorization": "Bearer $myToken",
+        "Accept": "application/json",
+      },
+      body: {"nomor": "0821", "type": "pulsa"},
+    );
+
+    var data = jsonDecode(response.body)['data']['data'];
+
+    if (response.statusCode == 200) {
+      var result = data.map((e) => e['product_code']).toList();
+      print(result);
+    } else {
+      print(response.statusCode);
+      log(data.toString());
+    }
+  }
+
+  getPdamList() async {
+    var response = await http
+        .post(Uri.parse(IpAdress().getIp + '/api/ppob/pdam-list'), headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $myToken",
+    }, body: {
+      "ppob_category_id": "6",
+    });
+
+    var data = jsonDecode(response.body)['data'];
+
+    if (response.statusCode == 200) {
+      print(data);
+    } else {
+      print(response.statusCode);
+      log(data.toString());
+    }
+  }
+
+  // getTransactionHistory();
+  // checkNomorPonsel();
+  getPdamList();
+
+  removeAlphabetFromPulsaCode(String value) {
+    var result = value.replaceAll(RegExp(r'[a-zA-Z]'), '');
+    print(result);
+  }
+
+  removeAlphabetFromPulsaCode('xl5000');
 }

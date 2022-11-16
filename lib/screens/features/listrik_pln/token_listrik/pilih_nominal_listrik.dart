@@ -4,11 +4,11 @@ import 'dart:developer';
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/etc/custom_format.dart';
-import 'package:bmt_kbs/models/token_listrik_model.dart';
 import 'package:bmt_kbs/screens/features/listrik_pln/token_listrik/konfirmasi_token_listrik.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,13 +32,15 @@ class PilihNominalListrikScreen extends StatefulWidget {
 
 class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
   late int selectedIndex;
-  late String? _noMeter;
-  late String? _namaPelanggan;
-  late String? _segmentPower;
+  late String _noMeter;
+  late String _namaPelanggan;
+  late String _segmentPower;
 
-  List<dynamic>? _listNominal;
+  List<dynamic> _listNominal = [];
   String? _productSubCategoriesID;
   String? _productCode;
+
+  bool loading = true;
 
   getPriceListTokenPLN() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -212,7 +214,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: _listNominal!.length,
+              itemCount: _listNominal.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 mainAxisSpacing: 10,
@@ -226,12 +228,12 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                     print("Anda meng-klik nomor $index");
                     setState(() {
                       selectedIndex = index;
-                      _productCode = _listNominal![index]['pulsa_code'];
+                      _productCode = _listNominal[index]['pulsa_code'];
                     });
 
                     log("Pulsa Code/Product Code: $_productCode");
                     nominalTokenBottomSheet(
-                        context, _listNominal![index]['pulsa_price']);
+                        context, _listNominal[index]['pulsa_price']);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -252,7 +254,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                         runSpacing: 5,
                         children: [
                           Text(
-                            _listNominal![index]['pulsa_nominal'].toString(),
+                            _listNominal[index]['pulsa_nominal'].toString(),
                             style: TextStyle(
                               color: selectedIndex == index
                                   ? Colors.white
@@ -274,7 +276,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                               ),
                               Text(
                                 CustomFormat.ubahFormatRupiah(
-                                    _listNominal![index]['pulsa_price'], 0),
+                                    _listNominal[index]['pulsa_price'], 0),
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: selectedIndex == index
@@ -321,11 +323,30 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
 
       var data = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        print('DATA CHECKOUT TOKEN LISTRIK: $data');
-      } else {
-        print('RESPONSE CHECKOUT ERROR: $data');
-        print(response.statusCode);
+      if (mounted) {
+        if (response.statusCode == 200) {
+          print('DATA CHECKOUT TOKEN LISTRIK: $data');
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const KonfirmasiTokenListrik(),
+            ),
+          );
+        } else {
+          print('RESPONSE CHECKOUT ERROR: $data');
+          print(response.statusCode);
+
+          Fluttertoast.showToast(
+            msg: data['message'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        }
       }
     }
 
@@ -395,7 +416,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "$_noMeter",
+                                      _noMeter,
                                       overflow: TextOverflow.visible,
                                       style: TextStyle(
                                         color: Colors.grey[600],
@@ -424,7 +445,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "$_namaPelanggan".toUpperCase(),
+                                      _namaPelanggan.toUpperCase(),
                                       textAlign: TextAlign.end,
                                       overflow: TextOverflow.visible,
                                       style: TextStyle(

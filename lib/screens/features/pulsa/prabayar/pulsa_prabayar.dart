@@ -1,11 +1,18 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/models/paket_data_model.dart';
 import 'package:bmt_kbs/models/pulsa_model.dart';
-import 'package:bmt_kbs/screens/features/pulsa/pascabayar/pulsa_pascabayar.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/konfirmasi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PulsaPrabayarScreen extends StatefulWidget {
   const PulsaPrabayarScreen({super.key});
@@ -27,7 +34,43 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   late ScrollController _scrollController;
   late bool fixedScroll = false;
   late int selectedIndex = 1;
-  String? nilai;
+  var nilai;
+  TextEditingController numberC = TextEditingController();
+  String? authTotal;
+  String _radioValue = '';
+
+  cekNomer() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Uri url = Uri.parse(IpAdress().getIp + '/api/ppob/check_nomor');
+      var token = prefs.getString('token');
+
+      var response = await http.post(url, headers: {
+        "Authorization": "Bearer $token",
+        "Accept": 'application/json',
+      }, body: {
+        "nomor": numberC.text,
+        "type": "pulsa"
+      });
+
+      var total = jsonDecode(response.body)['data']['data'];
+
+      if (response.statusCode == 200) {
+        setState(() {
+          authTotal = total;
+        });
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'Terjadi kesalahan, harap coba lagi!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
 
   @override
   void initState() {
@@ -68,7 +111,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
     return GridView.builder(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
-      itemCount: pulsaList.length,
+      itemCount: authTotal!.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 1.1,
@@ -78,16 +121,27 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
-            // ignore: avoid_print
-            print('Pulsa ${pulsaList[index].jmlPulsa} selected');
-
-            // create animation transition before showing custom bottom sheet
-            customBottomSheet(context);
-
-            setState(() {
-              selectedIndex = index;
-              nilai = pulsaList[index].jmlPulsa;
-            });
+            if (numberC.text == "Nomor Ponsel" || numberC.text == '') {
+              Fluttertoast.showToast(
+                  msg: 'Nomer masih kosong!',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            } else if (numberC.text.length < 12) {
+              Fluttertoast.showToast(
+                  msg: 'Nomer yang anda masukan salah!',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            } else {
+              customBottomSheet(context);
+            }
           },
           child: Container(
             width: 100,
@@ -112,7 +166,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                       Wrap(
                         children: [
                           Text(
-                            pulsaList[index].jmlPulsa,
+                            '',
                             style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ],
@@ -126,7 +180,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                 color: Colors.grey[500], fontSize: 12),
                           ),
                           Text(
-                            "Rp. ${pulsaList[index].hargaPulsa}",
+                            "Rp. ",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.grey[900],
@@ -214,361 +268,381 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
             padding:
                 const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Wrap(
-                  runSpacing: 10,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Wrap(
+                      spacing: 10,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        const Text(
-                          "Nomor Ponsel",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                        Radio(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          value: "nomor_ponsel",
+                          visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity,
                           ),
-                        ),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: const Size(50, 30),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            alignment: Alignment.centerLeft,
-                          ),
-                          onPressed: () {
-                            print("Beralih ke menu pulsa pascabayar");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const PulsaPascabayarScreen(),
-                              ),
-                            );
+                          groupValue: _radioValue,
+                          onChanged: (index) {
+                            setState(() {
+                              _radioValue = index!;
+                            });
+
+                            print(_radioValue);
                           },
-                          child: const Text(
-                            "No. Pascabayar?",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        )
+                        ),
+                        const Text("Nomor Ponsel"),
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextField(
-                      autocorrect: false,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
+                    Wrap(
+                      spacing: 10,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Radio(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          value: "nomor_pascabayar",
+                          visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity,
+                          ),
+                          groupValue: _radioValue,
+                          onChanged: (index) {
+                            setState(() {
+                              _radioValue = index!;
+                            });
+
+                            print(_radioValue);
+                          },
                         ),
-                        fillColor: ColorPallete.lightBlueColor,
-                        filled: true,
-                        hintText: "Masukkan No. Ponsel",
-                        hintStyle: const TextStyle(
-                          color: Colors.black54,
-                          fontSize: 14,
-                        ),
-                        suffixIcon: Image.asset(
-                          "assets/icons/screens/pulsa/no_ponsel.png",
-                          scale: 2,
-                        ),
-                      ),
+                        const Text("No. Pascabayar"),
+                      ],
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 20.0,
+                  height: 20,
+                ),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  controller: numberC,
+                  onChanged: (content) {
+                    cekNomer();
+                  },
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    fillColor: ColorPallete.lightBlueColor,
+                    filled: true,
+                    hintText: "Masukkan No. Ponsel",
+                    hintStyle: const TextStyle(
+                      color: Colors.black54,
+                      fontSize: 14,
+                    ),
+                    suffixIcon: Image.asset(
+                      "assets/icons/screens/pulsa/no_ponsel.png",
+                      scale: 2,
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
           const Divider(),
-          Expanded(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 0, horizontal: 30.0),
-              child: NestedScrollView(
-                controller: _scrollController,
-                headerSliverBuilder: (context, value) {
-                  return [
-                    SliverToBoxAdapter(
-                      child: TabBar(
-                        controller: _tabController,
-                        labelColor: Colors.black,
-                        indicatorColor: ColorPallete.primaryColor,
-                        isScrollable: true,
-                        tabs: myTabs,
+          _radioValue == 'nomor_ponsel'
+              ? Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 0, horizontal: 30.0),
+                    child: NestedScrollView(
+                      controller: _scrollController,
+                      headerSliverBuilder: (context, value) {
+                        return [
+                          SliverToBoxAdapter(
+                            child: TabBar(
+                              controller: _tabController,
+                              labelColor: Colors.black,
+                              indicatorColor: ColorPallete.primaryColor,
+                              isScrollable: true,
+                              tabs: myTabs,
+                            ),
+                          ),
+                        ];
+                      },
+                      body: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: [
+                            _pulsaTabContext(),
+                            _paketDataTabContext(),
+                          ],
+                        ),
                       ),
                     ),
-                  ];
-                },
-                body: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      _pulsaTabContext(),
-                      _paketDataTabContext(),
-                    ],
                   ),
-                ),
-              ),
-            ),
-          ),
+                )
+              : const SizedBox(),
         ],
       ),
     );
   }
-}
 
-Future<dynamic> customBottomSheet(BuildContext context) {
-  return showModalBottomSheet(
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(10.0),
-        topRight: Radius.circular(10.0),
+  Future<dynamic> customBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10.0),
+          topRight: Radius.circular(10.0),
+        ),
       ),
-    ),
-    isScrollControlled: true,
-    context: context,
-    builder: (context) {
-      return FractionallySizedBox(
-        heightFactor: 0.5,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 20,
-            horizontal: 30,
-          ),
-          child: ListView(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 50,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(10),
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: 0.5,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 20,
+              horizontal: 30,
+            ),
+            child: ListView(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Column(
+                  children: [
+                    Wrap(
+                      children: [
+                        const Text(
+                          "Informasi Pelanggan",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Nomor Ponsel",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                "${numberC.text}",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(color: Colors.grey[400], thickness: 1),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Detil Pembayaran",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.0,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Bicara semua operator 1 hari",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                nilai!,
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Biaya transaksi",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                "Rp. -0",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 1,
+                  width: double.infinity,
+                  child: DottedBorder(
+                    color: Colors.grey[400]!,
+                    dashPattern: const [6, 3, 6, 3],
+                    child: const SizedBox(),
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Column(
-                children: [
-                  Wrap(
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Column(
                     children: [
-                      const Text(
-                        "Informasi Pelanggan",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Nomor Ponsel",
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
-                              ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Total",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0,
                             ),
-                            Text(
-                              "089898987876",
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
-                              ),
+                          ),
+                          Text(
+                            "$authTotal",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      Divider(color: Colors.grey[400], thickness: 1),
                     ],
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Detil Pembayaran",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Bicara semua operator 1 hari",
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              "Rp. 10.000",
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Biaya transaksi",
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              "Rp. -0",
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 1,
-                width: double.infinity,
-                child: DottedBorder(
-                  color: Colors.grey[400]!,
-                  dashPattern: const [6, 3, 6, 3],
-                  child: const SizedBox(),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          "Total",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        Text(
-                          "RP. 11.500",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFD9F0DB),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFD9F0DB),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              elevation: 0.0,
                             ),
-                            elevation: 0.0,
-                          ),
-                          child: const Text(
-                            "Ubah",
-                            style: TextStyle(
-                              color: ColorPallete.primaryColor,
-                              fontWeight: FontWeight.bold,
+                            child: const Text(
+                              "Ubah",
+                              style: TextStyle(
+                                color: ColorPallete.primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: SizedBox(
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const KonfirmasiPulsaPrabayarScreen(),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const KonfirmasiPulsaPrabayarScreen(),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorPallete.primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorPallete.primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
+                              elevation: 0.0,
                             ),
-                            elevation: 0.0,
-                          ),
-                          child: const Text(
-                            "Konfirmasi",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                            child: const Text(
+                              "Konfirmasi",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+  }
 }

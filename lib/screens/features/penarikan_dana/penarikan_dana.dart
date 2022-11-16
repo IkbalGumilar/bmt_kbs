@@ -1,7 +1,8 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/penarikan_dana/daftar_kontak.dart';
+import 'package:bmt_kbs/screens/features/penarikan_dana/status_penarikan_dana.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
-import 'package:bmt_kbs/widgets/full_width_button.dart';
+import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:bmt_kbs/widgets/list_customer_penarikan_dana.dart';
 import 'package:flutter/material.dart';
 
@@ -258,15 +259,199 @@ class PenarikanDanaScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: 20.0, horizontal: 30.0),
-                child: FullWidthButton(
-                  navigateTo: const Text(""),
-                  text: "Selanjutnya",
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // ignore: avoid_print
+                      print("Lanjutkan");
+
+                      _konfirmasiPenarikanDanaBottomSheet(context);
+                    },
+                    child: const Text(
+                      "Selanjutnya",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorPallete.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Future<dynamic> _konfirmasiPenarikanDanaBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10.0),
+          topRight: Radius.circular(10.0),
+        ),
+      ),
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: 0.8,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 20,
+              horizontal: 30,
+            ),
+            child: ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(80 / 2),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            "Konfirmasi Terakhir",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Nama Penerima",
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 16.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                "Ana Agustina Pamungkas",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 10.0),
+                                child: Text(
+                                  "anaagustinap@gmail.com",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              const Divider(color: Colors.grey, thickness: 1),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                CustomInputWithoutOutlineBorder(
+                  label: "Sumber Dana",
+                  inputValue: "Saldo",
+                  isBold: true,
+                ),
+                CustomInputWithoutOutlineBorder(
+                  label: "Jumlah Transfer",
+                  inputValue: "Rp. 120.000",
+                  isBold: true,
+                ),
+                CustomInputWithoutOutlineBorder(
+                  label: "Biaya Administrasi",
+                  inputValue: "Rp. -0",
+                  isBold: true,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const StatusPenarikanDanaScreen()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorPallete.primaryColor,
+                    ),
+                    child: const Text(
+                      "Tarik Dana",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

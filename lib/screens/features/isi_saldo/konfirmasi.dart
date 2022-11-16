@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/etc/custom_format.dart';
@@ -8,6 +9,7 @@ import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:bmt_kbs/widgets/full_width_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class KonfirmasiIsiSaldoScreen extends StatefulWidget {
   KonfirmasiIsiSaldoScreen(
@@ -24,6 +26,33 @@ class KonfirmasiIsiSaldoScreen extends StatefulWidget {
 class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
   late String _jmlTopup;
   late Map<String, dynamic> _dataKonfirmasiIsiSaldo;
+  String _radioValue = "";
+  File? _image;
+
+  _getImageFromGallery() async {
+    // ignore: unused_local_variable
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
+  _getImageFromCamera() async {
+    final pickedImage =
+        await ImagePicker().getImage(source: ImageSource.camera);
+
+    if (pickedImage != null) {
+      setState(
+        () {
+          _image = File(pickedImage.path);
+        },
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -70,13 +99,54 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
             isImportant: true,
             isBanking: false,
           ),
-          CustomInputWithoutOutlineBorder(
-            label: "Dikirim ke",
-            inputValue: _dataKonfirmasiIsiSaldo['rekening'].toString(),
-            bankName: _dataKonfirmasiIsiSaldo['nama_bank'].toString(),
-            isBold: true,
-            isImportant: true,
-            isBanking: true,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Dikirim ke",
+                style: TextStyle(
+                  color: Colors.grey[600],
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _dataKonfirmasiIsiSaldo['nama_bank'].toString(),
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  TextField(
+                    autocorrect: false,
+                    readOnly: true,
+                    controller: TextEditingController(
+                      text: _dataKonfirmasiIsiSaldo['rekening'].toString(),
+                    ),
+                    decoration: const InputDecoration(
+                      // make focused border same as default border
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+            ],
           ),
           CustomInputWithoutOutlineBorder(
             label: "Batas waktu transfer",
@@ -107,115 +177,144 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
                     ),
                     context: context,
                     builder: (context) {
-                      return SizedBox(
-                        height: 220,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 30),
-                          child: Wrap(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 50,
-                                    height: 10,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[300],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20.0),
-                                child: Column(
+                      return StatefulBuilder(builder:
+                          (BuildContext context, StateSetter stateSetter) {
+                        return SizedBox(
+                          height: 220,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 30),
+                            child: Wrap(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: double.infinity,
+                                      width: 50,
+                                      height: 10,
                                       decoration: BoxDecoration(
-                                        color: ColorPallete.lightBlueColor,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: ListTile(
-                                        leading: const Icon(Icons.photo),
-                                        title: Text(
-                                          'Ambil dari galeri',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.grey[600],
-                                              fontSize: 14),
-                                        ),
-                                        trailing: Radio(
-                                          value: "0",
-                                          // ignore: avoid_print
-                                          onChanged: (value) => print(value),
-                                          groupValue: const {"key": "0"},
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: ColorPallete.lightBlueColor,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: ListTile(
-                                        leading: const Icon(Icons.camera_alt),
-                                        title: Text(
-                                          'Ambil Gambar',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.grey[600],
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        trailing: Radio(
-                                          value: "0",
-                                          // ignore: avoid_print
-                                          onChanged: (value) => print(value),
-                                          groupValue: const {"key": "0"},
-                                        ),
+                                        color: Colors.grey[300],
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20.0),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: ColorPallete.lightBlueColor,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: ListTile(
+                                          leading: const Icon(Icons.photo),
+                                          title: Text(
+                                            'Ambil dari galeri',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.grey[600],
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          trailing: Radio(
+                                            value: "galeri",
+                                            onChanged: (value) {
+                                              stateSetter(() {
+                                                _radioValue = value!;
+                                              });
+
+                                              _getImageFromGallery();
+
+                                              print(
+                                                  "Radio value: $_radioValue");
+                                            },
+                                            groupValue: _radioValue,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: ColorPallete.lightBlueColor,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: ListTile(
+                                          leading: const Icon(Icons.camera_alt),
+                                          title: Text(
+                                            'Ambil Gambar',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.grey[600],
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          trailing: Radio(
+                                            value: 'kamera',
+                                            groupValue: _radioValue,
+                                            onChanged: (value) {
+                                              stateSetter(() {
+                                                _radioValue = value!;
+                                              });
+
+                                              _getImageFromCamera();
+
+                                              print(
+                                                  "Radio value: $_radioValue");
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      });
                     },
                   );
                 },
-                child: Container(
-                  width: double.infinity,
-                  height: 125,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(25, 0, 146, 199),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.photo),
-                      Text(
-                        "Upload bukti transaksi",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
+                child: _image != null
+                    ? Image.file(
+                        _image!,
+                        height: 200,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        width: double.infinity,
+                        height: 125,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(25, 0, 146, 199),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.photo),
+                            Text(
+                              "Upload bukti transaksi",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
               ),
             ),
           ),

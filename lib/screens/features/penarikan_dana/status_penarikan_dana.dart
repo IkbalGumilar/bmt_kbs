@@ -3,8 +3,8 @@ import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:flutter/material.dart';
 
-class StatusTransaksiPulsaPrabayarScreen extends StatelessWidget {
-  const StatusTransaksiPulsaPrabayarScreen({super.key});
+class StatusPenarikanDanaScreen extends StatelessWidget {
+  const StatusPenarikanDanaScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class StatusTransaksiPulsaPrabayarScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
-          title: "Status Transaksi",
+          title: "Transfer",
           isHaveActions: false,
         ),
       ),
@@ -21,8 +21,7 @@ class StatusTransaksiPulsaPrabayarScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(
           horizontal: 30,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: ListView(
           children: [
             Column(
               children: [
@@ -50,7 +49,7 @@ class StatusTransaksiPulsaPrabayarScreen extends StatelessWidget {
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Text(
-                          "Transaksi Berhasil!",
+                          "Transfer Berhasil",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 16,
@@ -69,19 +68,94 @@ class StatusTransaksiPulsaPrabayarScreen extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    CustomInputWithoutOutlineBorder(
-                      label: "Produk",
-                      inputValue: "Bicara semua operator 1 hari",
-                      isBold: true,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Jumlah Transfer",
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 16.0,
+                                bottom: 8.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    "Rp. 120.000",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Divider(color: Colors.grey, thickness: 1),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Nama Penerima",
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 16.0,
+                            bottom: 8.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Ana Agustina Pamungkas",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Text(
+                                    "anaagustinap@gmail.com",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Divider(color: Colors.grey, thickness: 1),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                      ],
                     ),
                     CustomInputWithoutOutlineBorder(
                       label: "Sumber Dana",
                       inputValue: "Saldo",
-                      isBold: true,
-                    ),
-                    CustomInputWithoutOutlineBorder(
-                      label: "Jumlah Bayar",
-                      inputValue: "Rp. 15.000",
                       isBold: true,
                     ),
                     CustomInputWithoutOutlineBorder(

@@ -1,13 +1,65 @@
-import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/features/pdam/detail_tagihan_pdam.dart';
-import 'package:bmt_kbs/widgets/custom_appbar.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:developer';
 
-class MenuPdamScreen extends StatelessWidget {
+import 'package:bmt_kbs/config/ip.dart';
+import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/widgets/custom_appbar.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class MenuPdamScreen extends StatefulWidget {
   const MenuPdamScreen({super.key});
 
   @override
+  State<MenuPdamScreen> createState() => _MenuPdamScreenState();
+}
+
+class _MenuPdamScreenState extends State<MenuPdamScreen> {
+  List listDataPdam = [];
+  List<String> listWilayah = [];
+  String selectedWilayah = "Pilih Wilayah >";
+  final TextEditingController _noPDAMController = TextEditingController();
+
+  getPdamList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    var response = await http
+        .post(Uri.parse(IpAdress().getIp + '/api/ppob/pdam-list'), headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $token",
+    }, body: {
+      "ppob_category_id": "6",
+    });
+
+    var data = jsonDecode(response.body)['data'];
+
+    if (response.statusCode == 200) {
+      setState(() {
+        listDataPdam = data;
+        listWilayah =
+            listDataPdam.map((e) => e['name']).toList().cast<String>();
+      });
+
+      print(data);
+    } else {
+      print(response.statusCode);
+      log(data.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPdamList();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    log(listWilayah.toString());
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -26,7 +78,7 @@ class MenuPdamScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Wrap(
-              runSpacing: 30,
+              runSpacing: 20,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,6 +94,10 @@ class MenuPdamScreen extends StatelessWidget {
                       height: 10,
                     ),
                     TextField(
+                      controller: _noPDAMController,
+                      onChanged: (value) {
+                        setState(() {});
+                      },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         filled: true,
@@ -69,10 +125,23 @@ class MenuPdamScreen extends StatelessWidget {
                       onTap: () {
                         // ignore: avoid_print
                         print("Pop-up Modal Wilayah");
+                        pilihWilayahPdamBottomSheet(context);
                       },
-                      child: const Text(
-                        "Pilih Wilayah >",
-                        style: TextStyle(color: Colors.grey),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        color: Colors.transparent,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                selectedWilayah,
+                                textAlign: TextAlign.end,
+                                style: const TextStyle(color: Colors.grey),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -83,16 +152,18 @@ class MenuPdamScreen extends StatelessWidget {
               height: 60,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  // ignore: avoid_print
-                  print("Beralih ke Detail Tagihan Screen");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DetailTagihanPdamScreen(),
-                    ),
-                  );
-                },
+                onPressed: selectedWilayah != 'Pilih Wilayah >' &&
+                        _noPDAMController.text.length >= 15
+                    ? () {
+                        print("Beralih ke Detail Tagihan Screen");
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const DetailTagihanPdamScreen(),
+                        //   ),
+                        // );
+                      }
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorPallete.primaryColor,
                 ),
@@ -109,6 +180,147 @@ class MenuPdamScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<dynamic> pilihWilayahPdamBottomSheet(BuildContext context,
+      {String? selectedProvider}) {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10.0),
+          topRight: Radius.circular(10.0),
+        ),
+      ),
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: 0.95,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 20,
+              horizontal: 30,
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            "Pilih Wilayah Anda",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                // DropdownSearch<String>(
+                //   popupProps: PopupProps.menu(
+                //     showSelectedItems: true,
+                //     disabledItemFn: (String s) => s.startsWith('I'),
+                //   ),
+                //   items: listWilayah.cast<String>(),
+                //   dropdownDecoratorProps: const DropDownDecoratorProps(
+                //     dropdownSearchDecoration: InputDecoration(
+                //       labelText: "Menu mode",
+                //       hintText: "country in menu mode",
+                //     ),
+                //   ),
+                //   onChanged: print,
+                //   selectedItem: "Brazil",
+                // ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                Expanded(
+                  child: Scrollbar(
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: listDataPdam.length,
+                      physics: const BouncingScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1,
+                        mainAxisSpacing: 20,
+                        mainAxisExtent: 40,
+                      ),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            print(
+                                "Daerah Anda adalah: ${listDataPdam[index]['name']}");
+
+                            setState(() {
+                              selectedWilayah = listDataPdam[index]['name'];
+                            });
+
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.transparent,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flexible(
+                                  child: RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: listDataPdam[index]['name'],
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

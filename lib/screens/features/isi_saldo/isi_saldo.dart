@@ -30,7 +30,6 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var token = _prefs.getString('token');
     var saldo = _prefs.getString('saldo');
-    var email = _prefs.getString('email');
     var val = double.parse(saldo!);
     var formatedSaldo = CustomFormat.ubahFormatRupiah(val, 0);
 

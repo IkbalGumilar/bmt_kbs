@@ -22,6 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool isChecked = false;
   bool isDisabled = true;
+  bool isHidden = true;
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
 
@@ -94,8 +95,7 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     } catch (e) {
-      print(e.toString());
-      // make a flutterToast that have an error message
+      log(e.toString());
       Fluttertoast.showToast(
           msg: 'Terjadi kesalahan, harap coba lagi!',
           toastLength: Toast.LENGTH_SHORT,
@@ -112,13 +112,13 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
@@ -136,23 +136,94 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  LoginInputWidget(
-                      isObscure: false,
-                      inputType: TextInputType.emailAddress,
-                      label: "Email",
-                      inputIcon: Icons.account_circle_rounded,
-                      hint: "Masukkan Nama Pengguna",
-                      myController: emailC),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Email",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextField(
+                        controller: emailC,
+                        autocorrect: false,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color.fromARGB(10, 44, 80, 203),
+                          hintText: "Masukkan Email Pengguna",
+                          hintStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          prefixIcon: const Icon(Icons.account_circle_rounded),
+                          prefixIconColor: Colors.red,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
-                  LoginInputWidget(
-                      isObscure: true,
-                      inputType: TextInputType.visiblePassword,
-                      label: "Password",
-                      inputIcon: Icons.lock,
-                      hint: "Masukkan Password",
-                      myController: passwordC),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Password",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextField(
+                        obscureText: isHidden,
+                        controller: passwordC,
+                        autocorrect: false,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color.fromARGB(10, 44, 80, 203),
+                          hintText: "Masukkan Password",
+                          hintStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          prefixIcon: const Icon(Icons.lock),
+                          prefixIconColor: Colors.red,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isHidden
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isHidden = !isHidden;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -180,188 +251,113 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-              Flexible(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                isDisabled == false ? login() : null;
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: isDisabled == false
-                                    ? ColorPallete.primaryColor
-                                    : Colors.grey,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                              ),
-                              child: const Text(
-                                "Submit",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Checkbox(
-                            value: isChecked,
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Checkbox(
+                          value: isChecked,
+                          onChanged: (value) {
                             // ignore: avoid_print
-                            onChanged: (value) {
-                              // ignore: avoid_print
-                              print(value);
+                            print(value);
 
-                              setState(() {
-                                toggleCheckbox(value!);
-                                isDisabled = !isDisabled;
-                              });
-                            },
-                            fillColor: MaterialStateProperty.resolveWith(
-                                (states) => ColorPallete.primaryColor),
+                            setState(() {
+                              toggleCheckbox(value!);
+                              isDisabled = !isDisabled;
+                            });
+                          },
+                          fillColor: MaterialStateProperty.resolveWith(
+                              (states) => ColorPallete.primaryColor),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Flexible(
+                        child: RichText(
+                          text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                ),
+                                text:
+                                    "Dengan menekan tombol selanjutnya saya setuju dengan ",
+                              ),
+                              TextSpan(
+                                text: "ketentuan penggunaan ",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "dan ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "kebijakan privasi ",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(
-                          width: 10,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          isDisabled == false ? login() : null;
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: isDisabled == false
+                              ? ColorPallete.primaryColor
+                              : Colors.grey,
+                          padding: const EdgeInsets.symmetric(vertical: 20),
                         ),
-                        Flexible(
-                          child: RichText(
-                            text: const TextSpan(
-                              children: [
-                                TextSpan(
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 13,
-                                  ),
-                                  text:
-                                      "Dengan menekan tombol selanjutnya saya setuju dengan ",
-                                ),
-                                TextSpan(
-                                  text: "ketentuan penggunaan ",
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "dan ",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "kebijakan privasi ",
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
-  }
-}
-
-// ignore: must_be_immutable
-class LoginInputWidget extends StatefulWidget {
-  String label;
-  String hint;
-  IconData inputIcon;
-  TextEditingController myController;
-  TextInputType inputType;
-  bool? isObscure = false;
-
-  LoginInputWidget({
-    required this.label,
-    required this.inputIcon,
-    required this.hint,
-    required this.myController,
-    required this.inputType,
-    required this.isObscure,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<LoginInputWidget> createState() => _LoginInputWidgetState();
-}
-
-class _LoginInputWidgetState extends State<LoginInputWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          widget.label,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        TextField(
-          obscureText: widget.isObscure == true ? true : false,
-          controller: widget.myController,
-          autocorrect: false,
-          keyboardType: widget.inputType,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: const Color.fromARGB(10, 44, 80, 203),
-            hintText: widget.hint,
-            hintStyle: const TextStyle(
-              color: Colors.grey,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-            prefixIcon: Icon(widget.inputIcon),
-            prefixIconColor: Colors.red,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            suffixIcon: widget.isObscure == true
-                ? IconButton(
-                    onPressed: () {
-                      // ignore: avoid_print
-                    },
-                    icon: const Icon(Icons.remove_red_eye),
-                  )
-                : null,
-          ),
-        ),
-      ],
     );
   }
 }

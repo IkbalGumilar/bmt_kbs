@@ -47,12 +47,12 @@ class _SplashScreenState extends State<SplashScreen> {
       } else if (token.isEmpty) {
         Timer(
           const Duration(seconds: 3),
-          () => Navigator.of(context).pushReplacementNamed('/login'),
+          () => checkIntroductionScreenFirstSeen(context),
         );
       } else {
         Timer(
           const Duration(seconds: 3),
-          () => checkIntroductionScreenFirstSeen(context),
+          () => Navigator.of(context).pushReplacementNamed('/login'),
         );
       }
     }
@@ -60,7 +60,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     checkLoginStatus(context);
   }

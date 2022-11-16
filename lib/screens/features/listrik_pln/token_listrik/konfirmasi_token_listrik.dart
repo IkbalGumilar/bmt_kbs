@@ -3,9 +3,14 @@ import 'package:bmt_kbs/screens/features/listrik_pln/token_listrik/status_transa
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
-class KonfirmasiTokenListrik extends StatelessWidget {
+class KonfirmasiTokenListrik extends StatefulWidget {
   const KonfirmasiTokenListrik({super.key});
 
+  @override
+  State<KonfirmasiTokenListrik> createState() => _KonfirmasiTokenListrikState();
+}
+
+class _KonfirmasiTokenListrikState extends State<KonfirmasiTokenListrik> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
