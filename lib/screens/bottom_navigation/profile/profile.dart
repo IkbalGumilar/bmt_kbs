@@ -1,3 +1,5 @@
+import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/bottom_navigation/profile/ubah_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -233,7 +235,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     onTap: () {
-                      Navigator.of(context).pushNamed('/edit_profile');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const UbahProfileScreen(),
+                        ),
+                      );
                     },
                   ),
                   ListTile(
@@ -494,6 +501,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorPallete.primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                  ),
+                  onPressed: () {
+                    logout();
+                  },
+                  child: const Text(
+                    'Log Out',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

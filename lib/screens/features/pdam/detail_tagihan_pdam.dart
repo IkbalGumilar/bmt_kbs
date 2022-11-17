@@ -1,13 +1,58 @@
+// ignore_for_file: avoid_print
+
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/etc/custom_format.dart';
 import 'package:bmt_kbs/screens/features/pdam/konfirmasi_tagihan_pdam.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
-class DetailTagihanPdamScreen extends StatelessWidget {
-  const DetailTagihanPdamScreen({super.key});
+class DetailTagihanPdamScreen extends StatefulWidget {
+  DetailTagihanPdamScreen({
+    super.key,
+    required this.dataTagihanPDAM,
+    required this.nomorMeterPelanggan,
+  });
+
+  Map dataTagihanPDAM;
+  String nomorMeterPelanggan = '';
+
+  @override
+  State<DetailTagihanPdamScreen> createState() =>
+      _DetailTagihanPdamScreenState();
+}
+
+class _DetailTagihanPdamScreenState extends State<DetailTagihanPdamScreen> {
+  late Map _dataTagihanPDAM;
+  String? _nomorMeterPelanggan;
+  String? _namaPelanggan;
+  String? _periodeTagihan;
+  int? _totalTagihanKeseluruhan;
+  int? _nominalTagihan;
+  int? _biayaAdministrasi;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _dataTagihanPDAM = widget.dataTagihanPDAM;
+    _nomorMeterPelanggan = widget.nomorMeterPelanggan;
+    _namaPelanggan = _dataTagihanPDAM['tr_name'];
+    _periodeTagihan = _dataTagihanPDAM['period'];
+    _totalTagihanKeseluruhan = _dataTagihanPDAM['price'];
+    _nominalTagihan = _dataTagihanPDAM['nominal'];
+    _biayaAdministrasi = _dataTagihanPDAM['admin'];
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("DATA DETIAL TAGIHAN PDAM ANDA: $_dataTagihanPDAM");
+    print("NOMOR METER PELANGGAN: $_nomorMeterPelanggan");
+    print("NAMA PELANGGAN: $_namaPelanggan");
+    print("PERIODE TAGIHAN: $_periodeTagihan");
+    print("TOTAL TAGIHAN KESELURUHAN: $_totalTagihanKeseluruhan");
+    print("NOMINAL TAGIHAN: $_nominalTagihan");
+    print("BIAYA ADMINISTRASI: $_biayaAdministrasi");
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -30,8 +75,8 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
+                            children: [
+                              const Text(
                                 "No. Meteran PDAM",
                                 style: TextStyle(
                                   color: Colors.black,
@@ -41,8 +86,8 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                               ),
                               Flexible(
                                 child: Text(
-                                  "0000112233221",
-                                  style: TextStyle(
+                                  _nomorMeterPelanggan!,
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16,
@@ -74,16 +119,16 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text(
+                              children: [
+                                const Text(
                                   "Nama Pelanggan",
                                   style: TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
                                 Text(
-                                  "Ari Ramdani",
-                                  style: TextStyle(
+                                  _namaPelanggan!,
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -99,16 +144,16 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text(
+                              children: [
+                                const Text(
                                   "Priode Tagihan",
                                   style: TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
                                 Text(
-                                  "09/2022,10/2022",
-                                  style: TextStyle(
+                                  _periodeTagihan!,
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -136,8 +181,8 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
+                            children: [
+                              const Text(
                                 "Total Tagihan",
                                 style: TextStyle(
                                   color: Colors.black,
@@ -147,8 +192,10 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                               ),
                               Flexible(
                                 child: Text(
-                                  "Rp. 282.500",
-                                  style: TextStyle(
+                                  CustomFormat.ubahFormatRupiah(
+                                          _totalTagihanKeseluruhan!, 0)
+                                      .toString(),
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16,
@@ -180,16 +227,18 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text(
+                              children: [
+                                const Text(
                                   "Tagihan",
                                   style: TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
                                 Text(
-                                  "Rp. 280.000",
-                                  style: TextStyle(
+                                  CustomFormat.ubahFormatRupiah(
+                                          _nominalTagihan!, 0)
+                                      .toString(),
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -205,16 +254,18 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text(
+                              children: [
+                                const Text(
                                   "Biaya Administrasi",
                                   style: TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
                                 Text(
-                                  "Rp. 2.500",
-                                  style: TextStyle(
+                                  CustomFormat.ubahFormatRupiah(
+                                          _biayaAdministrasi!, 0)
+                                      .toString(),
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -242,8 +293,9 @@ class DetailTagihanPdamScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            const KonfirmasiTagihanPdamScreen(),
+                        builder: (context) => KonfirmasiTagihanPdamScreen(
+                          dataKonfirmasiTagihanPDAM: _dataTagihanPDAM,
+                        ),
                       ),
                     );
                   },

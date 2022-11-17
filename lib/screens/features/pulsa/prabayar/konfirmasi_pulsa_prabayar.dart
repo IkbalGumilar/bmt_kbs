@@ -11,7 +11,24 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KonfirmasiPulsaPrabayarScreen extends StatefulWidget {
-  const KonfirmasiPulsaPrabayarScreen({super.key});
+  String nomor;
+  String category_id;
+  String sub_category_id;
+  int harga;
+  String deskripsi;
+  String produk;
+  int admin;
+
+  KonfirmasiPulsaPrabayarScreen({
+    super.key,
+    required this.nomor,
+    required this.category_id,
+    required this.sub_category_id,
+    required this.harga,
+    required this.deskripsi,
+    required this.produk,
+    required this.admin,
+  });
 
   @override
   State<KonfirmasiPulsaPrabayarScreen> createState() =>
@@ -20,10 +37,14 @@ class KonfirmasiPulsaPrabayarScreen extends StatefulWidget {
 
 class _KonfirmasiPulsaPrabayarScreenState
     extends State<KonfirmasiPulsaPrabayarScreen> {
-  int? nomer;
-
+  late String noPengguna;
+  late String kategori;
+  late String subKategori;
+  late String produk;
+  late int harga;
+  late String deskripsi;
+  late int admin;
   String? categityId;
-
   String? subCategoryId;
 
   konfirmasi() async {
@@ -57,6 +78,23 @@ class _KonfirmasiPulsaPrabayarScreenState
           fontSize: 16.0);
     }
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    noPengguna = widget.nomor;
+    kategori = widget.category_id;
+    subKategori = widget.sub_category_id;
+    harga = widget.harga;
+    deskripsi = widget.deskripsi;
+    produk = widget.produk;
+    admin = widget.admin;
+  }
+
+  @override
+  State<KonfirmasiPulsaPrabayarScreen> createState() =>
+      _KonfirmasiPulsaPrabayarScreenState();
 
   @override
   Widget build(BuildContext context) {
@@ -197,9 +235,9 @@ class _KonfirmasiPulsaPrabayarScreenState
                             padding: const EdgeInsets.all(10),
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text(
-                                    "Bicara semua operator 1 hari",
+                                    "$deskripsi",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -216,7 +254,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                                     ),
                                   ),
                                   Text(
-                                    "Rp. 15.000",
+                                    "$harga",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -295,7 +333,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "Total Bayar",
                           style: TextStyle(
@@ -303,7 +341,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                           ),
                         ),
                         Text(
-                          "Rp 15.000",
+                          "Rp ${harga + admin}",
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
