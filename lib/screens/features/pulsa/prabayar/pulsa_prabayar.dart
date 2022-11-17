@@ -3,8 +3,6 @@ import 'dart:developer';
 
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/models/paket_data_model.dart';
-import 'package:bmt_kbs/models/pulsa_model.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/konfirmasi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -45,9 +43,11 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   var category_id;
   var sub_category_id;
   var admin;
-
   var paketData;
   String _radioValue = "";
+  bool _pulsa = false;
+  bool _pascabayar = false;
+
   cekData() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -83,14 +83,14 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
       }
     } catch (e) {
       print(e.toString());
-      // Fluttertoast.showToast(
-      //     msg: 'Terjadi kesalahan, harap coba lagi!',
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+      Fluttertoast.showToast(
+          msg: 'Terjadi kesalahan, harap coba lagi!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
@@ -127,14 +127,14 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
       }
     } catch (e) {
       print(e.toString());
-      // Fluttertoast.showToast(
-      //     msg: 'Terjadi kesalahan, harap coba lagi!',
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+      Fluttertoast.showToast(
+          msg: 'Terjadi kesalahan, harap coba lagi!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
@@ -360,53 +360,111 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Wrap(
-                      spacing: 10,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Radio(
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          value: "nomor_ponsel",
-                          visualDensity: const VisualDensity(
-                            horizontal: VisualDensity.minimumDensity,
-                            vertical: VisualDensity.minimumDensity,
-                          ),
-                          groupValue: _radioValue,
-                          onChanged: (index) {
-                            setState(() {
-                              _radioValue = index!;
-                            });
+                    // Wrap(
+                    //   spacing: 10,
+                    //   crossAxisAlignment: WrapCrossAlignment.center,
+                    //   children: [
+                    //     Radio(
+                    //       materialTapTargetSize:
+                    //           MaterialTapTargetSize.shrinkWrap,
+                    //       value: "nomor_ponsel",
+                    //       visualDensity: const VisualDensity(
+                    //         horizontal: VisualDensity.minimumDensity,
+                    //         vertical: VisualDensity.minimumDensity,
+                    //       ),
+                    //       groupValue: _radioValue,
+                    //       onChanged: (index) {
+                    //         setState(() {
+                    //           _radioValue = index!;
+                    //         });
 
-                            print(_radioValue);
-                          },
-                        ),
-                        const Text("Nomor Ponsel"),
-                      ],
-                    ),
-                    Wrap(
-                      spacing: 10,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Radio(
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          value: "nomor_pascabayar",
-                          visualDensity: const VisualDensity(
-                            horizontal: VisualDensity.minimumDensity,
-                            vertical: VisualDensity.minimumDensity,
-                          ),
-                          groupValue: _radioValue,
-                          onChanged: (index) {
-                            setState(() {
-                              _radioValue = index!;
-                            });
+                    //         print(_radioValue);
+                    //       },
+                    //     ),
+                    //     const Text("Nomor Ponsel"),
+                    //   ],
+                    // ),
+                    // Wrap(
+                    //   spacing: 10,
+                    //   crossAxisAlignment: WrapCrossAlignment.center,
+                    //   children: [
+                    //     Radio(
+                    //       materialTapTargetSize:
+                    //           MaterialTapTargetSize.shrinkWrap,
+                    //       value: "nomor_pascabayar",
+                    //       visualDensity: const VisualDensity(
+                    //         horizontal: VisualDensity.minimumDensity,
+                    //         vertical: VisualDensity.minimumDensity,
+                    //       ),
+                    //       groupValue: _radioValue,
+                    //       onChanged: (index) {
+                    //         setState(() {
+                    //           _radioValue = index!;
+                    //         });
 
-                            print(_radioValue);
-                          },
-                        ),
-                        const Text("No. Pascabayar"),
-                      ],
+                    //         print(_radioValue);
+                    //       },
+                    //     ),
+                    //     const Text("No. Pascabayar"),
+                    //   ],
+                    // ),
+
+                    // make 2 button for pulsa prabayr and pascabayar
+                    Flexible(
+                      child: Container(
+                        height: 40,
+                        child: LayoutBuilder(builder: (context, constraints) {
+                          return ToggleButtons(
+                            borderRadius: BorderRadius.circular(10),
+                            constraints: BoxConstraints.expand(
+                                width: constraints.maxWidth / 2.04),
+                            onPressed: (index) {
+                              setState(() {
+                                if (index == 0) {
+                                  _pulsa = true;
+                                  _pascabayar = false;
+
+                                  _radioValue = "nomor_ponsel";
+                                } else {
+                                  _pulsa = false;
+                                  _pascabayar = true;
+
+                                  _radioValue = "nomor_pascabayar";
+                                }
+                              });
+                            },
+                            isSelected: [_pulsa, _pascabayar],
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: Center(
+                                  child: Text(
+                                    "Pulsa",
+                                    style: TextStyle(
+                                      color: _pulsa
+                                          ? ColorPallete.primaryColor
+                                          : Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 100,
+                                child: Center(
+                                  child: Text(
+                                    "Pascabayar",
+                                    style: TextStyle(
+                                      color: _pascabayar
+                                          ? ColorPallete.primaryColor
+                                          : Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
+                      ),
                     ),
                   ],
                 ),

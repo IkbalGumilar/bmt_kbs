@@ -27,28 +27,43 @@ class _MenuPdamScreenState extends State<MenuPdamScreen> {
   bool loading = true;
 
   getPdamList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
-    var response = await http
-        .post(Uri.parse(IpAdress().getIp + '/api/ppob/pdam-list'), headers: {
-      "Accept": "application/json",
-      "Authorization": "Bearer $token",
-    }, body: {
-      "ppob_category_id": "6",
-    });
-
-    var data = jsonDecode(response.body)['data'];
-
-    if (response.statusCode == 200) {
-      setState(() {
-        loading = false;
-        listDataPdam = data;
-        listWilayah =
-            listDataPdam.map((e) => e['name']).toList().cast<String>();
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
+      var response = await http
+          .post(Uri.parse(IpAdress().getIp + '/api/ppob/pdam-list'), headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $token",
+      }, body: {
+        "ppob_category_id": "6",
       });
-    } else {
-      print(response.statusCode);
-      log(data.toString());
+
+      var data = jsonDecode(response.body)['data'];
+
+      log(response.statusCode.toString());
+
+      if (response.statusCode == 200) {
+        print(data);
+
+        setState(() {
+          loading = false;
+          listDataPdam = data;
+          listWilayah =
+              listDataPdam.map((e) => e['name']).toList().cast<String>();
+        });
+      } else {
+        print(response.statusCode);
+        log(data.toString());
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: "Terjadi kesalahan, silahkan coba lagi",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
@@ -342,24 +357,6 @@ class _MenuPdamScreenState extends State<MenuPdamScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                // DropdownSearch<String>(
-                //   popupProps: PopupProps.menu(
-                //     showSelectedItems: true,
-                //     disabledItemFn: (String s) => s.startsWith('I'),
-                //   ),
-                //   items: listWilayah.cast<String>(),
-                //   dropdownDecoratorProps: const DropDownDecoratorProps(
-                //     dropdownSearchDecoration: InputDecoration(
-                //       labelText: "Menu mode",
-                //       hintText: "country in menu mode",
-                //     ),
-                //   ),
-                //   onChanged: print,
-                //   selectedItem: "Brazil",
-                // ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
                 Expanded(
                   child: Scrollbar(
                     child: GridView.builder(
@@ -380,8 +377,8 @@ class _MenuPdamScreenState extends State<MenuPdamScreen> {
                                 "Daerah Anda adalah: ${listDataPdam[index]['name']}");
 
                             setState(() {
-                              selectedWilayah = listDataPdam[index]['name'];
-                              codeWilayah = listDataPdam[index]['code'];
+                              // selectedWilayah = listDataPdam[index]['name'];
+                              // codeWilayah = listDataPdam[index]['code'];
                             });
 
                             Navigator.pop(context);
