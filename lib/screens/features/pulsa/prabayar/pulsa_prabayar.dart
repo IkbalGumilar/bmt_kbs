@@ -37,15 +37,68 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   var nilai;
   var nomor;
   TextEditingController numberC = TextEditingController();
-  String? authTotal;
-  String _radioValue = '';
+  var authTotal;
+  var authData;
+  var deskripsi;
+  var hargaData;
+  var product;
+  var category_id;
+  var sub_category_id;
+  var admin;
+
+  var paketData;
+  String _radioValue = "";
+  cekData() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Uri url = Uri.parse(IpAdress().getIp + '/api/ppob/check_nomor');
+      var token = prefs.getString('token');
+      var response = await http.post(url, headers: {
+        "Authorization": "Bearer $token",
+        "Accept": 'application/json',
+      }, body: {
+        "nomor": numberC.text,
+        "type": "data"
+      });
+      log(numberC.text.toString());
+      List data = jsonDecode(response.body)['data']['data'];
+      var status = jsonDecode(response.body)['status'];
+
+      log(status);
+      //log(data.toString());
+
+      if (response.statusCode == 200) {
+        setState(() {
+          authData = data;
+        });
+      } else if (response.statusCode == 401) {
+        Fluttertoast.showToast(
+            msg: 'Nomer Yang Anda Masukan Salah!',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+    } catch (e) {
+      print(e.toString());
+      // Fluttertoast.showToast(
+      //     msg: 'Terjadi kesalahan, harap coba lagi!',
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
+    }
+  }
 
   cekNomer() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Uri url = Uri.parse(IpAdress().getIp + '/api/ppob/check_nomor');
       var token = prefs.getString('token');
-
       var response = await http.post(url, headers: {
         "Authorization": "Bearer $token",
         "Accept": 'application/json',
@@ -53,23 +106,34 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
         "nomor": numberC.text,
         "type": "pulsa"
       });
-
       var total = jsonDecode(response.body)['data']['data'];
+      log(total.toString());
+      log(response.statusCode.toString());
 
       if (response.statusCode == 200) {
         setState(() {
           authTotal = total;
         });
+      } else if (response.statusCode == 401) {
+        Fluttertoast.showToast(
+            msg: 'Nomer Yang Anda Masukan Salah!',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: 'Terjadi kesalahan, harap coba lagi!',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.toString());
+      // Fluttertoast.showToast(
+      //     msg: 'Terjadi kesalahan, harap coba lagi!',
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
     }
   }
 
@@ -143,6 +207,28 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
             } else {
               customBottomSheet(context);
             }
+            // ignore: avoid_print
+            print('Pulsa ${authTotal[index]['product_code']} selected');
+
+            setState(() {
+              selectedIndex = index;
+              if ((authTotal[index]['price']) == null) {
+                nilai = 0;
+              }
+              category_id = (authTotal[index]['category_id']);
+              sub_category_id = (authTotal[index]['sub_category_id']);
+              nomor = numberC.text;
+              deskripsi = (authTotal[index]['description']);
+              product = (authTotal[index]['product_code']);
+              admin = (authTotal[index]['admin_bank']);
+            });
+            log(nomor);
+            log(category_id);
+            log(sub_category_id);
+            log(nilai.toString());
+            log(deskripsi);
+            log(product);
+            log(admin.toString());
           },
           child: Container(
             width: 100,
@@ -167,7 +253,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                       Wrap(
                         children: [
                           Text(
-                            '',
+                            '${authTotal[index]['product_code']}'.substring(6),
                             style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ],
@@ -181,7 +267,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                 color: Colors.grey[500], fontSize: 12),
                           ),
                           Text(
-                            "Rp. ",
+                            "Rp. ${authTotal[index]['price']}",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.grey[900],
@@ -386,12 +472,14 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            numberC.text.length <= 4
+                            numberC.text.length <= 4 ||
+                                    numberC.text.length >= 13
                                 ? SizedBox()
                                 : authTotal != null
                                     ? _pulsaTabContext()
                                     : SizedBox(),
-                            numberC.text.length <= 4
+                            numberC.text.length <= 4 ||
+                                    numberC.text.length >= 13
                                 ? SizedBox()
                                 : authTotal != null
                                     ? _paketDataTabContext()

@@ -58,6 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (response.statusCode == 200) {
       log(response.statusCode.toString());
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setInt('point', data['point']);
 
       setState(() {
         loading = false;

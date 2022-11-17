@@ -1,13 +1,36 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/status_transaksi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+// ignore: unused_import
+import '../../../../etc/custom_format.dart';
+import './pulsa_prabayar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KonfirmasiPulsaPrabayarScreen extends StatefulWidget {
-  const KonfirmasiPulsaPrabayarScreen({super.key});
+  String nomor;
+  String category_id;
+  String sub_category_id;
+  int harga;
+  String deskripsi;
+  String produk;
+  int admin;
+
+  KonfirmasiPulsaPrabayarScreen({
+    super.key,
+    required this.nomor,
+    required this.category_id,
+    required this.sub_category_id,
+    required this.harga,
+    required this.deskripsi,
+    required this.produk,
+    required this.admin,
+  });
 
   @override
   State<KonfirmasiPulsaPrabayarScreen> createState() =>
@@ -16,30 +39,51 @@ class KonfirmasiPulsaPrabayarScreen extends StatefulWidget {
 
 class _KonfirmasiPulsaPrabayarScreenState
     extends State<KonfirmasiPulsaPrabayarScreen> {
-  int? nomer;
-
+  late String noPengguna;
+  late String kategori;
+  late String subKategori;
+  late String produk;
+  late num harga;
+  late String deskripsi;
+  late num admin;
   String? categityId;
-
   String? subCategoryId;
+  num? authSaldo;
+  var realSaldo;
+  var poin;
 
   konfirmasi() async {
     try {
+      var authSaldo;
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      Uri url = Uri.parse(IpAdress().getIp + '/api/ppob/check_nomor');
+      Uri url = Uri.parse(IpAdress().getIp + '/api/v2/ppob/checkout/pra');
       var token = prefs.getString('token');
       var response = await http.post(url, headers: {
         "Authorization": "Bearer $token",
         "Accept": 'application/json',
       }, body: {
-        "nomor": '',
-        "category_id": '',
-        "sub_category_id": '',
+        "nomor": noPengguna,
+        "category_id": categityId,
+        "sub_category_id": subCategoryId,
+        "product_code": produk,
         "type": "pulsa"
       });
-
+      log(noPengguna);
+      log(categityId.toString());
+      log(subCategoryId.toString());
+      log(produk);
       log(response.statusCode.toString());
 
-      if (response.statusCode == 200) {}
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(
+            msg: 'Terjadi keberhasilan',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Color.fromARGB(255, 60, 255, 0),
+            fontSize: 16.0);
+      }
     } catch (e) {
       print(e.toString());
       // make a flutterToast that have an error message
@@ -52,6 +96,34 @@ class _KonfirmasiPulsaPrabayarScreenState
           textColor: Colors.white,
           fontSize: 16.0);
     }
+  }
+
+  void userProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var saldo = prefs.getString('saldo');
+    var poin = prefs.getInt('point');
+    var val = double.parse(saldo!);
+    var formatedSaldo = CustomFormat.ubahFormatRupiah(val, 0);
+
+    setState(() {
+      realSaldo = formatedSaldo;
+      authSaldo = val;
+      poin = poin;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userProfile();
+    noPengguna = widget.nomor;
+    kategori = widget.category_id;
+    subKategori = widget.sub_category_id;
+    harga = widget.harga;
+    deskripsi = widget.deskripsi;
+    produk = widget.produk;
+    admin = widget.admin;
   }
 
   @override
@@ -104,7 +176,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: const [
+                                      children: [
                                         Text(
                                           "Sisa Saldo",
                                           style: TextStyle(
@@ -112,7 +184,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                                               fontSize: 14),
                                         ),
                                         Text(
-                                          "Rp.823.123",
+                                          '${realSaldo}',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 24,
@@ -143,9 +215,9 @@ class _KonfirmasiPulsaPrabayarScreenState
                                                   width: 28,
                                                 ),
                                                 Wrap(
-                                                  children: const [
+                                                  children: [
                                                     Text(
-                                                      "9.000 poin",
+                                                      "$poin",
                                                       style: TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 12,
@@ -195,7 +267,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "$deskripsi",
+                                    "$produk",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -205,7 +277,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                                     padding:
                                         EdgeInsets.symmetric(vertical: 10.0),
                                     child: Text(
-                                      "Paket bicara semua operator 1 hari, 280 mins Onnet + 5 mins AllOpr, 1 hari",
+                                      "$deskripsi",
                                       style: TextStyle(
                                         color: Colors.grey,
                                       ),
@@ -258,8 +330,10 @@ class _KonfirmasiPulsaPrabayarScreenState
                             const SizedBox(
                               height: 20,
                             ),
-                            const Text(
-                              "*Saldo anda tidak cukup untuk transaksi ini ",
+                            Text(
+                              authSaldo! > harga + admin
+                                  ? ""
+                                  : "*Saldo anda tidak cukup untuk transaksi ini ",
                               style: TextStyle(
                                 color: Colors.red,
                               ),
@@ -313,15 +387,16 @@ class _KonfirmasiPulsaPrabayarScreenState
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
+                          konfirmasi();
                           // ignore: avoid_print
                           print("Berpindah ke status transaksi pulsa");
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const StatusTransaksiPulsaPrabayarScreen(),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) =>
+                          //         const StatusTransaksiPulsaPrabayarScreen(),
+                          //   ),
+                          // );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorPallete.primaryColor,
