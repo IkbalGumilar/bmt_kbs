@@ -43,6 +43,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   var category_id;
   var sub_category_id;
   var admin;
+
   var paketData;
   String _radioValue = "";
   bool _pulsa = false;
@@ -99,7 +100,6 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Uri url = Uri.parse(IpAdress().getIp + '/api/ppob/check_nomor');
       var token = prefs.getString('token');
-
       var response = await http.post(url, headers: {
         "Authorization": "Bearer $token",
         "Accept": 'application/json',
@@ -213,7 +213,9 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
 
             setState(() {
               selectedIndex = index;
-              nilai = (authTotal[index]['price']);
+              if ((authTotal[index]['price']) == null) {
+                nilai = 0;
+              }
               category_id = (authTotal[index]['category_id']);
               sub_category_id = (authTotal[index]['sub_category_id']);
               nomor = numberC.text;
@@ -529,12 +531,14 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            numberC.text.length <= 4
+                            numberC.text.length <= 4 ||
+                                    numberC.text.length >= 13
                                 ? SizedBox()
                                 : authTotal != null
                                     ? _pulsaTabContext()
                                     : SizedBox(),
-                            numberC.text.length <= 4
+                            numberC.text.length <= 4 ||
+                                    numberC.text.length >= 13
                                 ? SizedBox()
                                 : authTotal != null
                                     ? _paketDataTabContext()
