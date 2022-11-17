@@ -1,4 +1,5 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/screens/bottom_navigation/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -115,8 +116,7 @@ class _UbahProfileScreenState extends State<UbahProfileScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+        Navigator.pop(context);
         return Future.value(false);
       },
       child: Scaffold(
