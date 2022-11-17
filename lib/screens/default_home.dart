@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/custom_format.dart';
+import 'package:bmt_kbs/screens/features/lain-lain/lain_lain.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/pulsa_prabayar.dart';
 import 'package:bmt_kbs/screens/features/scan/scanner.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (response.statusCode == 200) {
       log(response.statusCode.toString());
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setInt('point', data['point']);
 
       setState(() {
         loading = false;
@@ -490,9 +493,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: "Tagihan Telkom",
                             ),
                           ),
-                          MenuItem(
-                            iconPath: "lainnya.png",
-                            title: "Lain-lain",
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LainLainScreen(),
+                                ),
+                              );
+                            },
+                            child: MenuItem(
+                              iconPath: "lainnya.png",
+                              title: "Lain-lain",
+                            ),
                           ),
                         ],
                       ),
