@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_ketenagakerjaan/konfirmasi_bpjs_ketenagakerjaan.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_ketenagakerjaan/tagihan_ketenagakerjaan_lunas.dart';
@@ -5,6 +8,9 @@ import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BpjsKetenagakerjaanScreen extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -16,13 +22,77 @@ class BpjsKetenagakerjaanScreen extends StatefulWidget {
 }
 
 class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
+  TextEditingController bpjsKetenagakerjaanController = TextEditingController();
   String dateState = "Pilih Periode";
-  bool tagihanLunas = false;
+  bool isDisabled = true;
+
+  _checkTagihanBpjsKetenagakerjaan() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
+      var response = await http.post(
+        Uri.parse(
+          IpAdress().getIp + '/api/v2/ppob/check-tagihan/pasca',
+        ),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token"
+        },
+        body: {
+          "product_code": "BPJSTK",
+          "hp": bpjsKetenagakerjaanController.text,
+          "ppob_category_id": "7",
+        },
+      );
+
+      var data = jsonDecode(response.body);
+
+      if (mounted) {
+        if (response.statusCode == 200) {
+          print(data);
+          _tagihanKetenagakerjaanBottomSheet(context);
+        } else if (response.statusCode == 400) {
+          print(data);
+          print(response.statusCode);
+
+          Fluttertoast.showToast(
+            msg: data['message'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        } else {
+          print(data);
+          print(response.statusCode);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const TagihanKetenagakerjaanLunasScreen(),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "Terjadi Kesalahan",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -86,6 +156,19 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                       ),
                     ),
                     TextField(
+                      keyboardType: TextInputType.number,
+                      controller: bpjsKetenagakerjaanController,
+                      onChanged: (value) {
+                        if (value.length == 16) {
+                          setState(() {
+                            isDisabled = false;
+                          });
+                        } else {
+                          setState(() {
+                            isDisabled = true;
+                          });
+                        }
+                      },
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
@@ -161,19 +244,12 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
               height: 60,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  if (tagihanLunas == false) {
-                    _tagihanKetenagakerjaanBottomSheet(context);
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const TagihanKetenagakerjaanLunasScreen(),
-                      ),
-                    );
-                  }
-                },
+                onPressed: isDisabled == true
+                    ? null
+                    : () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        _checkTagihanBpjsKetenagakerjaan();
+                      },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorPallete.primaryColor,
                 ),
@@ -205,247 +281,366 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
       context: context,
       builder: (context) {
         return FractionallySizedBox(
-          heightFactor: 0.78,
+          heightFactor: 0.8,
           child: Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 20,
               horizontal: 30,
             ),
-            child: ListView(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ],
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height * 0.75,
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Column(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Wrap(
+                    Column(
                       children: [
-                        const Text(
-                          "Informasi Pelanggan",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Column(
+                          children: [
+                            Wrap(
+                              children: [
+                                const Text(
+                                  "Informasi Pelanggan",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "NIK Pelanggan",
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              "536612381527",
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "Nama Produk",
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              "BPJS Ketenagakerjaan",
+                                              textAlign: TextAlign.end,
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "Harga",
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              "Rp. 123.000",
+                                              textAlign: TextAlign.end,
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "Nama",
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              "Ari Ramdani",
+                                              textAlign: TextAlign.end,
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "Periode",
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              "1 Bulan",
+                                              textAlign: TextAlign.end,
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "Jumlah Peserta",
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              "4",
+                                              textAlign: TextAlign.end,
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "Nama Cabang",
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              "Sulawesi Tengah",
+                                              textAlign: TextAlign.end,
+                                              overflow: TextOverflow.visible,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          child: Divider(),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Detil Pembayaran",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.0,
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Premi",
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Rp. 123.000",
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Biaya Administrasi",
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Rp. 2.500",
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          height: 1,
+                          width: double.infinity,
+                          child: DottedBorder(
+                            color: Colors.grey[400]!,
+                            dashPattern: const [6, 3, 6, 3],
+                            child: const SizedBox(),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.only(top: 10.0),
                           child: Column(
                             children: [
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      "NIK Pelanggan",
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
+                                children: const [
+                                  Text(
+                                    "Total",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14.0,
                                     ),
                                   ),
-                                  Flexible(
-                                    child: Text(
-                                      "536612381527",
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      "Nama Produk",
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      "BPJS Ketenagakerjaan",
-                                      textAlign: TextAlign.end,
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      "Harga",
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      "Rp. 123.000",
-                                      textAlign: TextAlign.end,
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      "Nama",
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      "Ari Ramdani",
-                                      textAlign: TextAlign.end,
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      "Periode",
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      "1 Bulan",
-                                      textAlign: TextAlign.end,
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      "Jumlah Peserta",
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      "4",
-                                      textAlign: TextAlign.end,
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      "Nama Cabang",
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      "Sulawesi Tengah",
-                                      textAlign: TextAlign.end,
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
+                                  Text(
+                                    "RP. 125.500",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14.0,
                                     ),
                                   ),
                                 ],
@@ -455,176 +650,74 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                         ),
                       ],
                     ),
-                  ],
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: Divider(),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Detil Pembayaran",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
-                      ),
-                    ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Column(
+                      padding: const EdgeInsets.only(top: 30.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Premi",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 14,
+                          Expanded(
+                            child: SizedBox(
+                              height: 50,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFD9F0DB),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  elevation: 0.0,
+                                ),
+                                child: const Text(
+                                  "Ubah",
+                                  style: TextStyle(
+                                    color: ColorPallete.primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                              Text(
-                                "Rp. 123.000",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                           const SizedBox(
-                            height: 10,
+                            width: 10,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Biaya Administrasi",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 14,
+                          Expanded(
+                            child: SizedBox(
+                              height: 50,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const KonfirmasiBpjsKetenagakerjaanScreen(),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: ColorPallete.primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  elevation: 0.0,
+                                ),
+                                child: const Text(
+                                  "Konfirmasi",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                              Text(
-                                "Rp. 2.500",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 1,
-                  width: double.infinity,
-                  child: DottedBorder(
-                    color: Colors.grey[400]!,
-                    dashPattern: const [6, 3, 6, 3],
-                    child: const SizedBox(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Total",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14.0,
-                            ),
-                          ),
-                          Text(
-                            "RP. 125.500",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFD9F0DB),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              elevation: 0.0,
-                            ),
-                            child: const Text(
-                              "Ubah",
-                              style: TextStyle(
-                                color: ColorPallete.primaryColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: SizedBox(
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const KonfirmasiBpjsKetenagakerjaanScreen(),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorPallete.primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              elevation: 0.0,
-                            ),
-                            child: const Text(
-                              "Konfirmasi",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         );

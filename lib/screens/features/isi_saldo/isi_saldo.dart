@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -44,7 +45,6 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
     var parsedVal = double.parse(point);
     var formatedPoint = CustomFormat.ubahFormatPoint(parsedVal, 0);
 
-    log('LOADING SAAT KONFIRMASI Get Saldo dan Point GIMANA NICHHH: $loading');
     log(formatedPoint);
 
     if (mounted) {
@@ -52,7 +52,7 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
         setState(() {
           authSaldo = formatedSaldo;
           authPoint = formatedPoint;
-          loading = !loading;
+          loading = false;
         });
       } else {
         Fluttertoast.showToast(
@@ -85,21 +85,35 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
 
     setState(() {
       dataIsiSaldo = data;
-      loading = !loading;
     });
-
-    log('LOADING SAAT KONFIRMASI GIMANA NICHHH: $loading');
-    log('JUMLAH TOP UP YANG DIPASSING:::::: $jmlTopUpSaldo');
 
     if (mounted) {
       if (response.statusCode == 200) {
         // ignore: avoid_print
         print(data.toString());
+
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) =>
-                KonfirmasiIsiSaldoScreen(jmlTopup: jumlah, dataTransaksi: data),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                KonfirmasiIsiSaldoScreen(
+              jmlTopup: jumlah,
+              dataTransaksi: data,
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              var begin = const Offset(0.0, 1.0);
+              var end = Offset.zero;
+              var curve = Curves.ease;
+
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
           ),
         );
       } else {
@@ -127,7 +141,18 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
   }
 
   @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    loading = false;
+
+    log('deactivate loading: $loading');
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print("APAKAH SEDANG LOADING: $loading");
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -270,10 +295,18 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
                               setState(() {
                                 jmlTopUpSaldo =
                                     isiSaldoList[index].nominal.toString();
+                                loading = true;
 
-                                loading = !loading;
-                                konfirmasi(jmlTopUpSaldo);
+                                Timer(const Duration(milliseconds: 500), () {
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                });
                               });
+
+                              log("ON CLICK GESTURE DETECTOR: $loading");
+
+                              konfirmasi(jmlTopUpSaldo);
                             },
                             child: Container(
                               width: 100,
