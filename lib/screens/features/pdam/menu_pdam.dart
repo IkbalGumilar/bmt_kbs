@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:developer';
 
@@ -5,7 +7,6 @@ import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/pdam/detail_tagihan_pdam.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -164,7 +165,6 @@ class _MenuPdamScreenState extends State<MenuPdamScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getPdamList();
   }
@@ -238,7 +238,6 @@ class _MenuPdamScreenState extends State<MenuPdamScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // ignore: avoid_print
                               print("Pop-up Modal Wilayah");
                               pilihWilayahPdamBottomSheet(context);
                             },

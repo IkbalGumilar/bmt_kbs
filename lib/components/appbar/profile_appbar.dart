@@ -30,7 +30,7 @@ class ProfileScreenAppBar extends StatelessWidget {
       ),
       actions: [
         Padding(
-          padding: EdgeInsets.only(right: 16.0),
+          padding: const EdgeInsets.only(right: 16.0),
           child: IconButton(
             icon: const Icon(Icons.notifications_none),
             onPressed: () {},

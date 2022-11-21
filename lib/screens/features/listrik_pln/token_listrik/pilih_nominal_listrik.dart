@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:developer';
 
@@ -126,7 +128,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                       height: 10,
                     ),
                     TextField(
-                      controller: TextEditingController(text: "$_noMeter"),
+                      controller: TextEditingController(text: _noMeter),
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.grey[500]!,

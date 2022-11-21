@@ -28,9 +28,9 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
   bool loading = true;
 
   getSaldoDanPoint() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    var token = _prefs.getString('token');
-    var saldo = _prefs.getString('saldo');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    var saldo = prefs.getString('saldo');
     var val = double.parse(saldo!);
     var formatedSaldo = CustomFormat.ubahFormatRupiah(val, 0);
 
@@ -142,7 +142,6 @@ class _IsiSaldoScreenState extends State<IsiSaldoScreen> {
 
   @override
   void deactivate() {
-    // TODO: implement deactivate
     super.deactivate();
     loading = false;
 

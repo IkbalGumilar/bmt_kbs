@@ -413,7 +413,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
 
                     // make 2 button for pulsa prabayr and pascabayar
                     Flexible(
-                      child: Container(
+                      child: SizedBox(
                         height: 40,
                         child: LayoutBuilder(builder: (context, constraints) {
                           return ToggleButtons(
@@ -533,16 +533,16 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                           children: [
                             numberC.text.length <= 4 ||
                                     numberC.text.length >= 13
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : authTotal != null
                                     ? _pulsaTabContext()
-                                    : SizedBox(),
+                                    : const SizedBox(),
                             numberC.text.length <= 4 ||
                                     numberC.text.length >= 13
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : authTotal != null
                                     ? _paketDataTabContext()
-                                    : SizedBox(),
+                                    : const SizedBox(),
                           ],
                         ),
                       ),

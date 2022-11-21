@@ -5,6 +5,8 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScannerScreen extends StatefulWidget {
+  const ScannerScreen({super.key});
+
   @override
   _ScannerScreenState createState() => _ScannerScreenState();
 }
@@ -93,7 +95,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: Text('Ok'),
+                  child: const Text('Ok'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },

@@ -1,16 +1,19 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/etc/custom_format.dart';
-import 'package:bmt_kbs/screens/features/pdam/status_transaksi_pdam.dart';
+
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+// ignore: must_be_immutable
 class KonfirmasiTagihanPdamScreen extends StatefulWidget {
   KonfirmasiTagihanPdamScreen(
       {super.key, required this.dataKonfirmasiTagihanPDAM});
@@ -81,7 +84,6 @@ class _KonfirmasiTagihanPdamScreenState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _dataKonfirmasiTagihanPDAM = widget.dataKonfirmasiTagihanPDAM;
 
@@ -93,7 +95,6 @@ class _KonfirmasiTagihanPdamScreenState
 
   @override
   Widget build(BuildContext context) {
-    // ignore: avoid_print
     print("INI DATA KONFIRMASI TAGIHAN PDAM:::: $_dataKonfirmasiTagihanPDAM");
     print("INI NOMOR METER PELANGGAN:::: $_nomorMeterPelanggan");
     print("INI PERIODE TAGIHAN:::: $_periodeTagihan");
@@ -456,7 +457,6 @@ class _KonfirmasiTagihanPdamScreenState
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                          // ignore: avoid_print
                           print("Berpindah ke status voucher permainan");
 
                           checkoutTagihanPDAM();

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/penarikan_dana/daftar_kontak.dart';
 import 'package:bmt_kbs/screens/features/penarikan_dana/status_penarikan_dana.dart';
@@ -264,23 +266,22 @@ class PenarikanDanaScreen extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      // ignore: avoid_print
                       print("Lanjutkan");
 
                       _konfirmasiPenarikanDanaBottomSheet(context);
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorPallete.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
                     child: const Text(
                       "Selanjutnya",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorPallete.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                   ),
@@ -397,7 +398,7 @@ class PenarikanDanaScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const Divider(color: Colors.grey, thickness: 1),
+                              Divider(color: Colors.grey, thickness: 1),
                             ],
                           ),
                         ),
@@ -405,7 +406,7 @@ class PenarikanDanaScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 CustomInputWithoutOutlineBorder(

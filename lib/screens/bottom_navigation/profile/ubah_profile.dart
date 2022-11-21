@@ -1,5 +1,4 @@
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/bottom_navigation/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

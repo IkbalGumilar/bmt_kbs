@@ -6,13 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class SlotScreen extends StatefulWidget {
+  const SlotScreen({super.key});
+
   @override
   _SlotScreenState createState() => _SlotScreenState();
 }
 
 class _SlotScreenState extends State<SlotScreen> {
-  Completer<WebViewController> _controller = Completer<WebViewController>();
-  final Set<String> _favorites = Set<String>();
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
+  final Set<String> _favorites = <String>{};
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,7 @@ class _SlotScreenState extends State<SlotScreen> {
                 SnackBar(content: Text('Saved $url for later reading.')),
               );
             },
-            child: Icon(Icons.favorite),
+            child: const Icon(Icons.favorite),
           );
         }
         return Container();

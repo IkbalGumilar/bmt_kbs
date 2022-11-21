@@ -16,10 +16,10 @@ class _HomeScreenAppBarState extends State<HomeScreenAppBar> {
   bool loading = true;
 
   void _userProfile() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    var token = _prefs.getString('token');
-    var nama = _prefs.getString('nama');
-    var poto = _prefs.getString('img');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    var nama = prefs.getString('nama');
+    var poto = prefs.getString('img');
     setState(() {
       authNama = nama;
       authPoto = poto;

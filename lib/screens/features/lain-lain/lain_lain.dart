@@ -26,16 +26,16 @@ class LainLainScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SlotScreen(),
+                  builder: (context) => const SlotScreen(),
                 ),
               );
             },
-            child: Container(
+            child: SizedBox(
               width: 100,
               height: 100,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text("Testing"),
                   Icon(Icons.http, size: 50),
                 ],

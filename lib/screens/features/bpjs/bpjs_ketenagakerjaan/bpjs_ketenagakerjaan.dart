@@ -1,7 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/etc/custom_format.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_ketenagakerjaan/konfirmasi_bpjs_ketenagakerjaan.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_ketenagakerjaan/tagihan_ketenagakerjaan_lunas.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
@@ -25,6 +29,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
   TextEditingController bpjsKetenagakerjaanController = TextEditingController();
   String dateState = "Pilih Periode";
   bool isDisabled = true;
+  Map<String, dynamic>? dataDetail;
 
   _checkTagihanBpjsKetenagakerjaan() async {
     try {
@@ -49,6 +54,10 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
 
       if (mounted) {
         if (response.statusCode == 200) {
+          setState(() {
+            dataDetail = data;
+          });
+
           print(data);
           _tagihanKetenagakerjaanBottomSheet(context);
         } else if (response.statusCode == 400) {
@@ -91,6 +100,8 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log(dataDetail.toString());
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
@@ -345,7 +356,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                           ),
                                           Flexible(
                                             child: Text(
-                                              "536612381527",
+                                              "${dataDetail!['hp']}",
                                               overflow: TextOverflow.visible,
                                               style: TextStyle(
                                                 color: Colors.grey[600],
@@ -404,7 +415,8 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                           ),
                                           Flexible(
                                             child: Text(
-                                              "Rp. 123.000",
+                                              CustomFormat.ubahFormatRupiah(
+                                                  dataDetail!['nominal'], 0),
                                               textAlign: TextAlign.end,
                                               overflow: TextOverflow.visible,
                                               style: TextStyle(
@@ -434,7 +446,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                           ),
                                           Flexible(
                                             child: Text(
-                                              "Ari Ramdani",
+                                              "${dataDetail!['tr_name']}",
                                               textAlign: TextAlign.end,
                                               overflow: TextOverflow.visible,
                                               style: TextStyle(
@@ -464,7 +476,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                           ),
                                           Flexible(
                                             child: Text(
-                                              "1 Bulan",
+                                              "${dataDetail!['period']} Bulan",
                                               textAlign: TextAlign.end,
                                               overflow: TextOverflow.visible,
                                               style: TextStyle(
@@ -524,7 +536,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                           ),
                                           Flexible(
                                             child: Text(
-                                              "Sulawesi Tengah",
+                                              "${dataDetail!['desc']['kantor_cabang']}",
                                               textAlign: TextAlign.end,
                                               overflow: TextOverflow.visible,
                                               style: TextStyle(
@@ -573,7 +585,8 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                         ),
                                       ),
                                       Text(
-                                        "Rp. 123.000",
+                                        CustomFormat.ubahFormatRupiah(
+                                            dataDetail!['nominal'], 0),
                                         style: TextStyle(
                                           color: Colors.grey[600],
                                           fontSize: 14,
@@ -596,7 +609,8 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                         ),
                                       ),
                                       Text(
-                                        "Rp. 2.500",
+                                        CustomFormat.ubahFormatRupiah(
+                                            dataDetail!['admin'], 0),
                                         style: TextStyle(
                                           color: Colors.grey[600],
                                           fontSize: 14,
@@ -628,8 +642,8 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: const [
-                                  Text(
+                                children: [
+                                  const Text(
                                     "Total",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
@@ -637,8 +651,9 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "RP. 125.500",
-                                    style: TextStyle(
+                                    CustomFormat.ubahFormatRupiah(
+                                        dataDetail!['price'], 0),
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14.0,
                                     ),

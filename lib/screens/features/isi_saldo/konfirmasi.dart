@@ -11,6 +11,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+// ignore: must_be_immutable
 class KonfirmasiIsiSaldoScreen extends StatefulWidget {
   KonfirmasiIsiSaldoScreen(
       {Key? key, required this.jmlTopup, required this.dataTransaksi})
@@ -69,7 +70,7 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
           title: "Konfirmasi",
           isHaveActions: true,

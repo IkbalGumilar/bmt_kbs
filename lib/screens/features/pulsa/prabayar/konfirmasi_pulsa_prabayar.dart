@@ -1,15 +1,11 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
-import 'package:bmt_kbs/screens/features/pulsa/prabayar/status_transaksi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
-// ignore: unused_import
 import '../../../../etc/custom_format.dart';
-import './pulsa_prabayar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KonfirmasiPulsaPrabayarScreen extends StatefulWidget {
@@ -81,7 +77,7 @@ class _KonfirmasiPulsaPrabayarScreenState
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
-            textColor: Color.fromARGB(255, 60, 255, 0),
+            textColor: const Color.fromARGB(255, 60, 255, 0),
             fontSize: 16.0);
       }
     } catch (e) {
@@ -177,15 +173,15 @@ class _KonfirmasiPulsaPrabayarScreenState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Sisa Saldo",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 14),
                                         ),
                                         Text(
-                                          '${realSaldo}',
-                                          style: TextStyle(
+                                          '$realSaldo',
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold,
@@ -218,14 +214,14 @@ class _KonfirmasiPulsaPrabayarScreenState
                                                   children: [
                                                     Text(
                                                       "$poin",
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                       ),
                                                     ),
-                                                    Icon(
+                                                    const Icon(
                                                       Icons
                                                           .keyboard_arrow_right,
                                                       size: 16,
@@ -267,25 +263,25 @@ class _KonfirmasiPulsaPrabayarScreenState
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "$produk",
-                                    style: TextStyle(
+                                    produk,
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
                                     ),
                                   ),
                                   Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 10.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
                                     child: Text(
-                                      "$deskripsi",
-                                      style: TextStyle(
+                                      deskripsi,
+                                      style: const TextStyle(
                                         color: Colors.grey,
                                       ),
                                     ),
                                   ),
                                   Text(
                                     "$harga",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -366,7 +362,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Total Bayar",
                           style: TextStyle(
                             fontSize: 10,
@@ -374,7 +370,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                         ),
                         Text(
                           "Rp ${harga + admin}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
                           ),

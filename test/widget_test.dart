@@ -39,7 +39,7 @@ void main() async {
     var data = jsonDecode(response.body)['data'];
 
     if (response.statusCode == 200) {
-      print(data.toString());
+      print(data);
     } else {
       print(response.statusCode);
       log(data.toString());
@@ -86,14 +86,16 @@ void main() async {
     }
   }
 
+  getTransactionHistory();
+
   // getTransactionHistory();
   // checkNomorPonsel();
-  getPdamList();
+  // getPdamList();
 
-  removeAlphabetFromPulsaCode(String value) {
-    var result = value.replaceAll(RegExp(r'[a-zA-Z]'), '');
-    print(result);
-  }
+  // removeAlphabetFromPulsaCode(String value) {
+  //   var result = value.replaceAll(RegExp(r'[a-zA-Z]'), '');
+  //   print(result);
+  // }
 
-  removeAlphabetFromPulsaCode('xl5000');
+  // removeAlphabetFromPulsaCode('xl5000');
 }
