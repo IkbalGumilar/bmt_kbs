@@ -17,7 +17,6 @@ class _HomeScreenAppBarState extends State<HomeScreenAppBar> {
 
   void _userProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
     var nama = prefs.getString('nama');
     var poto = prefs.getString('img');
     setState(() {

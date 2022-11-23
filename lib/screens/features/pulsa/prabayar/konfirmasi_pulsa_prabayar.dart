@@ -330,7 +330,7 @@ class _KonfirmasiPulsaPrabayarScreenState
                               authSaldo! > harga + admin
                                   ? ""
                                   : "*Saldo anda tidak cukup untuk transaksi ini ",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.red,
                               ),
                             ),

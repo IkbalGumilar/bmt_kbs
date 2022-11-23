@@ -87,7 +87,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
       }
     } catch (e) {
       Fluttertoast.showToast(
-        msg: "Terjadi Kesalahan",
+        msg: "Terjadi Kesalahan, Silahkan Coba Lagi!",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -706,7 +706,13 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const KonfirmasiBpjsKetenagakerjaanScreen(),
+                                          KonfirmasiBpjsKetenagakerjaanScreen(
+                                        nikPelanggan:
+                                            bpjsKetenagakerjaanController.text,
+                                        biayaAdmin: dataDetail!['admin'],
+                                        nominalBiaya: dataDetail!['nominal'],
+                                        total: dataDetail!['price'],
+                                      ),
                                     ),
                                   );
                                 },

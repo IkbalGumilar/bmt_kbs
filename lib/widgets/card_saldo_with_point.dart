@@ -16,10 +16,13 @@ class _CardSaldoWithPointWidgetState extends State<CardSaldoWithPointWidget> {
   getDataToCard() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var mySaldo = prefs.getString('saldo');
+    double formatted = double.parse(mySaldo!);
 
     setState(() {
-      saldo = CustomFormat.ubahFormatRupiah(int.parse(mySaldo!), 0);
+      saldo = CustomFormat.ubahFormatRupiah(formatted, 0);
     });
+
+    print(saldo);
   }
 
   @override

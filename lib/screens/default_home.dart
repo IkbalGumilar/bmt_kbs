@@ -315,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ScannerScreen(),
+                                                    const ScannerScreen(),
                                               ),
                                             );
                                           },
@@ -381,7 +381,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => PulsaPrabayarScreen(),
+                                  builder: (context) =>
+                                      const PulsaPrabayarScreen(),
                                 ),
                               );
                             },
@@ -498,7 +499,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => LainLainScreen(),
+                                  builder: (context) => const LainLainScreen(),
                                 ),
                               );
                             },
