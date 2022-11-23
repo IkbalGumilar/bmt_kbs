@@ -57,7 +57,6 @@ class _KonfirmasiIsiSaldoScreenState extends State<KonfirmasiIsiSaldoScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _jmlTopup = widget.jmlTopup;
     _dataKonfirmasiIsiSaldo = widget.dataTransaksi;

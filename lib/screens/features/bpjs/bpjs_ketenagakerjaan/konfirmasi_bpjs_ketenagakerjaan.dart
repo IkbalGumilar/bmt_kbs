@@ -1,14 +1,54 @@
+import 'dart:developer';
+
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_ketenagakerjaan/status_transaksi_bpjs_ketenagakerjaan.dart';
 import 'package:bmt_kbs/widgets/card_saldo_with_point.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
-class KonfirmasiBpjsKetenagakerjaanScreen extends StatelessWidget {
-  const KonfirmasiBpjsKetenagakerjaanScreen({super.key});
+class KonfirmasiBpjsKetenagakerjaanScreen extends StatefulWidget {
+  KonfirmasiBpjsKetenagakerjaanScreen({
+    super.key,
+    required this.nikPelanggan,
+    required this.nominalBiaya,
+    required this.biayaAdmin,
+    required this.total,
+  });
+
+  String nikPelanggan;
+  String nominalBiaya;
+  String biayaAdmin;
+  String total;
+
+  @override
+  State<KonfirmasiBpjsKetenagakerjaanScreen> createState() =>
+      _KonfirmasiBpjsKetenagakerjaanScreenState();
+}
+
+class _KonfirmasiBpjsKetenagakerjaanScreenState
+    extends State<KonfirmasiBpjsKetenagakerjaanScreen> {
+  late String? _nikPelanggan;
+  late String? _nominalBiaya;
+  late String? _biayaAdmin;
+  late String? _total;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _nikPelanggan = widget.nikPelanggan;
+    _nominalBiaya = widget.nominalBiaya;
+    _biayaAdmin = widget.biayaAdmin;
+    _total = widget.total;
+  }
 
   @override
   Widget build(BuildContext context) {
+    log('nikPelanggan: $_nikPelanggan');
+    log('nominalBiaya: $_nominalBiaya');
+    log('biayaAdmin: $_biayaAdmin');
+    log('total: $_total');
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
