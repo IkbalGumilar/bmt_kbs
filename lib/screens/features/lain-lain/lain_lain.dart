@@ -1,3 +1,4 @@
+import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/lain-lain/slot.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ class LainLainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: CustomAppBar(
@@ -20,7 +22,7 @@ class LainLainScreen extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          color: Colors.grey[300],
+          color: ColorPallete.primaryColor,
           child: InkWell(
             onTap: () {
               Navigator.push(
@@ -31,13 +33,28 @@ class LainLainScreen extends StatelessWidget {
               );
             },
             child: SizedBox(
-              width: 100,
-              height: 100,
-              child: Column(
+              width: 200,
+              height: 50,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text("Testing"),
-                  Icon(Icons.http, size: 50),
+                children: [
+                  Wrap(
+                    spacing: 10,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: const [
+                      Text(
+                        "Testing",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Icon(
+                        Icons.web,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

@@ -29,7 +29,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
   TextEditingController bpjsKetenagakerjaanController = TextEditingController();
   String dateState = "Pilih Periode";
   bool isDisabled = true;
-  Map<String, dynamic>? dataDetail;
+  Map<String, dynamic>? dataDetailKetenagakerjaan;
 
   _checkTagihanBpjsKetenagakerjaan() async {
     try {
@@ -55,7 +55,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
       if (mounted) {
         if (response.statusCode == 200) {
           setState(() {
-            dataDetail = data;
+            dataDetailKetenagakerjaan = data;
           });
 
           print(data);
@@ -100,7 +100,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log(dataDetail.toString());
+    log(dataDetailKetenagakerjaan.toString());
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -356,7 +356,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                           ),
                                           Flexible(
                                             child: Text(
-                                              "${dataDetail!['hp']}",
+                                              "${dataDetailKetenagakerjaan!['hp']}",
                                               overflow: TextOverflow.visible,
                                               style: TextStyle(
                                                 color: Colors.grey[600],
@@ -416,7 +416,9 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                           Flexible(
                                             child: Text(
                                               CustomFormat.ubahFormatRupiah(
-                                                  dataDetail!['nominal'], 0),
+                                                  dataDetailKetenagakerjaan![
+                                                      'nominal'],
+                                                  0),
                                               textAlign: TextAlign.end,
                                               overflow: TextOverflow.visible,
                                               style: TextStyle(
@@ -446,7 +448,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                           ),
                                           Flexible(
                                             child: Text(
-                                              "${dataDetail!['tr_name']}",
+                                              "${dataDetailKetenagakerjaan!['tr_name']}",
                                               textAlign: TextAlign.end,
                                               overflow: TextOverflow.visible,
                                               style: TextStyle(
@@ -476,7 +478,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                           ),
                                           Flexible(
                                             child: Text(
-                                              "${dataDetail!['period']} Bulan",
+                                              "${dataDetailKetenagakerjaan!['period']} Bulan",
                                               textAlign: TextAlign.end,
                                               overflow: TextOverflow.visible,
                                               style: TextStyle(
@@ -536,7 +538,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                           ),
                                           Flexible(
                                             child: Text(
-                                              "${dataDetail!['desc']['kantor_cabang']}",
+                                              "${dataDetailKetenagakerjaan!['desc']['kantor_cabang']}",
                                               textAlign: TextAlign.end,
                                               overflow: TextOverflow.visible,
                                               style: TextStyle(
@@ -586,7 +588,9 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                       ),
                                       Text(
                                         CustomFormat.ubahFormatRupiah(
-                                            dataDetail!['nominal'], 0),
+                                            dataDetailKetenagakerjaan![
+                                                'nominal'],
+                                            0),
                                         style: TextStyle(
                                           color: Colors.grey[600],
                                           fontSize: 14,
@@ -610,7 +614,8 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                       ),
                                       Text(
                                         CustomFormat.ubahFormatRupiah(
-                                            dataDetail!['admin'], 0),
+                                            dataDetailKetenagakerjaan!['admin'],
+                                            0),
                                         style: TextStyle(
                                           color: Colors.grey[600],
                                           fontSize: 14,
@@ -652,7 +657,7 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                   ),
                                   Text(
                                     CustomFormat.ubahFormatRupiah(
-                                        dataDetail!['price'], 0),
+                                        dataDetailKetenagakerjaan!['price'], 0),
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14.0,
@@ -709,9 +714,15 @@ class _BpjsKetenagakerjaanScreenState extends State<BpjsKetenagakerjaanScreen> {
                                           KonfirmasiBpjsKetenagakerjaanScreen(
                                         nikPelanggan:
                                             bpjsKetenagakerjaanController.text,
-                                        biayaAdmin: dataDetail!['admin'],
-                                        nominalBiaya: dataDetail!['nominal'],
-                                        total: dataDetail!['price'],
+                                        refID: dataDetailKetenagakerjaan![
+                                            'ref_id'],
+                                        biayaAdmin:
+                                            dataDetailKetenagakerjaan!['admin'],
+                                        nominalBiaya:
+                                            dataDetailKetenagakerjaan![
+                                                'nominal'],
+                                        total:
+                                            dataDetailKetenagakerjaan!['price'],
                                       ),
                                     ),
                                   );

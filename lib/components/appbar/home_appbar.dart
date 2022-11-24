@@ -19,6 +19,7 @@ class _HomeScreenAppBarState extends State<HomeScreenAppBar> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var nama = prefs.getString('nama');
     var poto = prefs.getString('img');
+
     setState(() {
       authNama = nama;
       authPoto = poto;
@@ -26,6 +27,18 @@ class _HomeScreenAppBarState extends State<HomeScreenAppBar> {
     });
 
     log(poto.toString());
+  }
+
+  String greeting() {
+    int hour = DateTime.now().hour;
+
+    if (hour < 12) {
+      return 'Selamat Pagi';
+    } else if (hour < 17) {
+      return 'Selamat Sore';
+    } else {
+      return 'Selamat Malam';
+    }
   }
 
   @override
@@ -70,8 +83,8 @@ class _HomeScreenAppBarState extends State<HomeScreenAppBar> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Halo, Selamat Pagi 👋",
+              Text(
+                "Halo, ${greeting()} 👋",
                 style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
               Text(

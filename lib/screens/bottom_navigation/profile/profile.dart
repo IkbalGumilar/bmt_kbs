@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/bottom_navigation/profile/ubah_profile.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String? authName, authProfilePic;
+
   void logout() async {
     showDialog(
       barrierDismissible: false,
@@ -110,6 +114,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  void _userProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var nama = prefs.getString('nama');
+    var profilePic = prefs.getString('img');
+
+    setState(() {
+      authName = nama;
+      authProfilePic = profilePic;
+    });
+
+    log(profilePic.toString());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _userProfile();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -164,7 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           vertical: 10,
                         ),
                         child: Text(
-                          "Anggi Rima Saputra".toUpperCase(),
+                          "$authName".toUpperCase(),
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,

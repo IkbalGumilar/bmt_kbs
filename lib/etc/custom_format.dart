@@ -12,4 +12,10 @@ class CustomFormat {
         NumberFormat.currency(locale: 'id', symbol: '', decimalDigits: decimal);
     return currencyFormatter.format(number);
   }
+  
+  static DateTime ubahStringKeDateTime(String tanggal) {
+    DateTime format = DateFormat('yyyyMMddHHmmss').parse(tanggal);
+    final convert = DateTime.parse(format.toString());
+    return convert;
+  }
 }
