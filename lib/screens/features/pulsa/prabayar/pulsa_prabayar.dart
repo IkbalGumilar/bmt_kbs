@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/etc/custom_format.dart';
 import 'package:bmt_kbs/screens/features/pulsa/prabayar/konfirmasi_pulsa_prabayar.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -45,9 +46,8 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   var admin;
 
   var paketData;
-  String _radioValue = "";
-  bool _pulsa = false;
-  bool _pascabayar = false;
+  String _radioValue = "nomor_ponsel";
+  final List<bool> _isSelected = [true, false];
 
   cekData() async {
     try {
@@ -74,7 +74,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
         });
       } else if (response.statusCode == 401) {
         Fluttertoast.showToast(
-            msg: 'Nomer Yang Anda Masukan Salah!',
+            msg: 'Nomer yang Anda masukkan tidak valid',
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -117,7 +117,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
         });
       } else if (response.statusCode == 401) {
         Fluttertoast.showToast(
-            msg: 'Nomer Yang Anda Masukan Salah!',
+            msg: 'Nomer yang Anda masukkan tidak valid',
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -164,7 +164,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   _smoothScrollToTop() {
     _scrollController.animateTo(
       0,
-      duration: const Duration(microseconds: 300),
+      duration: const Duration(microseconds: 0),
       curve: Curves.ease,
     );
 
@@ -176,12 +176,12 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
   _pulsaTabContext() {
     return GridView.builder(
       shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       itemCount: authTotal!.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        childAspectRatio: 1.1,
-        crossAxisSpacing: 4.0,
+        childAspectRatio: 1.4 / 1.4,
+        crossAxisSpacing: 10.0,
         mainAxisSpacing: 20.0,
       ),
       itemBuilder: (context, index) {
@@ -198,7 +198,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                   fontSize: 16.0);
             } else if (numberC.text.length < 12) {
               Fluttertoast.showToast(
-                  msg: 'Nomer yang anda masukan salah!',
+                  msg: 'Nomer yang Anda masukkan tidak valid',
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1,
@@ -254,7 +254,8 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                       Wrap(
                         children: [
                           Text(
-                            '${authTotal[index]['product_code']}'.substring(6),
+                            CustomFormat.hapusKarakterAlphabet(
+                                authTotal[index]['product_code']),
                             style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ],
@@ -292,7 +293,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       itemCount: authData.length,
       itemBuilder: (context, index) {
         return Padding(
@@ -422,20 +423,15 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                 width: constraints.maxWidth / 2.04),
                             onPressed: (index) {
                               setState(() {
-                                if (index == 0) {
-                                  _pulsa = true;
-                                  _pascabayar = false;
-
-                                  _radioValue = "nomor_ponsel";
-                                } else {
-                                  _pulsa = false;
-                                  _pascabayar = true;
-
-                                  _radioValue = "nomor_pascabayar";
+                                for (int i = 0; i < _isSelected.length; i++) {
+                                  _isSelected[i] = i == index;
+                                  _radioValue = _isSelected[i]
+                                      ? "nomor_pascabayar"
+                                      : "nomor_ponsel";
                                 }
                               });
                             },
-                            isSelected: [_pulsa, _pascabayar],
+                            isSelected: _isSelected,
                             children: [
                               SizedBox(
                                 width: 100,
@@ -443,7 +439,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                   child: Text(
                                     "Pulsa",
                                     style: TextStyle(
-                                      color: _pulsa
+                                      color: _isSelected[0]
                                           ? ColorPallete.primaryColor
                                           : Colors.grey,
                                     ),
@@ -456,7 +452,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                                   child: Text(
                                     "Pascabayar",
                                     style: TextStyle(
-                                      color: _pascabayar
+                                      color: _isSelected[1]
                                           ? ColorPallete.primaryColor
                                           : Colors.grey,
                                     ),
@@ -529,6 +525,7 @@ class _PulsaPrabayarScreenState extends State<PulsaPrabayarScreen>
                       body: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
                         child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
                           controller: _tabController,
                           children: [
                             numberC.text.length <= 4 ||
