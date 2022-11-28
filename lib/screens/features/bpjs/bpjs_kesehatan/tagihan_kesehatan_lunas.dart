@@ -2,8 +2,29 @@ import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
-class TagihanKesehatanLunasScreen extends StatelessWidget {
-  const TagihanKesehatanLunasScreen({super.key});
+class TagihanKesehatanLunasScreen extends StatefulWidget {
+  final String id;
+  bool get hasFocus => false;
+
+  const TagihanKesehatanLunasScreen({
+    super.key,
+    required this.id,
+  });
+
+  @override
+  State<TagihanKesehatanLunasScreen> createState() =>
+      _TagihanKesehatanLunasScreenState();
+}
+
+class _TagihanKesehatanLunasScreenState
+    extends State<TagihanKesehatanLunasScreen> {
+  late String id;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    id = widget.id;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +61,8 @@ class TagihanKesehatanLunasScreen extends StatelessWidget {
                       ),
                     ),
                     TextField(
-                      controller:
-                          TextEditingController(text: "5366 1238 1527 2"),
+                      enabled: false,
+                      controller: TextEditingController(text: "$id"),
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,

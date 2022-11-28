@@ -1,10 +1,119 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_kesehatan/status_transaksi_bpjs_kesehatan.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class KonfirmasiBpjsKesehatanScreen extends StatelessWidget {
-  const KonfirmasiBpjsKesehatanScreen({super.key});
+class KonfirmasiBpjsKesehatanScreen extends StatefulWidget {
+  final String nama;
+  final String id_pengguna;
+  final String harga;
+  final String priode;
+  final String jumlahPeserta;
+  final String namaCabang;
+  final String total;
+  final String bayar;
+  final String admin;
+  final String ref_id;
+  final String noBpjs;
+  KonfirmasiBpjsKesehatanScreen({
+    super.key,
+    required this.nama,
+    required this.id_pengguna,
+    required this.harga,
+    required this.priode,
+    required this.jumlahPeserta,
+    required this.namaCabang,
+    required this.total,
+    required this.bayar,
+    required this.admin,
+    required this.ref_id,
+    required this.noBpjs,
+  });
+
+  @override
+  State<KonfirmasiBpjsKesehatanScreen> createState() =>
+      _KonfirmasiBpjsKesehatanScreenState();
+}
+
+class _KonfirmasiBpjsKesehatanScreenState
+    extends State<KonfirmasiBpjsKesehatanScreen> {
+  late String id_pengguna;
+  late String harga;
+  late String admin;
+  late String total;
+  late String jumlahPeserta;
+  late String nama;
+  late String namaCabang;
+  late String Priode;
+  late String ref_id;
+  late String noBpjs;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    id_pengguna = widget.id_pengguna;
+    harga = widget.harga;
+    admin = widget.admin;
+    total = widget.total;
+    jumlahPeserta = widget.jumlahPeserta;
+    nama = widget.nama;
+    namaCabang = widget.namaCabang;
+    Priode = widget.priode;
+    ref_id = widget.ref_id;
+  }
+
+  cekout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Uri url = Uri.parse(IpAdress().getIp + '/api/v2/ppob/checkout/pasca');
+    var token = prefs.getString('token');
+    var response = await http.post(url, headers: {
+      "Authorization": "Bearer $token",
+      "Accept": 'application/json',
+    }, body: {
+      "ref_id": ref_id,
+      "hp": '8801234560008',
+      "ppob_category_id": '7'
+    });
+    var all = jsonDecode(response.body);
+    var data = all['message'];
+    log(all.toString());
+    if (response.statusCode == 200) {
+      if (all['message'] == 'Saldo Kurang') {
+        Fluttertoast.showToast(
+            msg: 'Maaf Saldo Anda Tidak Mencukupi!!!',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StatusTransaksiBpjsKesehatanScreen(
+                admin: admin,
+                bayar: harga,
+                harga: harga,
+                id_pengguna: id_pengguna,
+                jumlahPeserta: jumlahPeserta,
+                nama: nama,
+                namaCabang: namaCabang,
+                priode: Priode,
+                total: total,
+                ref_id: ref_id),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +267,7 @@ class KonfirmasiBpjsKesehatanScreen extends StatelessWidget {
                                               ),
                                             ),
                                             Text(
-                                              "536612381527 ",
+                                              "$id_pengguna",
                                               style: TextStyle(
                                                 color: Colors.grey[600]!,
                                                 fontSize: 12,
@@ -181,7 +290,7 @@ class KonfirmasiBpjsKesehatanScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(
-                                                "Rp. 123.000",
+                                                "Rp. $harga",
                                                 style: TextStyle(
                                                   color: Colors.grey[600]!,
                                                   fontSize: 12,
@@ -205,7 +314,7 @@ class KonfirmasiBpjsKesehatanScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(
-                                                "Rp. 2.500",
+                                                "Rp. $admin",
                                                 style: TextStyle(
                                                   color: Colors.grey[600]!,
                                                   fontSize: 12,
@@ -220,7 +329,7 @@ class KonfirmasiBpjsKesehatanScreen extends StatelessWidget {
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
-                                            children: const [
+                                            children: [
                                               Text(
                                                 "Total",
                                                 style: TextStyle(
@@ -230,7 +339,7 @@ class KonfirmasiBpjsKesehatanScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(
-                                                "Rp. 125.500",
+                                                "Rp. $total",
                                                 style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 14,
@@ -310,7 +419,7 @@ class KonfirmasiBpjsKesehatanScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "Total Bayar",
                           style: TextStyle(
@@ -318,7 +427,7 @@ class KonfirmasiBpjsKesehatanScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Rp 125.500",
+                          "Rp $total",
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
@@ -334,13 +443,7 @@ class KonfirmasiBpjsKesehatanScreen extends StatelessWidget {
                         onPressed: () {
                           // ignore: avoid_print
                           print("Berpindah ke status voucher permainan");
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const StatusTransaksiBpjsKesehatanScreen(),
-                            ),
-                          );
+                          cekout();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorPallete.primaryColor,

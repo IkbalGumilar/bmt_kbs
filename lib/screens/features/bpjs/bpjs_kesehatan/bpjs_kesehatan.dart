@@ -1,10 +1,17 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_kesehatan/konfirmasi_bpjs_kesehatan.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_kesehatan/tagihan_kesehatan_lunas.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../config/ip.dart';
 
 class BpjsKesehatanScreen extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -17,11 +24,64 @@ class BpjsKesehatanScreen extends StatefulWidget {
 class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
   String dateState = "Pilih Bulan";
   bool tagihanLunas = true;
+  bool isDisabled = true;
+  TextEditingController noBpjsC = TextEditingController();
+  String? data;
+  String? id_pelanggan;
+  String? harga;
+  String? nama;
+  String? priode;
+  String? jumlahPeserta;
+  String? namaCabang;
+  String? total;
+  String? bayar;
+  String? biayaAdmin;
+  String? ref_id;
+
+  cekData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Uri url = Uri.parse(IpAdress().getIp + '/api/v2/ppob/check-tagihan/pasca');
+    var token = prefs.getString('token');
+    var response = await http.post(url, headers: {
+      "Authorization": "Bearer $token",
+      "Accept": 'application/json',
+    }, body: {
+      "product_code": "BPJS",
+      "hp": noBpjsC.text,
+      "ppob_category_id": '7'
+    });
+
+    log(noBpjsC.text.length.toString());
+    var all = jsonDecode(response.body);
+    var data = all['message'];
+    String id = all["hp"];
+    var nominal = all['nominal'].toString();
+    log(all.toString());
+    log(nominal);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        id_pelanggan = id;
+        harga = nominal.toString();
+        nama = all['tr_name'];
+        priode = all['period'];
+        jumlahPeserta = all['desc']['jumlah_peserta'];
+        namaCabang = all['desc']['nama_cabang'];
+        bayar = all['nominal'].toString();
+        biayaAdmin = all['admin'].toString();
+        total = all['price'].toString();
+        ref_id = all['ref_id'].toString();
+      });
+      _tagihanKesehatanTersediaBottomSheet(context);
+    } else {
+      _tagihanKesehatanTersediaBottomSheet(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -85,6 +145,18 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                       ),
                     ),
                     TextField(
+                      controller: noBpjsC,
+                      onChanged: (value) {
+                        if (noBpjsC.text.length == 13) {
+                          setState(() {
+                            isDisabled = false;
+                          });
+                        } else {
+                          setState(() {
+                            isDisabled = true;
+                          });
+                        }
+                      },
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
@@ -160,19 +232,18 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
               height: 60,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  if (tagihanLunas == false) {
-                    _tagihanKesehatanTersediaBottomSheet(context);
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const TagihanKesehatanLunasScreen(),
-                      ),
-                    );
-                  }
-                },
+                onPressed: isDisabled
+                    ? null
+                    : () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => TagihanKesehatanLunasScreen(),
+                        //   ),
+                        // );
+                        //_tagihanKesehatanTersediaBottomSheet(context);
+                        cekData();
+                      },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorPallete.primaryColor,
                 ),
@@ -180,8 +251,8 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                   "Cek Tagihan",
                   style: TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.w700,
                     fontSize: 16,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -259,7 +330,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "536612381527",
+                                      "$id_pelanggan",
                                       overflow: TextOverflow.visible,
                                       style: TextStyle(
                                         color: Colors.grey[600],
@@ -318,7 +389,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "Rp. 123.000",
+                                      "Rp. ${harga.toString()}",
                                       textAlign: TextAlign.end,
                                       overflow: TextOverflow.visible,
                                       style: TextStyle(
@@ -348,7 +419,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "Ari Ramdani",
+                                      "$nama",
                                       textAlign: TextAlign.end,
                                       overflow: TextOverflow.visible,
                                       style: TextStyle(
@@ -378,7 +449,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "1 Bulan",
+                                      "$priode Bulan",
                                       textAlign: TextAlign.end,
                                       overflow: TextOverflow.visible,
                                       style: TextStyle(
@@ -408,7 +479,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "4",
+                                      "$jumlahPeserta",
                                       textAlign: TextAlign.end,
                                       overflow: TextOverflow.visible,
                                       style: TextStyle(
@@ -438,7 +509,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "Sulawesi Tengah",
+                                      "$namaCabang",
                                       textAlign: TextAlign.end,
                                       overflow: TextOverflow.visible,
                                       style: TextStyle(
@@ -457,9 +528,8 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                   ],
                 ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: Divider(),
-                ),
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Divider()),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -485,7 +555,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                                 ),
                               ),
                               Text(
-                                "Rp. 123.000",
+                                "Rp. $bayar",
                                 style: TextStyle(
                                   color: Colors.grey[600],
                                   fontSize: 14,
@@ -507,7 +577,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                                 ),
                               ),
                               Text(
-                                "Rp. 2.500",
+                                "Rp. $biayaAdmin",
                                 style: TextStyle(
                                   color: Colors.grey[600],
                                   fontSize: 14,
@@ -538,7 +608,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
+                        children: [
                           Text(
                             "Total",
                             style: TextStyle(
@@ -547,7 +617,7 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                             ),
                           ),
                           Text(
-                            "RP. 125.500",
+                            'Rp. $total',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 14.0,
@@ -598,9 +668,21 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const KonfirmasiBpjsKesehatanScreen(),
-                                ),
+                                    builder: (context) =>
+                                        KonfirmasiBpjsKesehatanScreen(
+                                          nama: nama.toString(),
+                                          id_pengguna: id_pelanggan.toString(),
+                                          priode: priode.toString(),
+                                          admin: biayaAdmin.toString(),
+                                          bayar: bayar.toString(),
+                                          harga: bayar.toString(),
+                                          jumlahPeserta:
+                                              jumlahPeserta.toString(),
+                                          namaCabang: namaCabang.toString(),
+                                          total: total.toString(),
+                                          ref_id: ref_id.toString(),
+                                          noBpjs: noBpjsC.toString(),
+                                        )),
                               );
                             },
                             style: ElevatedButton.styleFrom(

@@ -1,10 +1,63 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class StatusTransaksiBpjsKesehatanScreen extends StatelessWidget {
-  const StatusTransaksiBpjsKesehatanScreen({super.key});
+class StatusTransaksiBpjsKesehatanScreen extends StatefulWidget {
+  final String nama;
+  final String id_pengguna;
+  final String harga;
+  final String priode;
+  final String jumlahPeserta;
+  final String namaCabang;
+  final String total;
+  final String bayar;
+  final String admin;
+  final String ref_id;
+  const StatusTransaksiBpjsKesehatanScreen({
+    super.key,
+    required this.nama,
+    required this.id_pengguna,
+    required this.harga,
+    required this.priode,
+    required this.jumlahPeserta,
+    required this.namaCabang,
+    required this.total,
+    required this.bayar,
+    required this.admin,
+    required this.ref_id,
+  });
+
+  @override
+  State<StatusTransaksiBpjsKesehatanScreen> createState() =>
+      _StatusTransaksiBpjsKesehatanScreenState();
+}
+
+late String ref_id;
+late String id;
+late String nama;
+late String jml;
+late String bayar;
+late String admin;
+
+class _StatusTransaksiBpjsKesehatanScreenState
+    extends State<StatusTransaksiBpjsKesehatanScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    id = widget.id_pengguna;
+    nama = widget.nama;
+    jml = widget.total;
+    bayar = widget.harga;
+    admin = widget.admin;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +156,7 @@ class StatusTransaksiBpjsKesehatanScreen extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: const [
+                                      children: [
                                         Text(
                                           "ID Pelanggan",
                                           style: TextStyle(
@@ -112,7 +165,7 @@ class StatusTransaksiBpjsKesehatanScreen extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          "536612381527",
+                                          "$id",
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.grey,
@@ -127,7 +180,7 @@ class StatusTransaksiBpjsKesehatanScreen extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: const [
+                                      children: [
                                         Text(
                                           "Nama Pelanggan",
                                           style: TextStyle(
@@ -136,7 +189,7 @@ class StatusTransaksiBpjsKesehatanScreen extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          "Ari Ramdani",
+                                          "$nama",
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.grey,
@@ -150,7 +203,7 @@ class StatusTransaksiBpjsKesehatanScreen extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: const [
+                                      children: [
                                         Text(
                                           "Total Pembayaran",
                                           style: TextStyle(
@@ -159,7 +212,7 @@ class StatusTransaksiBpjsKesehatanScreen extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          "Rp. 125.500",
+                                          "Rp. ${jml}",
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.grey,
@@ -186,12 +239,12 @@ class StatusTransaksiBpjsKesehatanScreen extends StatelessWidget {
                     ),
                     CustomInputWithoutOutlineBorder(
                       label: "Jumlah Bayar",
-                      inputValue: "Rp. 123.000",
+                      inputValue: "Rp. $bayar",
                       isBold: true,
                     ),
                     CustomInputWithoutOutlineBorder(
                       label: "Biaya Administrasi",
-                      inputValue: "Rp. 2.500",
+                      inputValue: "Rp. $admin",
                       isBold: true,
                     ),
                   ],
