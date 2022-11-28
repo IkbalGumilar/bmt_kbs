@@ -1,13 +1,41 @@
+import 'dart:developer';
+
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/etc/custom_format.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:bmt_kbs/widgets/custom_input_without_outline_border.dart';
 import 'package:flutter/material.dart';
 
-class StatusTransaksiTokenListrikScreen extends StatelessWidget {
-  const StatusTransaksiTokenListrikScreen({super.key});
+class StatusTransaksiTokenListrikScreen extends StatefulWidget {
+  StatusTransaksiTokenListrikScreen(
+      {super.key, required this.nominal, required this.dataStatusTransaksi});
+
+  Map<String, dynamic> dataStatusTransaksi;
+  int nominal;
+
+  @override
+  State<StatusTransaksiTokenListrikScreen> createState() =>
+      _StatusTransaksiTokenListrikScreenState();
+}
+
+class _StatusTransaksiTokenListrikScreenState
+    extends State<StatusTransaksiTokenListrikScreen> {
+  late Map<String, dynamic> _dataStatusTransaksi;
+  late int _nominal;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _dataStatusTransaksi = widget.dataStatusTransaksi;
+    _nominal = widget.nominal;
+  }
 
   @override
   Widget build(BuildContext context) {
+    log(_dataStatusTransaksi.toString());
+    log(_nominal.toString());
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -57,7 +85,7 @@ class StatusTransaksiTokenListrikScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "1234567891011121314 | Sab 10/06/2022 23:59:40",
+                        "${_dataStatusTransaksi['ref_id']} | ${_dataStatusTransaksi['created_at']}",
                         style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                       ),
                     ],
@@ -80,17 +108,19 @@ class StatusTransaksiTokenListrikScreen extends StatelessWidget {
                     ),
                     CustomInputWithoutOutlineBorder(
                       label: "Jumlah Bayar",
-                      inputValue: "Rp. 5.000",
+                      inputValue: CustomFormat.ubahFormatRupiah(
+                          _dataStatusTransaksi['price'], 0),
                       isBold: true,
                     ),
                     CustomInputWithoutOutlineBorder(
                       label: "Biaya Administrasi",
-                      inputValue: "Rp. 1.500",
+                      inputValue: "Rp. -0",
                       isBold: true,
                     ),
                     CustomInputWithoutOutlineBorder(
                       label: "Total Bayar",
-                      inputValue: "Rp. 6.500",
+                      inputValue: CustomFormat.ubahFormatRupiah(
+                          _dataStatusTransaksi['price'], 0),
                       isBold: true,
                     ),
                   ],

@@ -1,18 +1,115 @@
+// ignore_for_file: avoid_print
+
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/etc/custom_format.dart';
 import 'package:bmt_kbs/screens/features/listrik_pln/token_listrik/status_transaksi_token_listrik.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class KonfirmasiTokenListrik extends StatefulWidget {
-  const KonfirmasiTokenListrik({super.key});
+  KonfirmasiTokenListrik({
+    required this.productSubCategoriesID,
+    required this.noMeter,
+    required this.nominal,
+    required this.productCode,
+    required this.price,
+    super.key,
+  });
+
+  String productSubCategoriesID;
+  String noMeter;
+  int nominal;
+  int price;
+  String productCode;
 
   @override
   State<KonfirmasiTokenListrik> createState() => _KonfirmasiTokenListrikState();
 }
 
 class _KonfirmasiTokenListrikState extends State<KonfirmasiTokenListrik> {
+  late String _productSubCategoriesID;
+  late String _noMeter;
+  late int _nominal;
+  late int _price;
+  late String _productCode;
+
+  konfirmasiCheckoutTokenListrik() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var response = await http.post(
+      Uri.parse(IpAdress().getIp + '/api/v2/ppob/checkout/pra'),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: {
+        "product_categories_id": "5",
+        "product_sub_categories_id": _productSubCategoriesID,
+        "hp": _noMeter,
+        "nominal": _nominal.toString(),
+        "product_code": _productCode,
+      },
+    );
+
+    var data = jsonDecode(response.body);
+
+    if (mounted) {
+      if (response.statusCode == 200) {
+        print('DATA CHECKOUT TOKEN LISTRIK: $data');
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StatusTransaksiTokenListrikScreen(
+              dataStatusTransaksi: data['data'],
+              nominal: _nominal,
+            ),
+          ),
+        );
+      } else {
+        print('RESPONSE CHECKOUT ERROR: $data');
+        print(response.statusCode);
+
+        Fluttertoast.showToast(
+          msg: data['message'],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _productSubCategoriesID = widget.productSubCategoriesID;
+    _noMeter = widget.noMeter;
+    _nominal = widget.nominal;
+    _productCode = widget.productCode;
+    _price = widget.price;
+  }
+
   @override
   Widget build(BuildContext context) {
+    log('PRODUCT SUB CATEGORIES ID: $_productSubCategoriesID');
+    log('NO METER: $_noMeter');
+    log('NOMINAL: $_nominal');
+    log('PRICE: $_price');
+    log('PRODUCT CODE: $_productCode');
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -149,9 +246,9 @@ class _KonfirmasiTokenListrikState extends State<KonfirmasiTokenListrik> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      "Token Listrik 5 ribu",
-                                      style: TextStyle(
+                                    Text(
+                                      "Token Listrik ${CustomFormat.ubahFormatPoint(_nominal, 0)}",
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
                                       ),
@@ -172,7 +269,8 @@ class _KonfirmasiTokenListrikState extends State<KonfirmasiTokenListrik> {
                                                 ),
                                               ),
                                               Text(
-                                                "Rp. 5.000",
+                                                CustomFormat.ubahFormatRupiah(
+                                                    _price, 0),
                                                 style: TextStyle(
                                                   color: Colors.grey[600]!,
                                                 ),
@@ -194,7 +292,7 @@ class _KonfirmasiTokenListrikState extends State<KonfirmasiTokenListrik> {
                                                 ),
                                               ),
                                               Text(
-                                                "Rp. 1.500",
+                                                "Rp. -0",
                                                 style: TextStyle(
                                                   color: Colors.grey[600]!,
                                                 ),
@@ -294,16 +392,16 @@ class _KonfirmasiTokenListrikState extends State<KonfirmasiTokenListrik> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           "Total Bayar",
                           style: TextStyle(
                             fontSize: 10,
                           ),
                         ),
                         Text(
-                          "Rp 15.000",
-                          style: TextStyle(
+                          CustomFormat.ubahFormatRupiah(_price, 0),
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
                           ),
@@ -316,13 +414,7 @@ class _KonfirmasiTokenListrikState extends State<KonfirmasiTokenListrik> {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                          // ignore: avoid_print
-                          print("Berpindah ke status token listrik");
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const StatusTransaksiTokenListrikScreen()));
+                          konfirmasiCheckoutTokenListrik();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorPallete.primaryColor,

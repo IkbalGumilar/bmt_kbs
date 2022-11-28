@@ -35,7 +35,10 @@ class _StatusTransaksiBpjsKetenagakerjaanScreenState
     ByteData byteData =
         await image.toByteData(format: ui.ImageByteFormat.png) as ByteData;
     Uint8List pngBytes = byteData.buffer.asUint8List();
+
+    // ignore: avoid_print
     print(pngBytes);
+
     File imgFile = File('$directory/screenshot.png');
     imgFile.writeAsBytes(pngBytes);
   }

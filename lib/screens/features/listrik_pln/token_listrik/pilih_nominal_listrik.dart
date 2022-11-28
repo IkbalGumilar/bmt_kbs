@@ -64,9 +64,6 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
     var data = res['data'];
 
     if (response.statusCode == 200) {
-      print(data);
-      log(response.statusCode.toString());
-
       setState(() {
         _listNominal = data;
         _productSubCategoriesID = res['product_sub_categories_id'];
@@ -94,8 +91,6 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
     log(_noMeter.toString());
     log(_namaPelanggan.toString());
     log(_segmentPower.toString());
-
-    log(_listNominal.toString());
     log(_productSubCategoriesID.toString());
 
     return Scaffold(
@@ -226,16 +221,22 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    // ignore: avoid_print
                     print("Anda meng-klik nomor $index");
                     setState(() {
                       selectedIndex = index;
                       _productCode = _listNominal[index]['pulsa_code'];
                     });
 
+                    String nominalValue = _listNominal[index]['pulsa_nominal']
+                        .split('.')
+                        .join("");
+                    int actualNominal = int.parse(nominalValue);
+
+                    int actualPrice = _listNominal[index]['pulsa_price'];
+
                     log("Pulsa Code/Product Code: $_productCode");
                     nominalTokenBottomSheet(
-                        context, _listNominal[index]['pulsa_price']);
+                        context, actualNominal, actualPrice);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -301,56 +302,9 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
     );
   }
 
-  Future<dynamic> nominalTokenBottomSheet(BuildContext context, var nominal) {
+  Future<dynamic> nominalTokenBottomSheet(
+      BuildContext context, int nominal, int price) {
     print('NOMINAL DATA $nominal');
-
-    konfirmasiCheckoutTokenListrik() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var token = prefs.getString('token');
-
-      var response = await http.post(
-        Uri.parse(IpAdress().getIp + '/api/v2/ppob/checkout/pra'),
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: {
-          "product_categories_id": "5",
-          "product_sub_categories_id": _productSubCategoriesID,
-          "hp": _noMeter,
-          "nominal": nominal.toString(),
-          "product_code": _productCode,
-        },
-      );
-
-      var data = jsonDecode(response.body);
-
-      if (mounted) {
-        if (response.statusCode == 200) {
-          print('DATA CHECKOUT TOKEN LISTRIK: $data');
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const KonfirmasiTokenListrik(),
-            ),
-          );
-        } else {
-          print('RESPONSE CHECKOUT ERROR: $data');
-          print(response.statusCode);
-
-          Fluttertoast.showToast(
-            msg: data['message'],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0,
-          );
-        }
-      }
-    }
 
     return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -494,7 +448,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                                 ),
                               ),
                               Text(
-                                CustomFormat.ubahFormatRupiah(nominal, 0)
+                                CustomFormat.ubahFormatRupiah(price, 0)
                                     .toString(),
                                 style: TextStyle(
                                   color: Colors.grey[600],
@@ -557,8 +511,7 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                             ),
                           ),
                           Text(
-                            CustomFormat.ubahFormatRupiah(nominal, 0)
-                                .toString(),
+                            CustomFormat.ubahFormatRupiah(price, 0).toString(),
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 14.0,
@@ -606,15 +559,19 @@ class _PilihNominalListrikScreenState extends State<PilihNominalListrikScreen> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) =>
-                              //         const KonfirmasiTokenListrik(),
-                              //   ),
-                              // );
-
-                              konfirmasiCheckoutTokenListrik();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => KonfirmasiTokenListrik(
+                                    noMeter: _noMeter,
+                                    nominal: nominal,
+                                    productSubCategoriesID:
+                                        _productSubCategoriesID!,
+                                    productCode: _productCode!,
+                                    price: price,
+                                  ),
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: ColorPallete.primaryColor,
