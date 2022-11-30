@@ -54,15 +54,28 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
     log(noBpjsC.text.length.toString());
     var all = jsonDecode(response.body);
     var data = all['message'];
-    String id = all["hp"];
-    var nominal = all['nominal'].toString();
     log(all.toString());
-    log(nominal);
 
-    if (response.statusCode == 200) {
+    if (data == 'TIMEOUT') {
+      Fluttertoast.showToast(
+          msg: 'Waktu habis',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else if (data == 'TAGIHAN SUDAH LUNAS') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TagihanKesehatanLunasScreen(id: noBpjsC.text),
+        ),
+      );
+    } else if (data == 'INQUIRY SUCCESS') {
       setState(() {
-        id_pelanggan = id;
-        harga = nominal.toString();
+        id_pelanggan = noBpjsC.text;
+        harga = all['nominal'].toString();
         nama = all['tr_name'];
         priode = all['period'];
         jumlahPeserta = all['desc']['jumlah_peserta'];
@@ -72,8 +85,6 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
         total = all['price'].toString();
         ref_id = all['ref_id'].toString();
       });
-      _tagihanKesehatanTersediaBottomSheet(context);
-    } else {
       _tagihanKesehatanTersediaBottomSheet(context);
     }
   }
@@ -235,13 +246,6 @@ class _BpjsKesehatanScreenState extends State<BpjsKesehatanScreen> {
                 onPressed: isDisabled
                     ? null
                     : () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => TagihanKesehatanLunasScreen(),
-                        //   ),
-                        // );
-                        //_tagihanKesehatanTersediaBottomSheet(context);
                         cekData();
                       },
                 style: ElevatedButton.styleFrom(

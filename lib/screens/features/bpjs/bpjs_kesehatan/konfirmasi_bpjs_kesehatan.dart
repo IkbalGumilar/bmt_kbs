@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:bmt_kbs/config/ip.dart';
 import 'package:bmt_kbs/etc/color_pallete.dart';
+import 'package:bmt_kbs/etc/custom_format.dart';
 import 'package:bmt_kbs/screens/features/bpjs/bpjs_kesehatan/status_transaksi_bpjs_kesehatan.dart';
 import 'package:bmt_kbs/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class _KonfirmasiBpjsKesehatanScreenState
     // TODO: implement initState
     super.initState();
     id_pengguna = widget.id_pengguna;
-    harga = widget.harga;
+    harga = CustomFormat.ubahFormatRupiah(widget.harga, 0);
     admin = widget.admin;
     total = widget.total;
     jumlahPeserta = widget.jumlahPeserta;
@@ -290,7 +291,7 @@ class _KonfirmasiBpjsKesehatanScreenState
                                                 ),
                                               ),
                                               Text(
-                                                "Rp. $harga",
+                                                '$harga',
                                                 style: TextStyle(
                                                   color: Colors.grey[600]!,
                                                   fontSize: 12,
