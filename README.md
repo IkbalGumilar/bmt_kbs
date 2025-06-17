@@ -63,7 +63,7 @@ Dibangun dengan **Flutter** SDK (`>=2.18.2 <3.0.0`) menggunakan berbagai library
 1. Pastikan Anda telah menginstal **Flutter SDK**.
 2. Clone repositori ini:
    ```bash
-   git clone https://github.com/[username]/bmt_kbs.git
+   git clone https://github.com/ikbalgumilar/bmt_kbs.git
    cd bmt_kbs
    ```
 3. Jalankan perintah berikut:
